@@ -226,19 +226,6 @@ async def help(ctx):
 
     await ctx.send(embed=embed_help)
 
-# class MyHelpCommand(commands.HelpCommand):
-#     async def send_bot_help(self):
-#         embed_help = discord.Embed(title='Help!', description='', color=0xcca6fd)
-
-#         embed_help.add_field(name='?succ', value='Consumes the last message in the channel.', inline=False)
-#         embed_help.add_field(name='?test', value='Tests bot status.', inline=False)
-#         embed_help.add_field(name='?kmbtest <stop_name>', value='Tests if a bus stop with the given name exists.', inline=False)
-#         embed_help.add_field(name='?kmbeta <stop_name>', value='Gets ETA of all KMB routes at a bus stop.', inline=False)
-#         embed_help.add_field(name='?light <stop_name>', value='Gets train arrival times at a Light Rail stop.', inline=False)
-
-#         channel = self.get_destination()  # this method is inherited from `HelpCommand`, and gets the channel in context
-#         await channel.send(embed=embed_help)
-
 @client.event
 async def on_command_error(ctx, error):
     if isinstance(error, CommandNotFound):
