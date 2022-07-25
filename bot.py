@@ -15,7 +15,9 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
-client = commands.Bot(activity=discord.Game(name='Kirby and the Forgotten Land'), command_prefix='?', help_command=None)
+intents = discord.Intents.default()
+intents.message_content = True
+client = commands.Bot(intents=intents, activity=discord.Game(name='Kirby and the Forgotten Land'), command_prefix='?', help_command=None)
 
 # Grab list of KMB bus stops
 kmb_stops = requests.request("GET", "https://data.etabus.gov.hk/v1/transport/kmb/stop")
@@ -48,7 +50,7 @@ async def on_message(message):
 @commands.cooldown(1, 10, commands.BucketType.user)
 @client.command()
 async def succ(ctx):
-    messages = await ctx.channel.history(limit=2).flatten()
+    messages = [message async for message in ctx.channel.history(limit=2)]
     cmd_msg = messages[0]
     succ_msg = messages[1]
 
