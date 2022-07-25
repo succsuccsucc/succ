@@ -144,8 +144,10 @@ async def kmbeta(ctx, stop_name):
             time_diff = eta_dt - now
             tmins = time_diff.total_seconds() / 60
             tmins = str(round(tmins))
-            if tmins == '-1' or tmins == '-2':
+            if int(tmins) < 0:
                 tmins = 'Arrived'
+            elif int(tmins) == 0:
+                tmins = 'Arriving'
 
             embed_kmbeta.add_field(name='Route', value=route, inline=True)
             embed_kmbeta.add_field(name='Destination', value=dest_en, inline=True)
