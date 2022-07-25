@@ -79,8 +79,14 @@ async def succ(ctx):
         return
 
     # Copy the 2nd last message
+    content = ''
+    if succ_msg.content == '':
+        content = 'Message content is empty!'
+    else:
+        content = succ_msg.content
+
     embed_succ = discord.Embed(title='Slurp!', description='Your message got succ\'d', color=0xabcdef)
-    embed_succ.add_field(name='Message', value=succ_msg.content, inline=False)  
+    embed_succ.add_field(name='Message', value=content, inline=False)  
     await ctx.channel.send(embed=embed_succ)
     await succ_msg.delete()  # Delete the 2nd last message
     return
@@ -193,6 +199,12 @@ async def light(ctx, stop_name):
 
                 embed_light = discord.Embed(title=platform_title, description='', color=0xd3a809)
                 
+                if 'end_service_status' in nt_response['platform_list'][a]:
+                    embed_light.add_field(name='\u200b', value='Service ended at this platform!', inline=False)
+                    await ctx.channel.send(embed=embed_light)
+                    embed_light.clear_fields()
+                    continue
+
                 for b in range(len(nt_response['platform_list'][a]['route_list'])):
                     dest_en = nt_response['platform_list'][a]['route_list'][b]['dest_en']
                     time_en = nt_response['platform_list'][a]['route_list'][b]['time_en']
@@ -217,6 +229,7 @@ async def help(ctx):
     embed_help = discord.Embed(title='Help!', description='', color=0xcca6fd)
 
     embed_help.add_field(name='?succ', value='Consumes the last message in the channel.', inline=False)
+    embed_help.add_field(name='?pointless', value='https://www.youtube.com/watch?v=EcSzq_6W1QQ', inline=False)
     embed_help.add_field(name='?test', value='Tests bot status.', inline=False)
     embed_help.add_field(name='?kmbtest <stop_name>', value='Tests if a bus stop with the given name exists.', inline=False)
     embed_help.add_field(name='?kmbeta <stop_name>', value='Gets ETA of all KMB routes at a bus stop.', inline=False)
@@ -227,6 +240,19 @@ async def help(ctx):
     embed_help.set_footer(text=footer_string)
 
     await ctx.send(embed=embed_help)
+
+# ?pointless command
+class Buttons(discord.ui.View):
+    def __init__(self, *, timeout=180):
+        super().__init__(timeout=timeout)
+    @discord.ui.button(label="Button",disabled=False,style=discord.ButtonStyle.gray)
+    async def gray_button(self,interaction:discord.Interaction,button:discord.ui.Button):
+        button.disabled=True
+        await interaction.response.edit_message(view=self, content="Hm.")
+
+@client.command()
+async def pointless(ctx):
+    await ctx.send("**POINTLESS**\n**BUTTON**\nWarning: Pointless",view=Buttons())
 
 @client.event
 async def on_command_error(ctx, error):
