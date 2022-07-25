@@ -71,6 +71,10 @@ async def succ(ctx):
         embed_too_long = discord.Embed(title='Succ can\'t handle your length!', description='Message must be no longer than 1024 characters.', color=0xff0000)
         await ctx.channel.send(embed=embed_too_long)
         return
+    
+    # Disable command in general channel
+    if ctx.channel.id == 981207955200426037:
+        return
 
     # Copy the 2nd last message
     embed_succ = discord.Embed(title='Slurp!', description='Your message got succ\'d', color=0xabcdef)
