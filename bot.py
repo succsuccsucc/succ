@@ -15,7 +15,7 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
-client = commands.Bot(activity=discord.Game(name='Kirby and the Forgotten Land'), command_prefix='?')
+client = commands.Bot(activity=discord.Game(name='Kirby and the Forgotten Land'), command_prefix='?', help_command=None)
 
 # Grab list of KMB bus stops
 kmb_stops = requests.request("GET", "https://data.etabus.gov.hk/v1/transport/kmb/stop")
@@ -210,7 +210,34 @@ async def light(ctx, stop_name):
     
     await ctx.send(f'Light Rail stop "{stop_name}" does not exist!')
                     
+@client.command()
+async def help(ctx):
+    embed_help = discord.Embed(title='Help!', description='', color=0xcca6fd)
 
+    embed_help.add_field(name='?succ', value='Consumes the last message in the channel.', inline=False)
+    embed_help.add_field(name='?test', value='Tests bot status.', inline=False)
+    embed_help.add_field(name='?kmbtest <stop_name>', value='Tests if a bus stop with the given name exists.', inline=False)
+    embed_help.add_field(name='?kmbeta <stop_name>', value='Gets ETA of all KMB routes at a bus stop.', inline=False)
+    embed_help.add_field(name='?light <stop_name>', value='Gets train arrival times at a Light Rail stop.', inline=False)
+
+    command_count = str(len(embed_help.fields))
+    footer_string = f'Total {command_count} commands.'
+    embed_help.set_footer(text=footer_string)
+
+    await ctx.send(embed=embed_help)
+
+# class MyHelpCommand(commands.HelpCommand):
+#     async def send_bot_help(self):
+#         embed_help = discord.Embed(title='Help!', description='', color=0xcca6fd)
+
+#         embed_help.add_field(name='?succ', value='Consumes the last message in the channel.', inline=False)
+#         embed_help.add_field(name='?test', value='Tests bot status.', inline=False)
+#         embed_help.add_field(name='?kmbtest <stop_name>', value='Tests if a bus stop with the given name exists.', inline=False)
+#         embed_help.add_field(name='?kmbeta <stop_name>', value='Gets ETA of all KMB routes at a bus stop.', inline=False)
+#         embed_help.add_field(name='?light <stop_name>', value='Gets train arrival times at a Light Rail stop.', inline=False)
+
+#         channel = self.get_destination()  # this method is inherited from `HelpCommand`, and gets the channel in context
+#         await channel.send(embed=embed_help)
 
 @client.event
 async def on_command_error(ctx, error):
