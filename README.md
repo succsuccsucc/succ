@@ -7,6 +7,7 @@ succ discord bot made with discord.py
 - Comsume the last message in a channel
 - Get estimated time of arrival (ETA) of all bus routes at a bus stop (KMB only)
 - Get train arrival times at a Light Rail stop
+- Get MTR fare between two stations
 
 ## ⚗️ Future additions
 Maybe I'll add these features to the bot. Maybe not.
