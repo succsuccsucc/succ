@@ -67,8 +67,6 @@ async def succ(ctx):
     cmd_msg = messages[0]
     succ_msg = messages[1]
 
-    await cmd_msg.delete()  # Delete the last message
-
     # Send error message if author is bot
     if succ_msg.author.bot:
         embed_author = discord.Embed(title='Message is from bot!', description='Succ can\'t consume bot messages.', color=0xff0000)
