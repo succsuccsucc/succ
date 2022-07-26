@@ -4,12 +4,18 @@ import time
 import requests
 import datetime
 import json
+import csv
 
 import discord
 from dotenv import load_dotenv
 
 from discord.ext import commands
 from discord.ext.commands import CommandNotFound
+
+# Change working directory to wherever bot.py is in
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -24,8 +30,15 @@ kmb_stops = requests.request("GET", "https://data.etabus.gov.hk/v1/transport/kmb
 kmb_stops = kmb_stops.json()
 
 # Open list of Light Rail stops
-lrt = open('light_rail_stops.json', encoding="utf-8")
+lrt = open('light_rail_stops.json', encoding="utf-8",)
 light_rail_stops = json.load(lrt)
+
+# Open MTR fares CSV
+mtr_fares = open('mtr_lines_fares.csv', 'r')
+datareader = csv.reader(mtr_fares, delimiter=',')
+fare_list = []
+for row in datareader:
+    fare_list.append(row)
 
 @client.event
 async def on_ready():
@@ -224,6 +237,41 @@ async def light(ctx, stop_name):
     
     await ctx.send(f'Light Rail stop "{stop_name}" does not exist!')
                     
+@client.command()
+async def mtrfare(ctx, start, end):
+    for i in range(len(fare_list)):
+        if (start.upper() == fare_list[i][0].upper()) and (end.upper() == fare_list[i][2].upper()):
+            oct_adt_fare = '$' + fare_list[i][4]  # Octopus (Adult)
+            oct_std_fare = '$' + fare_list[i][5]  # Octopus (Student) (half price)
+            single_adt_fare = '$' + fare_list[i][6]  # Ticket (Adult)
+            oct_con_child_fare = '$' + fare_list[i][7]  # Octopus (Child) (half price)
+            oct_con_elderly_fare = '$' + fare_list[i][8]  # Octopus (Elderly) ($2)
+            oct_con_pwd_fare = '$' + fare_list[i][9]  # Octopus (Disability) ($2)
+            single_con_child_fare = '$' + fare_list[i][10] # Ticket (Child) (half price)
+            single_con_elderly_fare = '$' + fare_list[i][11]  # Ticket (Elderly) (half price)
+        
+            mtrfare_title = fare_list[i][0] + ' to ' + fare_list[i][2]
+            embed_mtrfare = discord.Embed(title=mtrfare_title, description='', color=0x00ff00)
+            embed_mtrfare.add_field(name='Adult (Octopus)', value=oct_adt_fare, inline=True)
+            embed_mtrfare.add_field(name='Adult (Ticket)', value=single_adt_fare, inline=True)
+            embed_mtrfare.add_field(name='Student (Octopus)', value=oct_std_fare, inline=False)
+            embed_mtrfare.add_field(name='Child (Octopus)', value=oct_con_child_fare, inline=True)
+            embed_mtrfare.add_field(name='Child (Ticket)', value=single_con_child_fare, inline=True)
+            
+            embed_mtrfare.add_field(name='\u200b', value='\u200b', inline=False)
+
+            embed_mtrfare.add_field(name='Elderly (Octopus)', value=oct_con_elderly_fare, inline=True)
+            embed_mtrfare.add_field(name='Elderly (Ticket)', value=single_con_elderly_fare, inline=True)
+            embed_mtrfare.add_field(name='Disability (Octopus)', value=oct_con_pwd_fare, inline=False)
+
+            mtrfare_footer = 'Students aged 12 and above travelling with Single Journey Tickets are required to pay full adult fare.\nEligible persons with disabilities aged 12 to 64 have to pay adult fares.'
+            embed_mtrfare.set_footer(text=mtrfare_footer)
+
+            await ctx.send(embed=embed_mtrfare)
+            return
+
+    await ctx.send('Incorrect start or destination!')
+
 @client.command()
 async def help(ctx):
     embed_help = discord.Embed(title='Help!', description='', color=0xcca6fd)
