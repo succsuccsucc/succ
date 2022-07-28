@@ -6,6 +6,7 @@ import requests
 import datetime
 import json
 import csv
+import pandas as pd
 
 import discord
 from dotenv import load_dotenv
@@ -81,6 +82,10 @@ async def succ(ctx):
     cmd_msg = messages[0]
     succ_msg = messages[1]
 
+    # Disable command in general channel
+    if ctx.channel.id == 981207955200426037:
+        return
+    
     # Send error message if author is bot
     if succ_msg.author.bot:
         embed_author = discord.Embed(title='Message is from bot!', description='Succ can\'t consume bot messages.', color=0xff0000)
@@ -97,10 +102,6 @@ async def succ(ctx):
     if (len(succ_msg.clean_content) > 1024):
         embed_too_long = discord.Embed(title='Succ can\'t handle your length!', description='Message must be no longer than 1024 characters.', color=0xff0000)
         await ctx.channel.send(embed=embed_too_long)
-        return
-    
-    # Disable command in general channel
-    if ctx.channel.id == 981207955200426037:
         return
 
     # Copy the 2nd last message
@@ -411,6 +412,30 @@ class Buttons(discord.ui.View):
     async def gray_button(self,interaction:discord.Interaction,button:discord.ui.Button):
         button.disabled=True
         await interaction.response.edit_message(view=self, content="Hm.")
+        
+        leaderboard_file = open('data/pointless_leaderboard.json', encoding='utf-8')
+        leaderboard = json.load(leaderboard_file)
+
+        for i in range(len(leaderboard['users'])):
+            if interaction.user.id == leaderboard['users'][i]['id']:
+                leaderboard['users'][i]['score'] += 1
+                outfile = open('data/pointless_leaderboard.json', 'w', encoding='utf-8')
+                json.dump(leaderboard, outfile, indent = 4)
+                return
+        
+        new_user = {"id": interaction.user.id,
+                    "score": 1
+                    }
+        
+        # Use fetch_user instead of get_user!
+        # userinfo = await client.fetch_user(740098404688068641)
+        # print(userinfo.name)
+
+        leaderboard['users'].append(new_user)
+        leaderboard_file.seek(0)
+
+        outfile = open('data/pointless_leaderboard.json', 'w', encoding='utf-8')
+        json.dump(leaderboard, outfile, indent = 4)
 
 @client.command()
 async def pointless(ctx):
