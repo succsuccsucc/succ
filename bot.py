@@ -30,11 +30,11 @@ kmb_stops = requests.request("GET", "https://data.etabus.gov.hk/v1/transport/kmb
 kmb_stops = kmb_stops.json()
 
 # Open list of Light Rail stops
-lrt = open('light_rail_stops.json', encoding="utf-8",)
+lrt = open('data/light_rail_stops.json', encoding="utf-8",)
 light_rail_stops = json.load(lrt)
 
 # Open MTR fares CSV
-mtr_fares = open('mtr_lines_fares.csv', 'r')
+mtr_fares = open('data/mtr_lines_fares.csv', 'r')
 datareader = csv.reader(mtr_fares, delimiter=',')
 fare_list = []
 for row in datareader:
@@ -262,7 +262,7 @@ async def mtrfare(ctx, start, end):
             embed_mtrfare.add_field(name='Elderly (Ticket)', value=single_con_elderly_fare, inline=True)
             embed_mtrfare.add_field(name='Disability (Octopus)', value=oct_con_pwd_fare, inline=False)
 
-            mtrfare_footer = 'Students aged 12 and above and eligible persons with disabilities aged 12 to 64 travelling with Single Journey Tickets are required to pay full adult fare.'
+            mtrfare_footer = 'Students aged 12 and above and eligible persons with disabilities aged 12 to 64 travelling with Single Journey Tickets are required to pay full adult fare.\nFrom now until 1 January 2023, passengers can enjoy 3.8% Fare Rebate for every fare-paying trip using Octopus.'
             
             if fare_list[i][0].upper() == fare_list[i][2].upper():
                 embed_mtrfare.clear_fields()
