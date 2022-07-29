@@ -6,7 +6,8 @@ import requests
 import datetime
 import json
 import csv
-import pandas as pd
+
+from collections import OrderedDict
 
 import discord
 from dotenv import load_dotenv
@@ -391,6 +392,7 @@ async def help(ctx):
 
     embed_help.add_field(name='?succ', value='Consumes the last message in the channel.', inline=False)
     embed_help.add_field(name='?pointless', value='https://www.youtube.com/watch?v=EcSzq_6W1QQ', inline=False)
+    embed_help.add_field(name='?leaderboard', value='Dick measuring contest.', inline=False)
     embed_help.add_field(name='?test', value='Tests bot status.', inline=False)
     embed_help.add_field(name='?kmbtest <stop_name>', value='Tests if a bus stop with the given name exists.', inline=False)
     embed_help.add_field(name='?kmbeta <stop_name>', value='Gets ETA of all KMB routes at a bus stop.', inline=False)
@@ -416,9 +418,12 @@ class Buttons(discord.ui.View):
         leaderboard_file = open('data/pointless_leaderboard.json', encoding='utf-8')
         leaderboard = json.load(leaderboard_file)
 
-        for i in range(len(leaderboard['users'])):
-            if interaction.user.id == leaderboard['users'][i]['id']:
-                leaderboard['users'][i]['score'] += 1
+        for i in range(len(leaderboard)):
+            if interaction.user.id == leaderboard[i]['id']:
+                leaderboard[i]['score'] += 1
+
+                leaderboard.sort(key=lambda x: x['score'], reverse=True)
+
                 outfile = open('data/pointless_leaderboard.json', 'w', encoding='utf-8')
                 json.dump(leaderboard, outfile, indent = 4)
                 return
@@ -431,15 +436,72 @@ class Buttons(discord.ui.View):
         # userinfo = await client.fetch_user(740098404688068641)
         # print(userinfo.name)
 
-        leaderboard['users'].append(new_user)
+        leaderboard.append(new_user)
         leaderboard_file.seek(0)
+
+        leaderboard.sort(key=lambda x: x['score'], reverse=True)
 
         outfile = open('data/pointless_leaderboard.json', 'w', encoding='utf-8')
         json.dump(leaderboard, outfile, indent = 4)
 
+@commands.cooldown(1, 300, commands.BucketType.guild)
 @client.command()
 async def pointless(ctx):
     await ctx.send("**POINTLESS**\n**BUTTON**\nWarning: Pointless",view=Buttons())
+
+@client.command()
+async def leaderboard(ctx):
+    lb_file = open('data/pointless_leaderboard.json', 'r')
+    lb = json.load(lb_file)
+
+    name_list = []
+    score_list = []
+    rank_list = []
+    
+    for i in range(len(lb)):
+        user_id = lb[i]['id']
+        user_info = await client.fetch_user(user_id)
+        user_name = user_info.name
+        name_list.append(user_name)
+
+        score = lb[i]['score']
+        score_list.append(score)
+
+        rank_list.append(str(i + 1))
+
+    if len(rank_list) >= 1:
+        rank_list[0] = ':trophy: ' + rank_list[0]
+    if len(rank_list) >= 2:
+        rank_list[1] = ':second_place: ' + rank_list[1]
+    if len(rank_list) >= 3:
+        rank_list[2] = ':third_place: ' + rank_list[2]
+    
+    name_field = ''
+    score_field = ''
+    rank_field = ''
+    
+    for a in range(len(name_list)):
+        name_field += name_list[a]
+        name_field += '\n'
+
+        score_field += str(score_list[a])
+        score_field += '\n'
+
+        rank_field += rank_list[a]
+        rank_field += '\n'
+    
+    embed_leaderboard = discord.Embed(title='?Pointless leaderboard', description='Get points by pressing the pointless button!', color=0xabcdef)
+
+    embed_leaderboard.add_field(name='Rank', value=rank_field, inline=True)
+    embed_leaderboard.add_field(name='Name', value=name_field, inline=True)
+    embed_leaderboard.add_field(name='Score', value=score_field, inline=True)
+
+    people_count = len(name_list)
+    footer_leaderboard = f'Total {people_count} people.'
+    embed_leaderboard.set_footer(text=footer_leaderboard)
+
+    await ctx.send(embed=embed_leaderboard)
+
 
 @client.event
 async def on_command_error(ctx, error):
@@ -450,6 +512,12 @@ async def on_command_error(ctx, error):
 @client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
-        await ctx.send(f'You succ\'d too fast!\nTry again after `{round(error.retry_after, 2)}` seconds.')
+        cooldown = round(error.retry_after)
+        if error.retry_after > 60:
+            cooldown_m = int(cooldown / 60)
+            cooldown_s = int(cooldown % 60)
+            await ctx.send(f'You succ\'d too fast!\nTry again after `{cooldown_m}m {cooldown_s}s`.')
+        else:
+            await ctx.send(f'You succ\'d too fast!\nTry again after `{cooldown}s`.')
 
 client.run(TOKEN)
