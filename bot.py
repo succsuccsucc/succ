@@ -99,7 +99,7 @@ async def succ(ctx):
         await ctx.channel.send(embed=embed_attach)
 
         await ctx.send(succ_msg.content, files=[await f.to_file() for f in succ_msg.attachments])
-        
+
         await succ_msg.delete()  # Delete the 2nd last message
 
         return
@@ -454,6 +454,7 @@ class Buttons(discord.ui.View):
 async def pointless(ctx):
     await ctx.send("**POINTLESS**\n**BUTTON**\nWarning: Pointless",view=Buttons())
 
+@commands.cooldown(1, 5, commands.BucketType.guild)
 @client.command()
 async def leaderboard(ctx):
     lb_file = open('data/pointless_leaderboard.json', 'r')
@@ -470,7 +471,7 @@ async def leaderboard(ctx):
         name_list.append(user_name)
 
         score = lb[i]['score']
-        score_list.append(score)
+        score_list.append(str(score))
 
         rank_list.append(str(i + 1))
 
@@ -485,17 +486,11 @@ async def leaderboard(ctx):
     score_field = ''
     rank_field = ''
     
-    for a in range(len(name_list)):
-        name_field += name_list[a]
-        name_field += '\n'
-
-        score_field += str(score_list[a])
-        score_field += '\n'
-
-        rank_field += rank_list[a]
-        rank_field += '\n'
+    name_field = '\n'.join(name_list)
+    score_field = '\n'.join(score_list)
+    rank_field = '\n'.join(rank_list)
     
-    embed_leaderboard = discord.Embed(title='?Pointless leaderboard', description='Get points by pressing the pointless button!', color=0xabcdef)
+    embed_leaderboard = discord.Embed(title='?pointless leaderboard', description='Get points by pressing the pointless button!', color=0xabcdef)
 
     embed_leaderboard.add_field(name='Rank', value=rank_field, inline=True)
     embed_leaderboard.add_field(name='Name', value=name_field, inline=True)
