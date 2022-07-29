@@ -93,10 +93,15 @@ async def succ(ctx):
         await ctx.channel.send(embed=embed_author)
         return
 
-    # Send error message if message has attachments
+    # If message has attachments
     if succ_msg.attachments:
-        embed_attach = discord.Embed(title='Succ has attachment issues!', description='Message must not contain attachments.', color=0xff0000)
+        embed_attach = discord.Embed(title='Slurp!', description='Your message got succ\'d', color=0xabcdef)
         await ctx.channel.send(embed=embed_attach)
+
+        await ctx.send(succ_msg.content, files=[await f.to_file() for f in succ_msg.attachments])
+        
+        await succ_msg.delete()  # Delete the 2nd last message
+
         return
 
     # Send error message if message is longer than 1024 characters
