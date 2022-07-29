@@ -449,7 +449,7 @@ class Buttons(discord.ui.View):
         outfile = open('data/pointless_leaderboard.json', 'w', encoding='utf-8')
         json.dump(leaderboard, outfile, indent = 4)
 
-@commands.cooldown(1, 300, commands.BucketType.guild)
+@commands.cooldown(1, 900, commands.BucketType.guild)
 @client.command()
 async def pointless(ctx):
     await ctx.send("**POINTLESS**\n**BUTTON**\nWarning: Pointless",view=Buttons())
@@ -466,8 +466,8 @@ async def leaderboard(ctx):
     
     for i in range(len(lb)):
         user_id = lb[i]['id']
-        user_info = await client.fetch_user(user_id)
-        user_name = user_info.name
+
+        user_name = f'<@{user_id}>'
         name_list.append(user_name)
 
         score = lb[i]['score']
