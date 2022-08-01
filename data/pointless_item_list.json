@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Gold Ingot",
+        "emoji": "<:Gold_Ingot:1003537929525805197>",
+        "rarity": 10,
+        "description": "Thanks for the gold kind stranger!"
+    },
+    {
+        "name": "Lollipop",
+        "emoji": "<:Lollipop:1003537715989598279>",
+        "rarity": 20,
+        "description": "Shiny blue candy. May contain unknown magical powers."
+    }
+]

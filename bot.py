@@ -6,6 +6,7 @@ import requests
 import datetime
 import json
 import csv
+import random
 
 from collections import OrderedDict
 
@@ -55,6 +56,10 @@ datareader_mb_routes = csv.reader(mtr_bus_routes, delimiter=',')
 mb_routes = []
 for row in datareader_mb_routes:
     mb_routes.append(row)
+
+# Open list of ?pointless special items
+item = open('data/pointless_item_list.json', 'r', encoding='utf-8')
+pl_items = json.load(item)
 
 @client.event
 async def on_ready():
@@ -398,6 +403,7 @@ async def help(ctx):
     embed_help.add_field(name='?succ', value='Consumes the last message in the channel.', inline=False)
     embed_help.add_field(name='?pointless', value='https://www.youtube.com/watch?v=EcSzq_6W1QQ', inline=False)
     embed_help.add_field(name='?leaderboard', value='Dick measuring contest.', inline=False)
+    embed_help.add_field(name='?inv [username]', value='Dick measuring contest.', inline=False)
     embed_help.add_field(name='?test', value='Tests bot status.', inline=False)
     embed_help.add_field(name='?kmbtest <stop_name>', value='Tests if a bus stop with the given name exists.', inline=False)
     embed_help.add_field(name='?kmbeta <stop_name>', value='Gets ETA of all KMB routes at a bus stop.', inline=False)
@@ -423,6 +429,7 @@ class Buttons(discord.ui.View):
         leaderboard_file = open('data/pointless_leaderboard.json', encoding='utf-8')
         leaderboard = json.load(leaderboard_file)
 
+        new = 0  # Check if user is on leaderboard already
         for i in range(len(leaderboard)):
             if interaction.user.id == leaderboard[i]['id']:
                 leaderboard[i]['score'] += 1
@@ -431,23 +438,60 @@ class Buttons(discord.ui.View):
 
                 outfile = open('data/pointless_leaderboard.json', 'w', encoding='utf-8')
                 json.dump(leaderboard, outfile, indent = 4)
-                return
+                new = 1
+                break
         
-        new_user = {"id": interaction.user.id,
-                    "score": 1
-                    }
-        
-        # Use fetch_user instead of get_user!
-        # userinfo = await client.fetch_user(740098404688068641)
-        # print(userinfo.name)
+        if new == 0:
+            new_user = {"id": interaction.user.id,
+                        "score": 1
+                        }
+            
+            # Use fetch_user instead of get_user!
+            # userinfo = await client.fetch_user(740098404688068641)
+            # print(userinfo.name)
 
-        leaderboard.append(new_user)
-        leaderboard_file.seek(0)
+            leaderboard.append(new_user)
+            leaderboard_file.seek(0)
 
-        leaderboard.sort(key=lambda x: x['score'], reverse=True)
+            leaderboard.sort(key=lambda x: x['score'], reverse=True)
 
-        outfile = open('data/pointless_leaderboard.json', 'w', encoding='utf-8')
-        json.dump(leaderboard, outfile, indent = 4)
+            outfile = open('data/pointless_leaderboard.json', 'w', encoding='utf-8')
+            json.dump(leaderboard, outfile, indent = 4)
+
+        # Draw special item
+        item_yn = random.randint(1, 10)
+        if item_yn <= 5:
+            rarity_total = pl_items[len(pl_items) - 1]['rarity']
+            
+            draw_variable = random.randint(1, rarity_total)
+
+            for a in range(len(pl_items)):
+                if ((draw_variable <= pl_items[a]['rarity']) and (draw_variable > pl_items[a - 1]['rarity']))\
+                    or (a == 0 and draw_variable <= pl_items[a]['rarity']):
+                    give_index = a
+                    break
+            
+            for b in range(len(leaderboard)):
+                if interaction.user.id == leaderboard[b]['id']:
+                    if 'inventory' not in leaderboard[b]:  # Add inventory key to user if it doesn't exist
+                        leaderboard[b]['inventory'] = {}
+                    
+                    give_name = pl_items[give_index]['name']
+
+                    if pl_items[give_index]['name'] not in leaderboard[b]['inventory']:
+                        leaderboard[b]['inventory'][give_name] = 1
+                    else:
+                        leaderboard[b]['inventory'][give_name] += 1
+                    
+                    user_id = leaderboard[i]['id']
+                    user_ping = f'<@{user_id}>'
+
+                    outfile = open('data/pointless_leaderboard.json', 'w', encoding='utf-8')
+                    json.dump(leaderboard, outfile, indent = 4)
+
+                    await interaction.channel.send(f'{user_ping} got a special item: `{give_name}`')
+
+                    return
 
 @commands.cooldown(1, 900, commands.BucketType.guild)
 @client.command()
@@ -502,6 +546,54 @@ async def leaderboard(ctx):
 
     await ctx.send(embed=embed_leaderboard)
 
+@commands.cooldown(1, 5, commands.BucketType.guild)
+@client.command()
+async def inv(ctx, user=None):
+    if not user:
+        user_id = ctx.author.id
+    else:
+        user_id = user[2 : -1]
+
+    user_name = await client.fetch_user(user_id)
+    user_name = user_name.name
+    
+    inv_title = f'Inventory of {user_name}'
+    
+    embed_inv = discord.Embed(title=inv_title, description='\u200b', color=0xabcdef)
+
+    lb_file = open('data/pointless_leaderboard.json', 'r')
+    lb = json.load(lb_file)
+
+    for i in range(len(lb)):
+        if int(user_id) == lb[i]['id']:
+            total_item_count = 0
+
+            if 'inventory' not in lb[i]:
+                break
+
+            for key, value in lb[i]['inventory'].items():
+                item_name = key
+
+                total_item_count += value
+
+                for b in range(len(pl_items)):
+                    if item_name == pl_items[b]['name']:
+                        item_desc = pl_items[b]['description']
+                        item_emoji = pl_items[b]['emoji']
+
+                        item_field_title = item_emoji +' '+  item_name + ': ' + str(value)
+
+                        break
+
+                embed_inv.add_field(name=item_field_title, value=item_desc, inline=False)
+            
+            inv_footer = f'Total {total_item_count} item(s).'
+            embed_inv.set_footer(text=inv_footer)
+
+            await ctx.send(embed=embed_inv)
+            return
+        
+    await ctx.send('User does not have any items!')
 
 @client.event
 async def on_command_error(ctx, error):
