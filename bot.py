@@ -1,6 +1,7 @@
 # bot.py
 from http.client import HTTPException
 import os
+import ssl
 import time
 import requests
 import datetime
@@ -60,6 +61,9 @@ for row in datareader_mb_routes:
 # Open list of ?pointless special items
 item = open('data/pointless_item_list.json', 'r', encoding='utf-8')
 pl_items = json.load(item)
+
+# initialize password for resetting ?pointless cooldown using clock item
+shh = None
 
 @client.event
 async def on_ready():
@@ -496,8 +500,11 @@ class Buttons(discord.ui.View):
 
 @commands.cooldown(1, 900, commands.BucketType.guild)
 @client.command()
-async def pointless(ctx):
-    await ctx.send("**POINTLESS**\n**BUTTON**\nWarning: Pointless",view=Buttons())
+async def pointless(ctx, pw=None):
+    if not pw:
+        await ctx.send("**POINTLESS**\n**BUTTON**\nWarning: Pointless",view=Buttons())
+    if pw == shh:
+        pointless.reset_cooldown(ctx)
 
 @commands.cooldown(1, 5, commands.BucketType.guild)
 @client.command()
@@ -596,6 +603,78 @@ async def inv(ctx, user=None):
         
     await ctx.send('User does not have any items!')
 
+# Use an item
+@commands.cooldown(1, 5, commands.BucketType.guild)
+@client.command()
+async def use(ctx, item):
+    # Check if item exists
+    exist = 0
+    for a in range(len(pl_items)):
+        if item.upper() == pl_items[a]['name'].upper():
+            exist += 1
+            break
+
+    if exist == 0:
+        nonexist_item_string = f'Item `{item}` does not exist!'
+        await ctx.send(nonexist_item_string)
+        return
+
+    # Look for user inventory
+    lb_file = open('data/pointless_leaderboard.json', 'r')
+    lb = json.load(lb_file)
+
+    op_id = ctx.author.id
+    
+    valid_use = 0
+
+    # Check if user has the item and spend it
+    for i in range(len(lb)):
+        if op_id == lb[i]['id']:
+            for key, value in lb[i]['inventory'].items():
+                if item.upper() == key.upper():
+                    lb[i]['inventory'][key] -= 1
+                    valid_use += 1
+                    break   
+            if valid_use == 0:
+                await ctx.send('You do not have this item!')
+                return
+    
+            # Remove item from user's inventory if count is 0
+            for key, value in list(lb[i]['inventory'].items()):
+                if value == 0:
+                    del lb[i]['inventory'][key]
+
+            break
+    
+    # Apply corresponding effect of item used
+    used = 0  # Do not spend item if item is unusable
+    
+    if item.upper() == 'CLOCK':
+        global shh
+        shh = random.randint(0, 9999)  # To prevent cooldown reset from being triggered without using a clock
+
+        await ctx.invoke(client.get_command('pointless'), pw=shh)
+
+        user_name = await client.fetch_user(ctx.author.id)
+        user_name = user_name.name
+        
+        clock_used_title = f'{user_name} used item: Clock'
+
+        embed_clock_used = discord.Embed(title=clock_used_title, description='?pointless cooldown is now reset!', color=0xabcdef)
+        await ctx.send(embed=embed_clock_used)
+
+        used += 1
+
+    else:
+        await ctx.send('Item is unusable!')
+
+    # Confirm spend item after using
+    # Write changes to leaderboard
+    if used == 1:
+        outfile = open('data/pointless_leaderboard.json', 'w', encoding='utf-8')
+        json.dump(lb, outfile, indent = 4)
+
+# Error handling
 @client.event
 async def on_command_error(ctx, error):
     if isinstance(error, CommandNotFound):
