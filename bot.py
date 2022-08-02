@@ -401,25 +401,38 @@ async def mtrbus(ctx, route):
     await ctx.send('Route does not exist!')                
                 
 @client.command()
-async def help(ctx):
-    embed_help = discord.Embed(title='Help!', description='', color=0xcca6fd)
+async def help(ctx, page=None):
+    if not page:
+        embed_help = discord.Embed(title='Help!', description='', color=0xcca6fd)
 
-    embed_help.add_field(name='?succ', value='Consumes the last message in the channel.', inline=False)
-    embed_help.add_field(name='?pointless', value='https://www.youtube.com/watch?v=EcSzq_6W1QQ', inline=False)
-    embed_help.add_field(name='?leaderboard', value='Dick measuring contest.', inline=False)
-    embed_help.add_field(name='?inv [username]', value='Dick measuring contest.', inline=False)
-    embed_help.add_field(name='?test', value='Tests bot status.', inline=False)
-    embed_help.add_field(name='?kmbtest <stop_name>', value='Tests if a bus stop with the given name exists.', inline=False)
-    embed_help.add_field(name='?kmbeta <stop_name>', value='Gets ETA of all KMB routes at a bus stop.', inline=False)
-    embed_help.add_field(name='?light <stop_name>', value='Gets train arrival times at a Light Rail stop.', inline=False)
-    embed_help.add_field(name='?mtrfare <start> <end>', value='Gets the MTR fare between two stations.', inline=False)
-    embed_help.add_field(name='?mtrbus <route>', value='Gets ETA at all bus stops of an MTR Bus route.', inline=False)
+        embed_help.add_field(name='?succ', value='Consumes the last message in the channel.', inline=False)
+        embed_help.add_field(name='?pointless', value='https://www.youtube.com/watch?v=EcSzq_6W1QQ', inline=False)
+        embed_help.add_field(name='?test', value='Tests bot status.', inline=False)
+        embed_help.add_field(name='?kmbtest <stop_name>', value='Tests if a bus stop with the given name exists.', inline=False)
+        embed_help.add_field(name='?kmbeta <stop_name>', value='Gets ETA of all KMB routes at a bus stop.', inline=False)
+        embed_help.add_field(name='?light <stop_name>', value='Gets train arrival times at a Light Rail stop.', inline=False)
+        embed_help.add_field(name='?mtrfare <start> <end>', value='Gets the MTR fare between two stations.', inline=False)
+        embed_help.add_field(name='?mtrbus <route>', value='Gets ETA at all bus stops of an MTR Bus route.', inline=False)
 
-    command_count = str(len(embed_help.fields))
-    footer_string = f'Total {command_count} commands.'
-    embed_help.set_footer(text=footer_string)
+        command_count = str(len(embed_help.fields))
+        footer_string = f'Total {command_count} commands in this page.\nUse `?help pointless` for commands about the pointless button.'
+        embed_help.set_footer(text=footer_string)
 
-    await ctx.send(embed=embed_help)
+        await ctx.send(embed=embed_help)
+
+    if page == 'pointless':
+        embed_help = discord.Embed(title='Help!', description='Commands about the pointless button', color=0xcca6fd)
+        
+        embed_help.add_field(name='?pointless', value='https://www.youtube.com/watch?v=EcSzq_6W1QQ', inline=False)
+        embed_help.add_field(name='?leaderboard', value='Dick measuring contest.', inline=False)
+        embed_help.add_field(name='?inv [username]', value='Check a user\'s inventory.', inline=False)
+        embed_help.add_field(name='?use <item>', value='Use an item in your inventory.', inline=False)
+
+        command_count=str(len(embed_help.fields))
+        footer_string = f'Total {command_count} commands in this page.'
+        embed_help.set_footer(text=footer_string)
+
+        await ctx.send(embed=embed_help)
 
 # ?pointless command
 class Buttons(discord.ui.View):
@@ -488,7 +501,7 @@ class Buttons(discord.ui.View):
                     else:
                         leaderboard[b]['inventory'][give_name] += 1
                     
-                    user_id = leaderboard[i]['id']
+                    user_id = leaderboard[b]['id']
                     user_ping = f'<@{user_id}>'
 
                     outfile = open('data/pointless_leaderboard.json', 'w', encoding='utf-8')
@@ -503,7 +516,7 @@ class Buttons(discord.ui.View):
 async def pointless(ctx, pw=None):
     if not pw:
         await ctx.send("**POINTLESS**\n**BUTTON**\nWarning: Pointless",view=Buttons())
-    if pw == shh:
+    elif pw == shh:
         pointless.reset_cooldown(ctx)
 
 @commands.cooldown(1, 5, commands.BucketType.guild)
@@ -651,7 +664,7 @@ async def use(ctx, item):
     
     if item.upper() == 'CLOCK':
         global shh
-        shh = random.randint(0, 9999)  # To prevent cooldown reset from being triggered without using a clock
+        shh = random.randint(1, 9999)  # To prevent cooldown reset from being triggered without using a clock
 
         await ctx.invoke(client.get_command('pointless'), pw=shh)
 

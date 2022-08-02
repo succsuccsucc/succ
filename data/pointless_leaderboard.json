@@ -1,37 +1,38 @@
 [
     {
         "id": 392542209393819648,
-        "score": 60,
+        "score": 61,
         "inventory": {
             "Normal Pill": 4,
-            "Gold Ingot": 4,
+            "Gold Ingot": 5,
             "Cum Chalice": 2,
             "Lollipop": 1
         }
     },
     {
-        "id": 632181910646423553,
-        "score": 52,
-        "inventory": {
-            "Gold Ingot": 2,
-            "Lollipop": 1,
-            "Normal Pill": 1
-        }
-    },
-    {
         "id": 740098404688068641,
-        "score": 51,
+        "score": 56,
         "inventory": {
             "Lollipop": 1,
             "Gold Ingot": 5,
             "Normal Pill": 3,
-            "Cum Chalice": 2,
+            "Cum Chalice": 3,
             "Sea Shell": 1,
             "Morbius DVD": 2,
             "Lean": 1,
             "Train Ticket": 1,
             "Nineteen Eighty-Four": 1,
             "Smoked Salmon": 1
+        }
+    },
+    {
+        "id": 632181910646423553,
+        "score": 54,
+        "inventory": {
+            "Gold Ingot": 3,
+            "Lollipop": 2,
+            "Normal Pill": 1,
+            "Cum Chalice": 1
         }
     },
     {
