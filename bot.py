@@ -579,22 +579,22 @@ async def inv(ctx, user=None):
             if 'inventory' not in lb[i]:
                 break
 
-            for key, value in lb[i]['inventory'].items():
-                item_name = key
+            for c in range(len(pl_items)):
+                for key, value in lb[i]['inventory'].items():
+                    item_name = key
 
-                total_item_count += value
-
-                for b in range(len(pl_items)):
-                    if item_name == pl_items[b]['name']:
-                        item_desc = pl_items[b]['description']
-                        item_emoji = pl_items[b]['emoji']
+                    if item_name == pl_items[c]['name']:
+                        item_desc = pl_items[c]['description']
+                        item_emoji = pl_items[c]['emoji']
 
                         item_field_title = item_emoji +' '+  item_name + ': ' + str(value)
 
+                        embed_inv.add_field(name=item_field_title, value=item_desc, inline=False)
+                        
+                        total_item_count += value
+                        
                         break
-
-                embed_inv.add_field(name=item_field_title, value=item_desc, inline=False)
-            
+         
             inv_footer = f'Total {total_item_count} item(s).'
             embed_inv.set_footer(text=inv_footer)
 

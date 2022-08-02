@@ -1,11 +1,21 @@
 [
     {
         "id": 392542209393819648,
-        "score": 55,
+        "score": 60,
         "inventory": {
-            "Normal Pill": 3,
-            "Gold Ingot": 3,
-            "Cum Chalice": 1
+            "Normal Pill": 4,
+            "Gold Ingot": 4,
+            "Cum Chalice": 2,
+            "Lollipop": 1
+        }
+    },
+    {
+        "id": 632181910646423553,
+        "score": 52,
+        "inventory": {
+            "Gold Ingot": 2,
+            "Lollipop": 1,
+            "Normal Pill": 1
         }
     },
     {
@@ -25,12 +35,12 @@
         }
     },
     {
-        "id": 632181910646423553,
-        "score": 50,
+        "id": 417618490367672330,
+        "score": 22,
         "inventory": {
             "Gold Ingot": 2,
-            "Lollipop": 1,
-            "Normal Pill": 1
+            "Lollipop": 2,
+            "Train Ticket": 1
         }
     },
     {
@@ -40,15 +50,6 @@
             "Gold Ingot": 1,
             "Cum Chalice": 1,
             "Lollipop": 1
-        }
-    },
-    {
-        "id": 417618490367672330,
-        "score": 21,
-        "inventory": {
-            "Gold Ingot": 2,
-            "Lollipop": 2,
-            "Train Ticket": 1
         }
     },
     {
