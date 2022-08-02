@@ -65,6 +65,9 @@ pl_items = json.load(item)
 # initialize password for resetting ?pointless cooldown using clock item
 shh = None
 
+# initialize list of leaned people (can't press the pointless button for a round)
+high_list = []
+
 @client.event
 async def on_ready():
     for guild in client.guilds:
@@ -400,6 +403,7 @@ async def mtrbus(ctx, route):
 
     await ctx.send('Route does not exist!')                
                 
+@commands.cooldown(1, 5, commands.BucketType.guild)
 @client.command()
 async def help(ctx, page=None):
     if not page:
@@ -415,7 +419,7 @@ async def help(ctx, page=None):
         embed_help.add_field(name='?mtrbus <route>', value='Gets ETA at all bus stops of an MTR Bus route.', inline=False)
 
         command_count = str(len(embed_help.fields))
-        footer_string = f'Total {command_count} commands in this page.\nUse `?help pointless` for commands about the pointless button.'
+        footer_string = f'Total {command_count} commands in this page.\nUse ?help pointless for commands about the pointless button.'
         embed_help.set_footer(text=footer_string)
 
         await ctx.send(embed=embed_help)
@@ -442,7 +446,22 @@ class Buttons(discord.ui.View):
     async def gray_button(self,interaction:discord.Interaction,button:discord.ui.Button):
         button.disabled=True
         await interaction.response.edit_message(view=self, content="Hm.")
+
+        # Disable, notify, and resend command if user is high (leaned)
+        if interaction.user.id in high_list:
+            messages = [message async for message in interaction.channel.history(limit=1)]
+            await messages[0].delete()
+            
+            high_response = f'{interaction.user.mention} is high and cannot press the button!'
+            await interaction.channel.send(high_response)
+
+            await interaction.channel.send("**POINTLESS**\n**BUTTON**\nWarning: Pointless",view=Buttons())
+
+            return
         
+        # Reset the high list after a pointless button is summoned
+        high_list.clear()
+
         leaderboard_file = open('data/pointless_leaderboard.json', encoding='utf-8')
         leaderboard = json.load(leaderboard_file)
 
@@ -619,7 +638,7 @@ async def inv(ctx, user=None):
 # Use an item
 @commands.cooldown(1, 5, commands.BucketType.guild)
 @client.command()
-async def use(ctx, item):
+async def use(ctx, item, target=None):
     # Check if item exists
     exist = 0
     for a in range(len(pl_items)):
@@ -671,13 +690,46 @@ async def use(ctx, item):
         user_name = await client.fetch_user(ctx.author.id)
         user_name = user_name.name
         
-        clock_used_title = f'{user_name} used item: Clock'
+        clock_used_title = f'{user_name} used Clock!'
 
         embed_clock_used = discord.Embed(title=clock_used_title, description='?pointless cooldown is now reset!', color=0xabcdef)
         await ctx.send(embed=embed_clock_used)
 
         used += 1
 
+    elif item.upper() == 'LEAN':
+        if not target:
+            await ctx.send('You must specify someone you want to give lean to!')
+            return
+        else:
+            target_id = int(target[2 : -1])  # Slice target user ID from ping
+
+            # Check if target exists
+            target_exist = 0  
+            for b in range(len(lb)):  
+                if lb[b]['id'] == target_id:
+                    target_exist += 1
+                    break
+            
+            if target_exist == 0:
+                await ctx.send('Invalid user!')
+                return
+
+            # Add target user to the high list
+            high_list.append(target_id)
+
+            # Send confirmation message
+            user_name = await client.fetch_user(ctx.author.id)
+            user_name = user_name.name
+            
+            lean_used_title = f'{user_name} used Lean!'
+            lean_used_description = f'{target} is now high! They cannot press the pointless button when it is next summoned.'
+           
+            embed_lean_used = discord.Embed(title=lean_used_title, description=lean_used_description, color=0xabcdef)
+            await ctx.send(embed=embed_lean_used)
+
+            used += 1
+                    
     else:
         await ctx.send('Item is unusable!')
 
