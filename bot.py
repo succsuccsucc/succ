@@ -477,6 +477,7 @@ class Buttons(discord.ui.View):
                         leaderboard[b]['inventory'] = {}
                     
                     give_name = pl_items[give_index]['name']
+                    give_emoji = pl_items[give_index]['emoji']
 
                     if pl_items[give_index]['name'] not in leaderboard[b]['inventory']:
                         leaderboard[b]['inventory'][give_name] = 1
@@ -489,7 +490,7 @@ class Buttons(discord.ui.View):
                     outfile = open('data/pointless_leaderboard.json', 'w', encoding='utf-8')
                     json.dump(leaderboard, outfile, indent = 4)
 
-                    await interaction.channel.send(f'{user_ping} got a special item: `{give_name}`')
+                    await interaction.channel.send(f'{user_ping} got a special item: {give_emoji} `{give_name}`')
 
                     return
 
@@ -559,7 +560,7 @@ async def inv(ctx, user=None):
     
     inv_title = f'Inventory of {user_name}'
     
-    embed_inv = discord.Embed(title=inv_title, description='\u200b', color=0xabcdef)
+    embed_inv = discord.Embed(title=inv_title, description='Get items by pressing the pointless button!', color=0xabcdef)
 
     lb_file = open('data/pointless_leaderboard.json', 'r')
     lb = json.load(lb_file)

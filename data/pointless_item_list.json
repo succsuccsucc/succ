@@ -2,13 +2,67 @@
     {
         "name": "Gold Ingot",
         "emoji": "<:Gold_Ingot:1003537929525805197>",
-        "rarity": 10,
+        "rarity": 30,
         "description": "Thanks for the gold kind stranger!"
     },
     {
         "name": "Lollipop",
         "emoji": "<:Lollipop:1003537715989598279>",
-        "rarity": 20,
+        "rarity": 50,
         "description": "Shiny blue candy. May contain unknown magical powers."
+    },
+    {
+        "name": "Normal Pill",
+        "emoji": "<:Normal_Pill:1003585635182973039>",
+        "rarity": 60,
+        "description": "I wear a mask with a smile for hours at a time"
+    },
+    {
+        "name": "Cum Chalice",
+        "emoji": "<:Cum_Chalice:1003594254284750868>",
+        "rarity": 70,
+        "description": "Congratulations, Nick, enjoy your DoTA."
+    },
+    {
+        "name": "Sea Shell",
+        "emoji": "<:Sea_Shell:1003661619471073352>",
+        "rarity": 80,
+        "description": "She sells seashells on the seashore, the shells she sells are seashells, I’m sure."
+    },
+    {
+        "name": "Morbius DVD",
+        "emoji": "<:Morbius_DVD:1003663373839376535>",
+        "rarity": 85,
+        "description": "One of the movies of all time."
+    },
+    {
+        "name": "Nineteen Eighty-Four",
+        "emoji": "<:Nineteen_EightyFour:1003653365361819648>",
+        "rarity": 90,
+        "description": "Literally 1984."
+    },
+    {
+        "name": "Lean",
+        "emoji": "<a:Lean:1003630288070520842>",
+        "rarity": 93,
+        "description": "Lean lean double cup. Also known as \"Dungeons and Dragons\" in some regions."
+    },
+    {
+        "name": "Train Ticket",
+        "emoji": "<:Train_Ticket:1003651167932391434>",
+        "rarity": 96,
+        "description": "If i get below mean, this ticket will expire by end of 2022 (Joke)"
+    },
+    {
+        "name": "Smoked Salmon",
+        "emoji": "<:Smoked_Salmon:1003667265721479359>",
+        "rarity": 99,
+        "description": "Glub glub glub"
+    },
+    {
+        "name": "Clock",
+        "emoji": "<a:Clock:1003671401863053363>",
+        "rarity": 100,
+        "description": "Skips time to the end of the cooldown. You have reached the secret weapon."
     }
 ]
