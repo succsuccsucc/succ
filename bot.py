@@ -62,6 +62,10 @@ for row in datareader_mb_routes:
 item = open('data/pointless_item_list.json', 'r', encoding='utf-8')
 pl_items = json.load(item)
 
+# Open crafting recipe of special items
+craft = open('data/pointless_craft_recipe.json', 'r', encoding='utf-8')
+recipe = json.load(craft)
+
 # initialize password for resetting ?pointless cooldown using clock item
 shh = None
 
@@ -606,7 +610,6 @@ async def inv(ctx, user=None):
 
     for i in range(len(lb)):
         if int(user_id) == lb[i]['id']:
-            total_item_count = 0
 
             if 'inventory' not in lb[i]:
                 break
@@ -623,14 +626,33 @@ async def inv(ctx, user=None):
 
                         embed_inv.add_field(name=item_field_title, value=item_desc, inline=False)
                         
-                        total_item_count += value
-                        
                         break
-         
-            inv_footer = f'Total {total_item_count} item(s).'
-            embed_inv.set_footer(text=inv_footer)
 
             await ctx.send(embed=embed_inv)
+
+            # Display inventory of crafted items
+            embed_inv.clear_fields()
+
+            embed_inv.title = f'Crafted items of {user_name}'
+            embed_inv.description = '\u200b'
+
+            for d in range(len(recipe)):
+                for key, value in lb[i]['inventory'].items():
+                    thing_name = key
+
+                    if thing_name == recipe[d]['name']:
+                        thing_desc = recipe[d]['description']
+                        thing_emoji = recipe[d]['emoji']
+
+                        thing_field_title = thing_emoji + ' ' + thing_name + ': ' + str(value)
+
+                        embed_inv.add_field(name=thing_field_title, value=thing_desc, inline=False)
+
+                        break
+                
+            if len(embed_inv) != (len(embed_inv.title) + len(embed_inv.description)):  # Only send if there are crafted items in inventory
+                await ctx.send(embed=embed_inv)
+
             return
         
     await ctx.send('User does not have any items!')
@@ -640,9 +662,16 @@ async def inv(ctx, user=None):
 @client.command()
 async def use(ctx, item, target=None):
     # Check if item exists
+    # Check in normal items list
     exist = 0
     for a in range(len(pl_items)):
         if item.upper() == pl_items[a]['name'].upper():
+            exist += 1
+            break
+    
+    # Check in crafted items recipe
+    for c in range(len(recipe)):
+        if item.upper() == recipe[c]['name'].upper():
             exist += 1
             break
 
@@ -681,6 +710,7 @@ async def use(ctx, item, target=None):
     # Apply corresponding effect of item used
     used = 0  # Do not spend item if item is unusable
     
+    # Normal items
     if item.upper() == 'CLOCK':
         global shh
         shh = random.randint(1, 9999)  # To prevent cooldown reset from being triggered without using a clock
@@ -699,7 +729,7 @@ async def use(ctx, item, target=None):
 
     elif item.upper() == 'LEAN':
         if not target:
-            await ctx.send('You must specify someone you want to give lean to!')
+            await ctx.send('You must specify someone you want to give Lean to!')
             return
         else:
             target_id = int(target[2 : -1])  # Slice target user ID from ping
@@ -729,7 +759,49 @@ async def use(ctx, item, target=None):
             await ctx.send(embed=embed_lean_used)
 
             used += 1
-                    
+
+    # Crafted items
+    elif item.upper() == 'GUSHING GRANNY':
+        if not target:
+            target_id = ctx.author.id
+        else:
+            target_id = int(target[2 : -1])  # Slice target user ID from ping
+
+        # Check if target exists
+        target_exist = 0  
+        for b in range(len(lb)):  
+            if lb[b]['id'] == target_id:
+                target_exist += 1
+                break
+
+        if target_exist == 0:
+            await ctx.send('Invalid user!')
+            return
+            
+        # Check if target is high, remove target from high list if yes
+        target_high = 0
+        for value in high_list:
+            if target_id == value:
+                high_list.remove(value)
+                target_high += 1
+                break
+        
+        if target_high == 0:
+            await ctx.send('Target is not high!')
+            return
+
+        # Send confirmation message
+        user_name = await client.fetch_user(ctx.author.id)
+        user_name = user_name.name
+
+        gushing_used_title = f'{user_name} used Gushing Granny!'
+        gushing_used_description = f'{target} is no longer high!'
+        
+        embed_gushing_used = discord.Embed(title=gushing_used_title, description=gushing_used_description, color=0xabcdef)
+        await ctx.send(embed=embed_gushing_used)
+
+        used += 1
+
     else:
         await ctx.send('Item is unusable!')
 

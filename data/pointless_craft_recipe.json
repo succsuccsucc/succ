@@ -1,0 +1,19 @@
+[
+    {
+        "name": "Amethyst",
+        "emoji": "<:Amethyst:1004013520796520457>",
+        "description": "Purple currency. Buy things in the shop with them.",
+        "ingredients": {
+            "Amethyst Shard": 4
+        }
+    },
+    {
+        "name": "Gushing Granny",
+        "emoji": "<a:Gushing_Granny:1004019807294861334>",
+        "description": "It's time to sober up! Reverses the effect of Lean.",
+        "ingredients": {
+            "Normal Pill": 1,
+            "Cum Chalice": 1
+        }
+    }
+]

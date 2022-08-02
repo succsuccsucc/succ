@@ -1,21 +1,33 @@
 [
     {
         "id": 392542209393819648,
-        "score": 66,
+        "score": 73,
         "inventory": {
-            "Normal Pill": 4,
-            "Gold Ingot": 6,
+            "Normal Pill": 5,
+            "Gold Ingot": 7,
             "Cum Chalice": 3,
             "Lollipop": 1,
-            "Smoked Salmon": 1
+            "Smoked Salmon": 1,
+            "Nineteen Eighty-Four": 1,
+            "Lean": 1
+        }
+    },
+    {
+        "id": 632181910646423553,
+        "score": 66,
+        "inventory": {
+            "Gold Ingot": 7,
+            "Lollipop": 4,
+            "Normal Pill": 1,
+            "Cum Chalice": 1
         }
     },
     {
         "id": 740098404688068641,
-        "score": 57,
+        "score": 60,
         "inventory": {
             "Lollipop": 1,
-            "Gold Ingot": 6,
+            "Gold Ingot": 7,
             "Normal Pill": 3,
             "Cum Chalice": 3,
             "Sea Shell": 1,
@@ -23,36 +35,29 @@
             "Train Ticket": 1,
             "Nineteen Eighty-Four": 1,
             "Smoked Salmon": 1,
-            "Lean": 7,
-            "Clock": 9
-        }
-    },
-    {
-        "id": 632181910646423553,
-        "score": 56,
-        "inventory": {
-            "Gold Ingot": 3,
-            "Lollipop": 2,
-            "Normal Pill": 1,
-            "Cum Chalice": 1
+            "Lean": 6,
+            "Clock": 8,
+            "Amethyst Shard": 40,
+            "Amethyst": 3
         }
     },
     {
         "id": 417618490367672330,
-        "score": 22,
+        "score": 23,
         "inventory": {
             "Gold Ingot": 2,
-            "Lollipop": 2,
+            "Lollipop": 3,
             "Train Ticket": 1
         }
     },
     {
         "id": 679305272195285012,
-        "score": 21,
+        "score": 22,
         "inventory": {
             "Gold Ingot": 1,
             "Cum Chalice": 1,
-            "Lollipop": 1
+            "Lollipop": 1,
+            "Lean": 1
         }
     },
     {
