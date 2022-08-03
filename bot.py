@@ -610,11 +610,14 @@ async def inv(ctx, user=None):
     
     inv_title = f'Inventory of {user_name}'
     
-    embed_inv = discord.Embed(title=inv_title, description='Get items by pressing the pointless button!', color=0xabcdef)
+    embed_inv = discord.Embed(title=inv_title, description='', color=0xabcdef)
 
     lb_file = open('data/pointless_leaderboard.json', 'r')
     lb = json.load(lb_file)
 
+    # Display gold and amethyst count in description
+    inv_description = ''
+    
     for i in range(len(lb)):
         if int(user_id) == lb[i]['id']:
 
@@ -629,19 +632,20 @@ async def inv(ctx, user=None):
                         item_desc = pl_items[c]['description']
                         item_emoji = pl_items[c]['emoji']
 
+                        # Add gold count to description string for display
+                        if item_name == "Gold Ingot":
+                            inv_description += item_emoji + ' ' + str(value)
+
                         item_field_title = item_emoji +' '+  item_name + ': ' + str(value)
 
                         embed_inv.add_field(name=item_field_title, value=item_desc, inline=False)
                         
                         break
 
-            await ctx.send(embed=embed_inv)
+            # Compose inventory of crafted items
+            crafted_inv_title = f'Crafted items of {user_name}'
 
-            # Display inventory of crafted items
-            embed_inv.clear_fields()
-
-            embed_inv.title = f'Crafted items of {user_name}'
-            embed_inv.description = ''
+            embed_crafted_inv = discord.Embed(title=crafted_inv_title, description='', color=0xabcdef)
 
             for d in range(len(recipe)):
                 for key, value in lb[i]['inventory'].items():
@@ -651,14 +655,21 @@ async def inv(ctx, user=None):
                         thing_desc = recipe[d]['description']
                         thing_emoji = recipe[d]['emoji']
 
+                        if thing_name == "Amethyst":
+                            inv_description += ' | ' + thing_emoji + ' ' + str(value)
+
                         thing_field_title = thing_emoji + ' ' + thing_name + ': ' + str(value)
 
-                        embed_inv.add_field(name=thing_field_title, value=thing_desc, inline=False)
+                        embed_crafted_inv.add_field(name=thing_field_title, value=thing_desc, inline=False)
 
                         break
                 
-            if len(embed_inv) != (len(embed_inv.title) + len(embed_inv.description)):  # Only send if there are crafted items in inventory
-                await ctx.send(embed=embed_inv)
+            # Send inventory
+            embed_inv.description = inv_description
+            await ctx.send(embed=embed_inv)
+            
+            if len(embed_crafted_inv) != (len(embed_crafted_inv.title) + len(embed_crafted_inv.description)):  # Only send if there are crafted items in inventory
+                await ctx.send(embed=embed_crafted_inv)
 
             return
         
