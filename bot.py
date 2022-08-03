@@ -530,7 +530,7 @@ class Buttons(discord.ui.View):
                     outfile = open('data/pointless_leaderboard.json', 'w', encoding='utf-8')
                     json.dump(leaderboard, outfile, indent = 4)
 
-                    await interaction.channel.send(f'{user_ping} got a special item: {give_emoji} `{give_name}`')
+                    await interaction.channel.send(f'{user_ping} got 1 {give_emoji} `{give_name}`!')
 
                     return
 
@@ -634,7 +634,7 @@ async def inv(ctx, user=None):
             embed_inv.clear_fields()
 
             embed_inv.title = f'Crafted items of {user_name}'
-            embed_inv.description = '\u200b'
+            embed_inv.description = ''
 
             for d in range(len(recipe)):
                 for key, value in lb[i]['inventory'].items():
@@ -658,7 +658,6 @@ async def inv(ctx, user=None):
     await ctx.send('User does not have any items!')
 
 # Use an item
-@commands.cooldown(1, 5, commands.BucketType.guild)
 @client.command()
 async def use(ctx, item, target=None):
     # Check if item exists
@@ -810,6 +809,93 @@ async def use(ctx, item, target=None):
     if used == 1:
         outfile = open('data/pointless_leaderboard.json', 'w', encoding='utf-8')
         json.dump(lb, outfile, indent = 4)
+
+@commands.cooldown(1, 5, commands.BucketType.guild)
+@client.command()
+async def craft(ctx, item, amount=1):
+    # Check if amount is 0
+    if amount == 0:
+        await ctx.invoke(client.get_command('succ'))
+        return
+
+    # Check if item exists
+    # Check in crafted items recipe
+    exist = 0
+    for i in range(len(recipe)):
+        if item.upper() == recipe[i]['name'].upper():
+            product_index = i
+            product_name = recipe[i]['name']
+            exist += 1
+            break
+
+    if exist == 0:
+        nonexist_item_string = f'Item `{item}` does not exist or is not craftable!'
+        await ctx.send(nonexist_item_string)
+        return
+
+    # Open user inventory
+    lb_file = open('data/pointless_leaderboard.json', 'r')
+    lb = json.load(lb_file)
+    
+    user_id = ctx.author.id
+
+    # Find user's entry in leaderboard
+    for a in range(len(lb)):
+        if lb[a]['id'] == user_id:
+            user_index = a
+            break
+
+    # Check if user has enough ingredients
+    enough_check = 0
+    for p_key, p_value in recipe[product_index]['ingredients'].items():
+        for i_key, i_value in lb[user_index]['inventory'].items():
+            if i_key == p_key:
+                if i_value >= (p_value * amount):
+                    lb[user_index]['inventory'][i_key] -= (p_value * amount)
+                    enough_check += 1
+                    break
+                else:
+                    break
+
+    # Give crafted item if have enough ingredients
+    if enough_check == len(recipe[product_index]['ingredients']):
+        if recipe[product_index]['name'] not in lb[user_index]['inventory']:
+            lb[user_index]['inventory'][product_name] = amount
+        else:
+            lb[user_index]['inventory'][product_name] += amount  
+    else:  # Send error message if not enough ingredients
+        await ctx.send('You do not have the required ingredients!')
+        return
+
+    # Remove item(s) from user's inventory if count is 0
+    for key, value in list(lb[user_index]['inventory'].items()):
+        if value == 0:
+            del lb[user_index]['inventory'][key]
+        
+    # Send confirmation message
+    craft_confirm_title = f'Successfully crafted {product_name}!'
+    embed_craft_confirm = discord.Embed(title=craft_confirm_title, description='', color=0xabcdef)
+
+    ingredient_field = ''
+    for key_2, value_2 in recipe[product_index]['ingredients'].items():
+        for b in range(len(pl_items)):
+            if key_2 == pl_items[b]['name']:
+                ingredient_field += pl_items[b]['emoji'] + ' '
+                break
+
+        ingredient_field += key_2 + ' x' + str(value_2 * amount) + '\n'
+    
+    embed_craft_confirm.add_field(name='Used', value=ingredient_field, inline=False)
+
+    product_field = recipe[product_index]['emoji'] + ' ' + product_name + ' x' + str(amount)
+
+    embed_craft_confirm.add_field(name='Crafted', value=product_field, inline=False)
+
+    await ctx.send(embed=embed_craft_confirm)
+    
+    # Write changes to leaderboard
+    outfile = open('data/pointless_leaderboard.json', 'w', encoding='utf-8')
+    json.dump(lb, outfile, indent = 4)
 
 # Error handling
 @client.event
