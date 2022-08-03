@@ -434,7 +434,8 @@ async def help(ctx, page=None):
         embed_help.add_field(name='?pointless', value='https://www.youtube.com/watch?v=EcSzq_6W1QQ', inline=False)
         embed_help.add_field(name='?leaderboard', value='Dick measuring contest.', inline=False)
         embed_help.add_field(name='?inv [username]', value='Check a user\'s inventory.', inline=False)
-        embed_help.add_field(name='?use <item>', value='Use an item in your inventory.', inline=False)
+        embed_help.add_field(name='?use <item> [target]', value='Use an item in your inventory.', inline=False)
+        embed_help.add_field(name='?craft <item>', value='Craft items into another item.', inline=False)
 
         command_count=str(len(embed_help.fields))
         footer_string = f'Total {command_count} commands in this page.'
