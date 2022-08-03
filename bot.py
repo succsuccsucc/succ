@@ -447,8 +447,14 @@ class Buttons(discord.ui.View):
     def __init__(self, *, timeout=180):
         super().__init__(timeout=timeout)
     @discord.ui.button(label="Button",disabled=False,style=discord.ButtonStyle.gray)
-    async def gray_button(self,interaction:discord.Interaction,button:discord.ui.Button):
+    async def gray_button(self,interaction:discord.Interaction,button:discord.ui.Button): 
+        # Disable command if button is already disabled (someone pressed already)
+        if button.disabled == True:
+            await interaction.response.send_message(content='Too slow!', ephemeral=True)
+            return
+        
         button.disabled=True
+
         await interaction.response.edit_message(view=self, content="Hm.")
 
         # Disable, notify, and resend command if user is high (leaned)
