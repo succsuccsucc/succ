@@ -93,6 +93,7 @@ async def on_message(message):
     await client.process_commands(message)
 
 @commands.cooldown(1, 10, commands.BucketType.user)
+@commands.guild_only()
 @client.command()
 async def succ(ctx):
     messages = [message async for message in ctx.channel.history(limit=2)]
@@ -139,6 +140,7 @@ async def succ(ctx):
     await succ_msg.delete()  # Delete the 2nd last message
     return
 
+@commands.guild_only()
 @client.command()
 async def kmbtest(ctx, stop_name):
     for i in range(len(kmb_stops['data'])):
@@ -151,6 +153,7 @@ async def kmbtest(ctx, stop_name):
     await ctx.send(f'Bus stop "{stop_name}" does not exist!')
 
 @commands.cooldown(1, 5, commands.BucketType.guild)
+@commands.guild_only()
 @client.command()
 async def kmbeta(ctx, stop_name):
     matching_stops = []
@@ -223,6 +226,7 @@ async def kmbeta(ctx, stop_name):
     await ctx.send('Total ' + str(len(matching_stops)) + ' stop(s) and ' + str(display_value) + ' route(s).')
 
 @commands.cooldown(1, 5, commands.BucketType.guild)
+@commands.guild_only()
 @client.command()
 async def light(ctx, stop_name):
     for i in range(len(light_rail_stops['stops'])):
@@ -273,6 +277,7 @@ async def light(ctx, stop_name):
     await ctx.send(f'Light Rail stop "{stop_name}" does not exist!')
                     
 @client.command()
+@commands.guild_only()
 async def mtrfare(ctx, start, end):
     for i in range(len(fare_list)):
         if (start.upper() == fare_list[i][0].upper()) and (end.upper() == fare_list[i][2].upper()):
@@ -326,6 +331,7 @@ async def mtrfare(ctx, start, end):
     await ctx.send('Start or destination does not exist!')
 
 @commands.cooldown(1, 5, commands.BucketType.guild)
+@commands.guild_only()
 @client.command()
 async def mtrbus(ctx, route):
     route = route.upper()
@@ -408,6 +414,7 @@ async def mtrbus(ctx, route):
     await ctx.send('Route does not exist!')                
                 
 @commands.cooldown(1, 5, commands.BucketType.guild)
+@commands.guild_only()
 @client.command()
 async def help(ctx, page=None):
     if not page:
@@ -542,6 +549,7 @@ class Buttons(discord.ui.View):
                     return
 
 @commands.cooldown(1, 900, commands.BucketType.guild)
+@commands.guild_only()
 @client.command()
 async def pointless(ctx, pw=None):
     if not pw:
@@ -550,6 +558,7 @@ async def pointless(ctx, pw=None):
         pointless.reset_cooldown(ctx)
 
 @commands.cooldown(1, 5, commands.BucketType.guild)
+@commands.guild_only()
 @client.command()
 async def leaderboard(ctx):
     lb_file = open('data/pointless_leaderboard.json', 'r')
@@ -598,6 +607,7 @@ async def leaderboard(ctx):
     await ctx.send(embed=embed_leaderboard)
 
 @commands.cooldown(1, 5, commands.BucketType.guild)
+@commands.guild_only()
 @client.command()
 async def inv(ctx, user=None):
     if not user:
@@ -677,6 +687,7 @@ async def inv(ctx, user=None):
 
 # Use an item
 @client.command()
+@commands.guild_only()
 async def use(ctx, item, target=None):
     # Check if item exists
     # Check in normal items list
@@ -829,6 +840,7 @@ async def use(ctx, item, target=None):
         json.dump(lb, outfile, indent = 4)
 
 @commands.cooldown(1, 5, commands.BucketType.guild)
+@commands.guild_only()
 @client.command()
 async def craft(ctx, item, amount=1):
     # Check if amount is 0
