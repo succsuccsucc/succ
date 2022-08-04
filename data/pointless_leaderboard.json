@@ -33,7 +33,7 @@
     },
     {
         "id": 740098404688068641,
-        "score": 89,
+        "score": 90,
         "inventory": {
             "Lollipop": 1,
             "Gold Ingot": 1,
@@ -42,21 +42,22 @@
             "Train Ticket": 1,
             "Nineteen Eighty-Four": 2,
             "Smoked Salmon": 1,
-            "Lean": 6,
+            "Lean": 14,
             "Clock": 8,
             "Amethyst Shard": 13,
             "Amethyst": 0,
-            "Gushing Granny": 3,
+            "Gushing Granny": 13,
             "Marker": 8,
             "Bath Towel": 4,
-            "Dollar Coin": 1
+            "Dollar Coin": 1,
+            "Cum Chalice": 7
         }
     },
     {
         "id": 679305272195285012,
-        "score": 38,
+        "score": 39,
         "inventory": {
-            "Gold Ingot": 3,
+            "Gold Ingot": 4,
             "Cum Chalice": 1,
             "Lollipop": 1,
             "Lean": 1,
@@ -78,7 +79,7 @@
     },
     {
         "id": 586790522157531136,
-        "score": 15,
+        "score": 16,
         "inventory": {
             "Normal Pill": 1,
             "Lollipop": 4,
@@ -86,7 +87,8 @@
             "Lean": 2,
             "Gold Ingot": 0,
             "Amethyst": 0,
-            "Nineteen Eighty-Four": 1
+            "Nineteen Eighty-Four": 1,
+            "Morbius DVD": 1
         }
     },
     {

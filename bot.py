@@ -885,7 +885,6 @@ async def use(ctx, item, target=None):
     # Apply corresponding effect of item used
     used = 0  # Do not spend item if item is unusable
     
-    # Normal items
     if item.upper() == 'CLOCK':
         global shh
         shh = random.randint(1, 9999)  # To prevent cooldown reset from being triggered without using a clock
@@ -935,8 +934,8 @@ async def use(ctx, item, target=None):
 
             used += 1
 
-    # Crafted items
-    elif item.upper() == 'GUSHING GRANNY':
+    # Cum Chalice has the same effect as Gushing Granny if check success
+    elif (item.upper() == 'GUSHING GRANNY') or (item.upper() == 'CUM CHALICE'):
         if not target:
             target_id = ctx.author.id
         else:
@@ -957,24 +956,42 @@ async def use(ctx, item, target=None):
         target_high = 0
         for value in high_list:
             if target_id == value:
-                high_list.remove(value)
                 target_high += 1
                 break
         
         if target_high == 0:
             await ctx.send('Target is not high!')
             return
+        
+        # Make a check if user used Cum Chalice
+        if item.upper() == 'CUM CHALICE':
+            cum_check = random.randint(1, 2)
+        if (cum_check == 2) or item.upper() == 'GUSHING GRANNY':  # Remove target as usual if Gushing Granny is used
+            high_list.remove(value)
 
         # Send confirmation message
         user_name = await client.fetch_user(ctx.author.id)
         user_name = user_name.name
 
-        gushing_used_title = f'{user_name} used Gushing Granny!'
-        gushing_used_description = f'{target} is no longer high!'
-        
-        embed_gushing_used = discord.Embed(title=gushing_used_title, description=gushing_used_description, color=0xabcdef)
-        await ctx.send(embed=embed_gushing_used)
+        if item.upper() == 'GUSHING GRANNY':
+            gushing_used_title = f'{user_name} used Gushing Granny!'
+            gushing_used_description = f'{target} is no longer high!'
 
+            embed_gushing_used = discord.Embed(title=gushing_used_title, description=gushing_used_description, color=0xabcdef)
+            await ctx.send(embed=embed_gushing_used)
+        elif (item.upper() == 'CUM CHALICE') and (cum_check == 2):
+            cum_used_title = f'{user_name} used Cum Chalice!'
+            cum_used_description = f'Check success! {target} is no longer high!'
+
+            embed_cum_used = discord.Embed(title=cum_used_title, description=cum_used_description, color=0xabcdef)
+            await ctx.send(embed=embed_cum_used)
+        else:
+            cum_failed_title = f'{user_name} used Cum Chalice!'
+            cum_failed_description = f'Check failed! The Cum Chalice has no effect on {target}!'
+
+            embed_cum_failed = discord.Embed(title=cum_failed_title, description=cum_failed_description, color=0xff0000)
+            await ctx.send(embed=embed_cum_failed)
+            
         used += 1
 
     else:
