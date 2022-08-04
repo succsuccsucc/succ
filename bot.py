@@ -1269,7 +1269,7 @@ async def buy(ctx, item, amount=1):
     global buy_amount  # Carry the amount of items to buy
     buy_amount = amount
 
-    embed_buy.title = thing_name
+    embed_buy.title = f'You\'re about to buy: {thing_name}'
     embed_buy.description=thing_flavor
 
     embed_buy.set_thumbnail(url=thing_emoji_link)

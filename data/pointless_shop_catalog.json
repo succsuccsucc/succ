@@ -3,16 +3,80 @@
         "name": "Bath Towel",
         "emoji": "<:Bath_Towel:1004352988074233886>",
         "description": "Preferably 3 feet in length. Good for muffling. (Bath not included)",
-        "detail": "Part of the Sports Skills collection. Craft all 15 items and see what happens!",
+        "detail": "Part of the Sports Skills collection. Craft all 10 items and see what happens!",
         "currency": "G",
-        "price": 7
+        "price": 29
     },
     {
         "name": "Marker",
         "emoji": "<:Marker:1004590009610928270>",
         "description": "Looks like someone separated the pair of markers from the previous owner. That'll leave a mark.",
-        "detail": "Part of the Sports Skills collection. Craft all 15 items and see what happens!",
+        "detail": "Part of the Sports Skills collection. Craft all 10 items and see what happens!",
         "currency": "A",
+        "price": 1
+    },
+    {
+        "name": "Ruler",
+        "emoji": "<:Ruler:1004767639119339540>",
+        "description": "A typical 12 inch ruler, commonly used for spanking hands.",
+        "detail": "Part of the Sports Skills collection. Craft all 10 items and see what happens!",
+        "currency": "G",
+        "price": 12
+    },
+    {
+        "name": "Hanger",
+        "emoji": "<:Hanger:1004756360598126612>",
+        "description": "A large warehouse to store hard airplanes. Oh wait, wrong hanger.",
+        "detail": "Part of the Sports Skills collection. Craft all 10 items and see what happens!",
+        "currency": "G",
+        "price": 6
+    },
+    {
+        "name": "Recycled Paper",
+        "emoji": "<:Recycled_Paper:1004757140902268980>",
+        "description": "It's no ordinary paper, it's *recycled* paper! Source: Trust me bro",
+        "detail": "Part of the Sports Skills collection. Craft all 10 items and see what happens!",
+        "currency": "G",
+        "price": 1
+    },
+    {
+        "name": "Colored Tape",
+        "emoji": "<:Colored_Tape:1004758188924600430>",
+        "description": "These chromatic adhesives will satisfy all our cross-making tendencies.",
+        "detail": "Part of the Sports Skills collection. Craft all 10 items and see what happens!",
+        "currency": "G",
+        "price": 3
+    },
+    {
+        "name": "Small Torch",
+        "emoji": "<a:Small_Torch:1004760120292560987>",
+        "description": "And God said, Let there be light: and there was the Small Torch.",
+        "detail": "Part of the Sports Skills collection. Craft all 10 items and see what happens!",
+        "currency": "A",
+        "price": 2
+    },
+    {
+        "name": "Retractable Umbrella",
+        "emoji": "<:Retractable_Umbrella:1004761704883818516>",
+        "description": "Too big to fit in your purse, too small to shield you from rain.",
+        "detail": "Part of the Sports Skills collection. Craft all 10 items and see what happens!",
+        "currency": "G",
+        "price": 18
+    },
+    {
+        "name": "Pillow",
+        "emoji": "<:Pillow:1004763038240473209>",
+        "description": "You wouldn't want to fight with these pillows.",
+        "detail": "Part of the Sports Skills collection. Craft all 10 items and see what happens!",
+        "currency": "A",
+        "price": 5
+    },
+    {
+        "name": "Dollar Coin",
+        "emoji": "<:Dollar_Coin:1004764584852324442>",
+        "description": "Sweet dreams are made of these, who am I to disagree?",
+        "detail": "Part of the Sports Skills collection. Craft all 10 items and see what happens!",
+        "currency": "G",
         "price": 1
     }
 ]

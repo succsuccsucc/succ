@@ -1,7 +1,7 @@
 [
     {
         "id": 392542209393819648,
-        "score": 106,
+        "score": 108,
         "inventory": {
             "Normal Pill": 4,
             "Gold Ingot": 10,
@@ -13,7 +13,7 @@
             "Gushing Granny": 1,
             "Amethyst Shard": 3,
             "Train Ticket": 2,
-            "Sea Shell": 1,
+            "Sea Shell": 2,
             "Amethyst": 0,
             "Bath Towel": 1
         }
@@ -36,7 +36,7 @@
         "score": 89,
         "inventory": {
             "Lollipop": 1,
-            "Gold Ingot": 2,
+            "Gold Ingot": 1,
             "Sea Shell": 4,
             "Morbius DVD": 3,
             "Train Ticket": 1,
@@ -48,18 +48,19 @@
             "Amethyst": 0,
             "Gushing Granny": 3,
             "Marker": 8,
-            "Bath Towel": 4
+            "Bath Towel": 4,
+            "Dollar Coin": 1
         }
     },
     {
         "id": 679305272195285012,
-        "score": 37,
+        "score": 38,
         "inventory": {
             "Gold Ingot": 3,
             "Cum Chalice": 1,
             "Lollipop": 1,
             "Lean": 1,
-            "Morbius DVD": 2,
+            "Morbius DVD": 3,
             "Smoked Salmon": 2,
             "Sea Shell": 1,
             "Amethyst": 0
