@@ -1,24 +1,24 @@
 [
     {
         "id": 392542209393819648,
-        "score": 96,
+        "score": 99,
         "inventory": {
             "Normal Pill": 4,
-            "Gold Ingot": 15,
+            "Gold Ingot": 16,
             "Cum Chalice": 3,
             "Lollipop": 2,
             "Smoked Salmon": 1,
             "Nineteen Eighty-Four": 1,
             "Lean": 2,
             "Gushing Granny": 1,
-            "Amethyst Shard": 2,
+            "Amethyst Shard": 3,
             "Train Ticket": 1,
             "Sea Shell": 1
         }
     },
     {
         "id": 632181910646423553,
-        "score": 85,
+        "score": 86,
         "inventory": {
             "Gold Ingot": 9,
             "Lollipop": 6,
@@ -32,7 +32,7 @@
         "score": 83,
         "inventory": {
             "Lollipop": 1,
-            "Gold Ingot": 10,
+            "Gold Ingot": 2,
             "Sea Shell": 3,
             "Morbius DVD": 3,
             "Train Ticket": 1,
@@ -41,15 +41,17 @@
             "Lean": 6,
             "Clock": 8,
             "Amethyst Shard": 13,
-            "Amethyst": 14,
-            "Gushing Granny": 3
+            "Amethyst": 13,
+            "Gushing Granny": 3,
+            "Marker": 7,
+            "Bath Towel": 4
         }
     },
     {
         "id": 679305272195285012,
-        "score": 34,
+        "score": 35,
         "inventory": {
-            "Gold Ingot": 2,
+            "Gold Ingot": 3,
             "Cum Chalice": 1,
             "Lollipop": 1,
             "Lean": 1,
@@ -69,20 +71,22 @@
     },
     {
         "id": 586790522157531136,
-        "score": 5,
+        "score": 11,
         "inventory": {
             "Normal Pill": 1,
-            "Lollipop": 2,
-            "Train Ticket": 1
+            "Lollipop": 4,
+            "Train Ticket": 2,
+            "Lean": 1
         }
     },
     {
         "id": 256997416799043586,
-        "score": 5,
+        "score": 10,
         "inventory": {
-            "Lollipop": 1,
-            "Amethyst Shard": 1,
-            "Sea Shell": 1
+            "Lollipop": 2,
+            "Amethyst Shard": 2,
+            "Sea Shell": 1,
+            "Lean": 1
         }
     },
     {

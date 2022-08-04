@@ -2,14 +2,18 @@
     {
         "name": "Bath Towel",
         "emoji": "<:Bath_Towel:1004352988074233886>",
-        "description": "Bath not included.",
+        "img": "https://cdn.discordapp.com/emojis/1004352988074233886.webp?size=48&quality=lossless",
+        "description": "Preferably 3 feet in length. Good for muffling. (Bath not included)",
+        "detail": "Part of the Sports Skills collection. Craft all 15 items and see what happens!",
         "currency": "G",
         "price": 7
     },
     {
-        "name": "marker",
+        "name": "Marker",
         "emoji": "<:Marker:1004590009610928270>",
-        "description": "It's not a stick, it's a marker. MARKER!",
+        "img": "https://cdn.discordapp.com/emojis/1004590009610928270.webp?size=48&quality=lossless",
+        "description": "Looks like someone separated the pair of markers from the previous owner. That'll leave a mark.",
+        "detail": "Part of the Sports Skills collection. Craft all 15 items and see what happens!",
         "currency": "A",
         "price": 1
     }

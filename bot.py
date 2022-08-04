@@ -76,6 +76,10 @@ shh = None
 # initialize list of leaned people (can't press the pointless button for a round)
 high_list = []
 
+# Initialize gold and amethyst emojis for simple access
+gold_emoji = "<:Gold_Ingot:1003537929525805197>"
+amethyst_emoji = "<:Amethyst:1004013520796520457>"
+
 @client.event
 async def on_ready():
     for guild in client.guilds:
@@ -434,7 +438,7 @@ async def help(ctx, page=None):
         embed_help.add_field(name='?mtrbus <route>', value='Gets ETA at all bus stops of an MTR Bus route.', inline=False)
 
         command_count = str(len(embed_help.fields))
-        footer_string = f'Total {command_count} commands in this page.\nUse ?help pointless for commands about the pointless button.'
+        footer_string = f'Total {command_count} commands in this page.\nUse "?help pointless" for commands about the pointless button.'
         embed_help.set_footer(text=footer_string)
 
         await ctx.send(embed=embed_help)
@@ -447,6 +451,8 @@ async def help(ctx, page=None):
         embed_help.add_field(name='?inv [username]', value='Check a user\'s inventory.', inline=False)
         embed_help.add_field(name='?use <item> [target]', value='Use an item in your inventory.', inline=False)
         embed_help.add_field(name='?craft <item>', value='Craft items into another item.', inline=False)
+        embed_help.add_field(name='?shop', value='Lists all items in the shop.', inline=False)
+        embed_help.add_field(name='?buy <item> [amount]', value='Buy something from the shop.', inline=False)
 
         command_count=str(len(embed_help.fields))
         footer_string = f'Total {command_count} commands in this page.'
@@ -501,7 +507,8 @@ class Buttons(discord.ui.View):
         
         if new == 0:
             new_user = {"id": interaction.user.id,
-                        "score": 1
+                        "score": 1,
+                        "inventory": {}
                         }
             
             # Use fetch_user instead of get_user!
@@ -937,10 +944,6 @@ async def craft(ctx, item, amount=1):
 async def shop(ctx):
     # Read shop catalog
     embed_shop = discord.Embed(title='Shop', description='It\'s time to consume.', color=0xabcdef)
-
-    # Initialize gold and amethyst emojis for simple access
-    gold_emoji = "<:Gold_Ingot:1003537929525805197>"
-    amethyst_emoji = "<:Amethyst:1004013520796520457>"
     
     # Display each item in catalog
     for i in range(len(catalog)):
@@ -985,6 +988,162 @@ async def shop(ctx):
     embed_shop.set_footer(text=shop_footer)
 
     await ctx.send(embed=embed_shop)
+
+# The following code handles buying things in the shop
+buy_author_id = 0  # Global variable to carry the command author to interaction function
+thing_name = ''  # Carry the item to buy
+buy_amount = 0  # Carry the amount of items to buy
+buy_currency = ''  # Carry the type of currency to pay
+total_price = 0  # Carry the price to pay
+
+thing_emoji = ''  # Carry the emoji of the item to buy
+
+# Carry the item information embed
+embed_buy = discord.Embed(title='\u200b', description='', color=0xabcdef)
+
+# Buy an item
+class BuyButton(discord.ui.View):
+    def __init__(self, *, timeout=180):
+        super().__init__(timeout=timeout)
+    @discord.ui.button(label="Buy",style=discord.ButtonStyle.blurple)
+    async def blurple_button(self,interaction:discord.Interaction,button:discord.ui.Button):  
+        if interaction.user.id != buy_author_id:
+            await interaction.response.send_message(content='Impostor! You are not the one who knocked.', ephemeral=True)
+            return
+        
+        # Remove the button instead of disabling it
+        global embed_buy
+        await interaction.response.edit_message(embed=embed_buy, view=None)
+
+        # Reset the embed after item display finish
+        embed_buy.clear_fields()
+
+        lb_file = open('data/pointless_leaderboard.json', 'r')
+        lb = json.load(lb_file)
+
+        # Check if user has enough balance
+        # If enough, deduct the balance
+        valid_balance = 0
+        for a in range(len(lb)):
+            if lb[a]['id'] == interaction.user.id:
+                for key,value in lb[a]['inventory'].items():
+                    if buy_currency == "G":
+                        if (key == 'Gold Ingot') and (value >= total_price):
+                            lb[a]['inventory'][key] -= total_price
+                            valid_balance += 1
+                            break
+                    
+                    elif buy_currency == "A":
+                        if (key == 'Amethyst') and (value >= total_price):
+                            lb[a]['inventory'][key] -= total_price
+                            valid_balance += 1
+                            break
+                
+                if (valid_balance == 0) and (buy_currency == "G"):
+                    await interaction.channel.send('You do not have enough Gold Ingots!')
+                    return
+                elif (valid_balance == 0) and (buy_currency == "A"):
+                    await interaction.channel.send('You do not have enough Amethyst!')
+                    return
+                
+                break
+        
+        # Payment successful, give item(s) to user
+        if thing_name not in lb[a]['inventory']:
+            lb[a]['inventory'][thing_name] = buy_amount
+        else:
+            lb[a]['inventory'][thing_name] += buy_amount
+
+        embed_buy_confirm = discord.Embed(title='Deal!', description='', color=0xabcdef)
+
+        buy_confirm_bought = f'{thing_emoji} {thing_name} x{buy_amount}'
+        embed_buy_confirm.add_field(name='Bought', value=buy_confirm_bought, inline=True)
+
+        if buy_currency == "G":
+            buy_confirm_paid = f'{gold_emoji} {total_price}'
+        elif buy_currency == "A":
+            buy_confirm_paid = f'{amethyst_emoji} {total_price}'
+        embed_buy_confirm.add_field(name='Paid', value=buy_confirm_paid, inline=True)
+
+        for b in range(len(lb)):
+            if lb[b]['id'] == interaction.user.id:
+                for key_n, value_n in lb[b]['inventory'].items():
+                    if key_n == 'Gold Ingot':
+                        new_gold = value_n
+                    elif key_n == 'Amethyst':
+                        new_amethyst = value_n
+        
+        buy_confirm_balance = f'{gold_emoji} {new_gold} | {amethyst_emoji} {new_amethyst}'
+        embed_buy_confirm.add_field(name='Balance', value=buy_confirm_balance, inline=False)
+
+        await interaction.channel.send(embed=embed_buy_confirm)
+
+        # Write changes to leaderboard
+        outfile = open('data/pointless_leaderboard.json', 'w', encoding='utf-8')
+        json.dump(lb, outfile, indent = 4)
+
+@commands.guild_only()
+@client.command()
+async def buy(ctx, item, amount=1):
+    global buy_author_id
+    buy_author_id = ctx.author.id
+
+    global thing_name  # Carry the item to buy
+
+    # Check if item exists in shop
+    exists_shop = 0
+    for i in range(len(catalog)):
+        if item.upper() == catalog[i]['name'].upper():
+            thing_name = catalog[i]['name']
+            exists_shop += 1
+            break
+
+    if exists_shop == 0:
+        await ctx.send('We don\'t have that in the shop!')
+        return
+    
+    # Display item information
+    global thing_emoji 
+    thing_emoji = catalog[i]['emoji']  # Carry the emoji of the item to buy
+
+    thing_emoji_link = catalog[i]['img']
+    thing_flavor = catalog[i]['description']
+    thing_desc = catalog[i]['detail']
+
+    global buy_currency  # Carry the currency type to interaction function for checkout
+    buy_currency = catalog[i]['currency']
+
+    global buy_amount  # Carry the amount of items to buy
+    buy_amount = amount
+
+    global embed_buy  # Carry the item information display
+
+    embed_buy.title = thing_name
+    embed_buy.description=thing_flavor
+
+    embed_buy.set_thumbnail(url=thing_emoji_link)
+
+    embed_buy.add_field(name='Description', value=thing_desc, inline=False)
+
+    # Calculate price
+    if catalog[i]['currency'] == "G":
+        thing_price = gold_emoji + ' ' + str(catalog[i]['price'])
+    if catalog[i]['currency'] == "A":
+        thing_price = amethyst_emoji + ' ' + str(catalog[i]['price'])
+    
+    global total_price  # Carry the total price
+    total_price = catalog[i]['price'] * amount
+
+    if catalog[i]['currency'] == "G":
+        total_price_display = gold_emoji + ' ' + str(catalog[i]['price'] * amount)
+    if catalog[i]['currency'] == "A":
+        total_price_display = amethyst_emoji + ' ' + str(catalog[i]['price'] * amount)
+    
+    embed_buy.add_field(name='Unit Price', value=thing_price, inline=True)
+    embed_buy.add_field(name='Amount', value=amount, inline=True)
+    embed_buy.add_field(name='Total Price', value=total_price_display, inline=True)
+
+    await ctx.send(embed=embed_buy, view=BuyButton())
 
 # Error handling
 @client.event
