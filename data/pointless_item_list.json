@@ -3,72 +3,84 @@
         "name": "Gold Ingot",
         "emoji": "<:Gold_Ingot:1003537929525805197>",
         "rarity": 300,
-        "description": "Thanks for the gold kind stranger!"
+        "description": "Thanks for the gold kind stranger!",
+        "detail": "Currency. Buy things in the shop with them."
     },
     {
         "name": "Lollipop",
         "emoji": "<:Lollipop:1003537715989598279>",
         "rarity": 500,
-        "description": "Shiny blue candy. May contain unknown magical powers."
+        "description": "Tasty blue candy. May contain unknown magical powers.",
+        "detail": "Collectible item."
     },
     {
         "name": "Normal Pill",
         "emoji": "<:Normal_Pill:1003585635182973039>",
         "rarity": 550,
-        "description": "I wear a mask with a smile for hours at a time"
+        "description": "I wear a mask with a smile for hours at a time",
+        "detail": "Stare at the ceiling while I hold back what's on my mind"
     },
     {
         "name": "Cum Chalice",
         "emoji": "<:Cum_Chalice:1003594254284750868>",
         "rarity": 600,
-        "description": "Congratulations, Nick, enjoy your DoTA."
+        "description": "Consume the cum chalice.",
+        "detail": "I, EvaX, humbly submit a toast to Nicholas Alexander for successfully managing to pirate Warcraft III so that he may play Defence of the Ancients. Congratulations, Nick, enjoy your DoTA. [sips] Ahhh!"
     },
     {
         "name": "Amethyst Shard",
         "emoji": "<:Amethyst_Shard:1003994151307714601>",
         "rarity": 700,
-        "description": "Absorbs energy from the moon to emit a soothing purple glow."
+        "description": "Absorbs energy from the moon to emit a soothing purple glow.",
+        "detail": "Craft 4 Amethyst Shards to get 1 Amethyst."
     },
     {
         "name": "Sea Shell",
         "emoji": "<:Sea_Shell:1003661619471073352>",
         "rarity": 800,
-        "description": "She sells seashells on the seashore, the shells she sells are seashells, I’m sure."
+        "description": "She sells seashells on the seashore, the shells she sells are seashells, I’m sure.",
+        "detail": "For if she sells sea-shells on the sea-shore, then I’m sure she sells sea-shore shells."
     },
     {
         "name": "Morbius DVD",
         "emoji": "<:Morbius_DVD:1003663373839376535>",
         "rarity": 850,
-        "description": "One of the movies of all time."
+        "description": "One of the movies of all time.",
+        "detail": "Have sex\n Have sex\nI poop my pants my pants\nI poop my pants my tent\nI poop my pants and have sex\nHave sex"
     },
     {
         "name": "Nineteen Eighty-Four",
         "emoji": "<:Nineteen_EightyFour:1003653365361819648>",
         "rarity": 900,
-        "description": "Literally 1984."
+        "description": "Literally 1984.",
+        "detail": "omg this is just like George Orwell's Animal Crossing"
     },
     {
         "name": "Lean",
         "emoji": "<a:Lean:1003630288070520842>",
         "rarity": 950,
-        "description": "Lean lean double cup. Bans someone from pressing the pointless button once."
+        "description": "Lean lean double cup. Also known as \"Dungeons and Dragons\" in some regions.",
+        "detail": "Bans someone from pressing the pointless button once."
     },
     {
         "name": "Train Ticket",
         "emoji": "<:Train_Ticket:1003651167932391434>",
         "rarity": 980,
-        "description": "If i get below mean, this ticket will expire by end of 2022 (Joke)"
+        "description": "If i get below mean, this ticket will expire by end of 2022 (Joke)",
+        "detail": "Try it. Try using it."
     },
     {
         "name": "Smoked Salmon",
         "emoji": "<:Smoked_Salmon:1003667265721479359>",
         "rarity": 995,
-        "description": "Glub glub glub"
+        "description": "Glub glub glub",
+        "detail": "Collectible item."
     },
     {
         "name": "Clock",
         "emoji": "<a:Clock:1003671401863053363>",
         "rarity": 1000,
-        "description": "Skips time to the end of the cooldown. You have reached the secret weapon."
+        "description": "You have unlocked the secret weapon.",
+        "detail": "Skips time to the end of the cooldown."
     }
 ]

@@ -2,7 +2,8 @@
     {
         "name": "Amethyst",
         "emoji": "<:Amethyst:1004013520796520457>",
-        "description": "Purple currency. Buy things in the shop with them.",
+        "description": "Light bounces between the crystals, to make the Amethyst shine even brighter.",
+        "detail": "Purple currency. Buy things in the shop with them.",
         "ingredients": {
             "Amethyst Shard": 4
         }
@@ -10,7 +11,8 @@
     {
         "name": "Gushing Granny",
         "emoji": "<a:Gushing_Granny:1004019807294861334>",
-        "description": "It's time to sober up! Reverses the effect of Lean.",
+        "description": "It's time to sober up!",
+        "detail": "Reverses the effect of Lean. Can be used on yourself or others.",
         "ingredients": {
             "Normal Pill": 1,
             "Cum Chalice": 1

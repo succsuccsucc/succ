@@ -8,6 +8,7 @@ import datetime
 import json
 import csv
 import random
+import re
 
 from collections import OrderedDict
 
@@ -448,7 +449,8 @@ async def help(ctx, page=None):
         
         embed_help.add_field(name='?pointless', value='https://www.youtube.com/watch?v=EcSzq_6W1QQ', inline=False)
         embed_help.add_field(name='?leaderboard', value='Dick measuring contest.', inline=False)
-        embed_help.add_field(name='?inv [username]', value='Check a user\'s inventory.', inline=False)
+        embed_help.add_field(name='?inv [page] [username]', value='Check a user\'s inventory.', inline=False)
+        embed_help.add_field(name='?item <item>', value='Get info on an item.', inline=False)
         embed_help.add_field(name='?use <item> [target]', value='Use an item in your inventory.', inline=False)
         embed_help.add_field(name='?craft <item>', value='Craft items into another item.', inline=False)
         embed_help.add_field(name='?shop', value='Lists all items in the shop.', inline=False)
@@ -625,7 +627,7 @@ async def leaderboard(ctx):
 @commands.cooldown(1, 5, commands.BucketType.guild)
 @commands.guild_only()
 @client.command()
-async def inv(ctx, user=None):
+async def inv(ctx, page=None, user=None):
     if not user:
         user_id = ctx.author.id
     else:
@@ -689,17 +691,140 @@ async def inv(ctx, user=None):
                         embed_crafted_inv.add_field(name=thing_field_title, value=thing_desc, inline=False)
 
                         break
+            
+            # Compose inventory of shop items
+            shop_inv_title = f'Shop items of {user_name}'
+
+            embed_shop_inv = discord.Embed(title=shop_inv_title, description='', color=0xabcdef)
+
+            for e in range(len(catalog)):
+                for key_s, value_s in lb[i]['inventory'].items():
+                    stuff_name = key_s
+
+                    if stuff_name == catalog[e]['name']:
+                        stuff_desc = catalog[e]['description']
+                        stuff_emoji = catalog[e]['emoji']
+
+                        stuff_field_title = stuff_emoji + ' ' + stuff_name + ': ' + str(value_s)
+
+                        embed_shop_inv.add_field(name=stuff_field_title, value=stuff_desc, inline=False)
+
+                        break
                 
             # Send inventory
-            embed_inv.description = inv_description
-            await ctx.send(embed=embed_inv)
+            if (not page) or (page == 'main'):
+                embed_inv.description = inv_description
+                await ctx.send(embed=embed_inv)
             
-            if len(embed_crafted_inv) != (len(embed_crafted_inv.title) + len(embed_crafted_inv.description)):  # Only send if there are crafted items in inventory
-                await ctx.send(embed=embed_crafted_inv)
+            elif page == 'crafted':
+                embed_crafted_inv.description = inv_description
+            
+            elif page == 'shop':
+                embed_shop_inv.description = inv_description
+
+            if (not page) or (page == 'crafted'):
+                if len(embed_crafted_inv) != (len(embed_crafted_inv.title) + len(embed_crafted_inv.description)):  # Only send if there are crafted items in inventory
+                    await ctx.send(embed=embed_crafted_inv)
+                else:
+                    await ctx.send('User does not have any crafted items!')
+            
+            if (not page) or (page == 'shop'):
+                if len(embed_shop_inv) != (len(embed_shop_inv.title) + len(embed_shop_inv.description)):  # Only send if there are shop items in inventory
+                    await ctx.send(embed=embed_shop_inv)
+                else:
+                    await ctx.send('User does not have any shop items!')
 
             return
         
     await ctx.send('User does not have any items!')
+
+# Get info on an item
+@commands.cooldown(1, 5, commands.BucketType.guild)
+@client.command()
+@commands.guild_only()
+async def item(ctx, item):
+    # Check if item exists
+    # Check in normal items list
+    exist = 0
+    for i in range(len(pl_items)):
+        if item.upper() == pl_items[i]['name'].upper():
+            item_type = 'Normal'
+            exist += 1
+            break
+    
+    # Check in crafted items recipe
+    for a in range(len(recipe)):
+        if item.upper() == recipe[a]['name'].upper():
+            item_type = 'Crafted'
+            exist += 1
+            break
+    
+    # Check in shop items catalog
+    for b in range(len(catalog)):
+        if item.upper() == catalog[b]['name'].upper():
+            item_type = 'Shop'
+            exist += 1
+            break
+
+    if exist == 0:
+        nonexist_item_string = f'Item `{item}` does not exist!'
+        await ctx.send(nonexist_item_string)
+        return
+    
+    # Display item info
+    if item_type == 'Normal':
+        item_name = pl_items[i]['name']
+        item_flavor = pl_items[i]['description']
+        item_desc = pl_items[i]['detail']
+        item_emoji = pl_items[i]['emoji']
+
+    elif item_type == 'Crafted':
+        item_name = recipe[a]['name']
+        item_flavor = recipe[a]['description']
+        item_desc = recipe[a]['detail']
+        item_emoji = recipe[a]['emoji']
+
+    elif item_type == 'Shop':
+        item_name = catalog[b]['name']
+        item_flavor = catalog[b]['description']
+        item_desc = catalog[b]['detail']
+        item_emoji = catalog[b]['emoji']
+    
+    # Get emoji id and url from raw string
+    emoji_id = re.findall('\d+', item_emoji)[0]
+
+    if item_emoji[1] == 'a':
+        emoji_url = 'https://cdn.discordapp.com/emojis/' + str(emoji_id) + '.gif'
+    else:
+        emoji_url = 'https://cdn.discordapp.com/emojis/' + str(emoji_id) + '.png'
+
+    # Compose the embed
+    embed_item = discord.Embed(title=item_name, description=item_flavor, color=0xabcdef)
+
+    embed_item.set_thumbnail(url=emoji_url)
+
+    embed_item.add_field(name='Description', value=item_desc, inline=False)
+    embed_item.add_field(name='Type', value=item_type, inline=True)
+    
+    if item_type == 'Crafted':  # Get crafting ingredients of crafted item
+        ingredient_field = ''
+        for key, value in recipe[a]['ingredients'].items():
+            for c in range(len(pl_items)):
+                if key == pl_items[c]['name']:
+                    ingredient_field += pl_items[c]['emoji'] + ' ' + pl_items[c]['name'] + ': ' + str(value) + '\n'
+                    break
+        
+        embed_item.add_field(name='Ingredients', value=ingredient_field, inline=True)
+    
+    elif item_type == 'Shop':  # Get price of shop item
+        if catalog[b]['currency'] == 'G':
+            shop_field = gold_emoji + ' ' + str(catalog[b]['price'])
+        elif catalog[b]['currency'] == 'A':
+            shop_field = amethyst_emoji + ' ' + str(catalog[b]['price'])
+        
+        embed_item.add_field(name='Price', value=shop_field, inline=True)
+    
+    await ctx.send(embed=embed_item)
 
 # Use an item
 @client.command()
@@ -716,6 +841,12 @@ async def use(ctx, item, target=None):
     # Check in crafted items recipe
     for c in range(len(recipe)):
         if item.upper() == recipe[c]['name'].upper():
+            exist += 1
+            break
+    
+    # Check in shop items recipe
+    for d in range(len(catalog)):
+        if item.upper() == catalog[d]['name'].upper():
             exist += 1
             break
 
@@ -1096,6 +1227,10 @@ class BuyButton(discord.ui.View):
 @commands.guild_only()
 @client.command()
 async def buy(ctx, item, amount=1):
+    # Reset embed from last use
+    global embed_buy  # Carry the item information display
+    embed_buy.clear_fields()
+
     global buy_author_id
     buy_author_id = ctx.author.id
 
@@ -1117,7 +1252,14 @@ async def buy(ctx, item, amount=1):
     global thing_emoji 
     thing_emoji = catalog[i]['emoji']  # Carry the emoji of the item to buy
 
-    thing_emoji_link = catalog[i]['img']
+    # Get emoji id and url from raw string
+    thing_emoji_id = re.findall('\d+', thing_emoji)[0]
+
+    if thing_emoji[1] == 'a':
+        thing_emoji_link = 'https://cdn.discordapp.com/emojis/' + str(thing_emoji_id) + '.gif'
+    else:
+        thing_emoji_link = 'https://cdn.discordapp.com/emojis/' + str(thing_emoji_id) + '.png'
+
     thing_flavor = catalog[i]['description']
     thing_desc = catalog[i]['detail']
 
@@ -1126,8 +1268,6 @@ async def buy(ctx, item, amount=1):
 
     global buy_amount  # Carry the amount of items to buy
     buy_amount = amount
-
-    global embed_buy  # Carry the item information display
 
     embed_buy.title = thing_name
     embed_buy.description=thing_flavor
