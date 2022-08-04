@@ -981,17 +981,19 @@ async def use(ctx, item, target=None):
             await ctx.send(embed=embed_gushing_used)
         elif (item.upper() == 'CUM CHALICE') and (cum_check == 2):
             cum_used_title = f'{user_name} used Cum Chalice!'
-            cum_used_description = f'Check success! {target} is no longer high!'
+            cum_used_description = f'Success: {target} swallowed it without thinking!\nThey are no longer high!'
 
-            embed_cum_used = discord.Embed(title=cum_used_title, description=cum_used_description, color=0xabcdef)
+            embed_cum_used = discord.Embed(title=cum_used_title, description='', color=0xabcdef)
+            embed_cum_used.add_field(name='50% Check', value=cum_used_description, inline=False)
             await ctx.send(embed=embed_cum_used)
         else:
             cum_failed_title = f'{user_name} used Cum Chalice!'
-            cum_failed_description = f'Check failed! The Cum Chalice has no effect on {target}!'
+            cum_failed_description = f'Failed: {target} reflexively spat it out!\nThe Cum Chalice has no effect on them!'
 
-            embed_cum_failed = discord.Embed(title=cum_failed_title, description=cum_failed_description, color=0xff0000)
+            embed_cum_failed = discord.Embed(title=cum_failed_title, description='', color=0xff0000)
+            embed_cum_failed.add_field(name='50% Check', value=cum_failed_description, inline=False)
             await ctx.send(embed=embed_cum_failed)
-            
+
         used += 1
 
     else:
