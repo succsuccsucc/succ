@@ -1,15 +1,15 @@
 [
     {
         "id": 392542209393819648,
-        "score": 89,
+        "score": 96,
         "inventory": {
             "Normal Pill": 4,
-            "Gold Ingot": 12,
-            "Cum Chalice": 2,
+            "Gold Ingot": 15,
+            "Cum Chalice": 3,
             "Lollipop": 2,
             "Smoked Salmon": 1,
             "Nineteen Eighty-Four": 1,
-            "Lean": 1,
+            "Lean": 2,
             "Gushing Granny": 1,
             "Amethyst Shard": 2,
             "Train Ticket": 1,
@@ -17,11 +17,22 @@
         }
     },
     {
+        "id": 632181910646423553,
+        "score": 84,
+        "inventory": {
+            "Gold Ingot": 9,
+            "Lollipop": 6,
+            "Gushing Granny": 1,
+            "Amethyst Shard": 2,
+            "Sea Shell": 1
+        }
+    },
+    {
         "id": 740098404688068641,
-        "score": 82,
+        "score": 83,
         "inventory": {
             "Lollipop": 1,
-            "Gold Ingot": 9,
+            "Gold Ingot": 10,
             "Sea Shell": 3,
             "Morbius DVD": 3,
             "Train Ticket": 1,
@@ -35,26 +46,16 @@
         }
     },
     {
-        "id": 632181910646423553,
-        "score": 82,
-        "inventory": {
-            "Gold Ingot": 9,
-            "Lollipop": 6,
-            "Gushing Granny": 1,
-            "Amethyst Shard": 1,
-            "Sea Shell": 1
-        }
-    },
-    {
         "id": 679305272195285012,
-        "score": 32,
+        "score": 33,
         "inventory": {
             "Gold Ingot": 2,
             "Cum Chalice": 1,
             "Lollipop": 1,
             "Lean": 1,
             "Morbius DVD": 2,
-            "Smoked Salmon": 1
+            "Smoked Salmon": 1,
+            "Sea Shell": 1
         }
     },
     {
