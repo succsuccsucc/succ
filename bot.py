@@ -508,7 +508,10 @@ class Buttons(discord.ui.View):
         if new == 0:
             new_user = {"id": interaction.user.id,
                         "score": 1,
-                        "inventory": {}
+                        "inventory": {
+                            "Gold Ingot": 0,
+                            "Amethyst": 0
+                        }
                         }
             
             # Use fetch_user instead of get_user!
@@ -539,7 +542,9 @@ class Buttons(discord.ui.View):
             for b in range(len(leaderboard)):
                 if interaction.user.id == leaderboard[b]['id']:
                     if 'inventory' not in leaderboard[b]:  # Add inventory key to user if it doesn't exist
-                        leaderboard[b]['inventory'] = {}
+                        leaderboard[b]['inventory'] = {"Gold Ingot": 0,
+                                                        "Amethyst": 0
+                                                        }
                     
                     give_name = pl_items[give_index]['name']
                     give_emoji = pl_items[give_index]['emoji']
@@ -741,7 +746,7 @@ async def use(ctx, item, target=None):
     
             # Remove item from user's inventory if count is 0
             for key, value in list(lb[i]['inventory'].items()):
-                if value == 0:
+                if (key != 'Gold Ingot') and (key != 'Amethyst') and (value == 0):
                     del lb[i]['inventory'][key]
 
             break
@@ -910,7 +915,7 @@ async def craft(ctx, item, amount=1):
 
     # Remove item(s) from user's inventory if count is 0
     for key, value in list(lb[user_index]['inventory'].items()):
-        if value == 0:
+        if (key != 'Gold Ingot') and (key != 'Amethyst') and (value == 0):
             del lb[user_index]['inventory'][key]
         
     # Send confirmation message
@@ -1053,7 +1058,13 @@ class BuyButton(discord.ui.View):
             lb[a]['inventory'][thing_name] = buy_amount
         else:
             lb[a]['inventory'][thing_name] += buy_amount
+        
+        # Remove item(s) from user's inventory if count is 0
+        for key_r, value_r in list(lb[a]['inventory'].items()):
+            if (key_r != 'Gold Ingot') and (key_r != 'Amethyst') and (value_r == 0):
+                del lb[a]['inventory'][key_r]
 
+        # Send confirmation message
         embed_buy_confirm = discord.Embed(title='Deal!', description='', color=0xabcdef)
 
         buy_confirm_bought = f'{thing_emoji} {thing_name} x{buy_amount}'
