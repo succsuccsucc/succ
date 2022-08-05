@@ -61,6 +61,10 @@ class ItemCog(commands.Cog):
 
         if exist == 0:
             nonexist_item_string = f'Item `{item}` does not exist!'
+            
+            if len(nonexist_item_string) > 1024:
+                await ctx.send('Bot response too long! Check your command.')
+                return
             await ctx.send(nonexist_item_string)
             return
         

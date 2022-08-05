@@ -135,7 +135,7 @@ class PointlessCog(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.cooldown(1, 900, commands.BucketType.guild)
+    @commands.cooldown(1, 899, commands.BucketType.guild)
     @commands.guild_only()
     @commands.command()
     async def pointless(self, ctx, pw=None):
@@ -170,6 +170,11 @@ class PointlessCog(commands.Cog):
 
         if exist == 0:
             nonexist_item_string = f'Item `{item}` does not exist!'
+            
+            if len(nonexist_item_string) > 1024:
+                await ctx.send('Bot response too long! Check your command.')
+                return
+                
             await ctx.send(nonexist_item_string)
             return
 

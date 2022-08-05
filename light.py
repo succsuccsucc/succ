@@ -67,7 +67,7 @@ class LightCog(commands.Cog):
                 await ctx.send(f'Total {platform_id} platform(s) and {train_count} train(s).')
                 return
         
-        await ctx.send(f'Light Rail stop "{stop_name}" does not exist!')
+        await ctx.send(f'Light Rail stop does not exist!')
 
 # Setup function
 async def setup(client):

@@ -33,7 +33,11 @@ class KmbetaCog(commands.Cog):
                 matching_stops.append(stop_id)
 
         if matching_stops == []:
-            await ctx.send(f'Bus stop "{stop_name}" does not exist!')
+            stop_nonexist = f'Bus stop "{stop_name}" does not exist!'
+            if len(stop_nonexist) > 1024:
+                await ctx.send('Bot response too long! Check your command.')
+                return
+            await ctx.send(stop_nonexist)
             return
         
         display_value = 0

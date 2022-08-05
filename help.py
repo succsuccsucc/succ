@@ -62,6 +62,7 @@ class HelpCog(commands.Cog):
             embed_help.add_field(name='?craft <item>', value='Craft items into another item.', inline=False)
             embed_help.add_field(name='?shop', value='Lists all items in the shop.', inline=False)
             embed_help.add_field(name='?buy <item> [amount]', value='Buy something from the shop.', inline=False)
+            embed_help.add_field(name='?trade <give item> <amount> <take item> <amount> <target>', value='Trade items with someone.', inline=False)
 
             command_count=str(len(embed_help.fields))
             footer_string = f'Total {command_count} commands in this page.'

@@ -26,7 +26,11 @@ class KmbtestCog(commands.Cog):
                 await ctx.send(f'{name_en}\n{name_tc}')
                 return
         
-        await ctx.send(f'Bus stop "{stop_name}" does not exist!')
+        stop_nonexist = f'Bus stop "{stop_name}" does not exist!'
+        if len(stop_nonexist) > 1024:
+            await ctx.send('Bot response too long! Check your command.')
+            return
+        await ctx.send(stop_nonexist)
 
 # Setup function
 async def setup(client):

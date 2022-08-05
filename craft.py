@@ -35,8 +35,8 @@ class CraftCog(commands.Cog):
     @commands.guild_only()
     @commands.command()
     async def craft(self, ctx, item, amount=1):
-        # Check if amount is 0
-        if amount == 0:
+        # Check if amount is <= 0
+        if amount <= 0:
             await ctx.invoke(self.client.get_command('succ'))
             return
 

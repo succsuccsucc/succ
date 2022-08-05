@@ -98,6 +98,9 @@ class BuyButton(discord.ui.View):
                 del lb[a]['inventory'][key_r]
 
         # Send confirmation message
+        if len(embed_buy_confirm) > 1024:
+            await interaction.channel.send('Bot response too long! Check your command.')
+            return
         embed_buy_confirm = discord.Embed(title='Deal!', description='', color=0xabcdef)
 
         buy_confirm_bought = f'{thing_emoji} {thing_name} x{buy_amount}'
@@ -120,6 +123,9 @@ class BuyButton(discord.ui.View):
         buy_confirm_balance = f'{gold_emoji} {new_gold} | {amethyst_emoji} {new_amethyst}'
         embed_buy_confirm.add_field(name='Balance', value=buy_confirm_balance, inline=False)
 
+        if len(embed_buy_confirm) > 1024:
+            await interaction.channel.send('Bot response too long! Check your command.')
+            return
         await interaction.channel.send(embed=embed_buy_confirm)
 
         # Write changes to leaderboard
@@ -141,6 +147,11 @@ class BuyCog(commands.Cog):
         buy_author_id = ctx.author.id
 
         global thing_name  # Carry the item to buy
+
+        # Check if purchase amount is valid
+        if amount <= 0:
+            await ctx.invoke(self.client.get_command('succ'))
+            return
 
         # Check if item exists in shop
         exists_shop = 0
@@ -200,6 +211,9 @@ class BuyCog(commands.Cog):
         embed_buy.add_field(name='Amount', value=amount, inline=True)
         embed_buy.add_field(name='Total Price', value=total_price_display, inline=True)
 
+        if len(embed_buy) > 1024:
+            await ctx.send('Bot response too long! Check your command.')
+            return
         await ctx.send(embed=embed_buy, view=BuyButton())
 
 # Setup function
