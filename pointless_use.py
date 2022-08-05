@@ -35,7 +35,6 @@ class Buttons(discord.ui.View):
     async def gray_button(self,interaction:discord.Interaction,button:discord.ui.Button): 
         # Disable command if button is already disabled (someone pressed already)
         if button.disabled == True:
-            await interaction.response.send_message(content='Too slow!', ephemeral=True)
             return
         
         button.disabled=True

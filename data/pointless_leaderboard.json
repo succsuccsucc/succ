@@ -1,44 +1,43 @@
 [
     {
         "id": 392542209393819648,
-        "score": 132,
+        "score": 138,
         "inventory": {
             "Normal Pill": 4,
             "Gold Ingot": 17,
-            "Cum Chalice": 3,
+            "Cum Chalice": 4,
             "Lollipop": 5,
             "Smoked Salmon": 2,
             "Nineteen Eighty-Four": 1,
             "Lean": 2,
             "Gushing Granny": 1,
-            "Amethyst Shard": 3,
             "Train Ticket": 3,
             "Sea Shell": 2,
-            "Amethyst": 0,
+            "Amethyst": 1,
             "Bath Towel": 1
         }
     },
     {
         "id": 632181910646423553,
-        "score": 108,
+        "score": 114,
         "inventory": {
             "Gold Ingot": 0,
-            "Lollipop": 7,
+            "Lollipop": 8,
             "Gushing Granny": 1,
-            "Amethyst Shard": 3,
             "Sea Shell": 2,
-            "Amethyst": 0,
+            "Amethyst": 1,
             "Bath Towel": 1,
             "Nineteen Eighty-Four": 1,
             "Clock": 1,
             "Train Ticket": 1,
             "Normal Pill": 1,
-            "Lean": 1
+            "Lean": 1,
+            "Cum Chalice": 1
         }
     },
     {
         "id": 740098404688068641,
-        "score": 100,
+        "score": 101,
         "inventory": {
             "Lollipop": 2,
             "Gold Ingot": 942,
@@ -47,7 +46,7 @@
             "Train Ticket": 1,
             "Nineteen Eighty-Four": 2,
             "Smoked Salmon": 1,
-            "Lean": 3,
+            "Lean": 4,
             "Clock": 3,
             "Amethyst Shard": 9,
             "Amethyst": 994,
