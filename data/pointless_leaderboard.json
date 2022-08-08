@@ -45,7 +45,6 @@
             "Gold Ingot": 942,
             "Sea Shell": 5,
             "Morbius DVD": 4,
-            "Train Ticket": 1,
             "Nineteen Eighty-Four": 3,
             "Smoked Salmon": 1,
             "Lean": 4,
@@ -55,16 +54,16 @@
             "Gushing Granny": 9,
             "Marker": 9,
             "Bath Towel": 6,
-            "Dollar Coin": 2,
+            "Dollar Coin": 9,
             "Cum Chalice": 4,
             "Pillow": 1
         }
     },
     {
         "id": 679305272195285012,
-        "score": 59,
+        "score": 60,
         "inventory": {
-            "Gold Ingot": 9,
+            "Gold Ingot": 10,
             "Cum Chalice": 1,
             "Lollipop": 4,
             "Lean": 1,

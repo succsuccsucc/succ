@@ -410,51 +410,39 @@ class PointlessCog(commands.Cog):
             user_id = ctx.author.id
 
             scenario_check = random.randint(0, len(scenarios) - 1)
-
-            if scenarios[scenario_check]['name'] =='Cult Ritual':
-                # Deduct 5 Gold Ingots
-                for e in range(len(lb)):
-                    if lb[e]['id'] == user_id:
+            destination = scenarios[scenario_check]['name']
+            
+            for e in range(len(lb)):
+                if lb[e]['id'] == user_id:
+                    # Make changes to user inventory as appropriate
+                    if destination == 'Cult Ritual':
                         if lb[e]['inventory']['Gold Ingot'] >= 5:  # Deduct all gold in inventory if user has less than 5 gold
                             lb[e]['inventory']['Gold Ingot'] -= 5
                         else:
                             lb[e]['inventory']['Gold Ingot'] = 0
 
-                        break
-                
-            elif scenarios[scenario_check]['name'] == 'Amazon Warehouse':
-                # Add 1 1984
-                for f in range(len(lb)):
-                    if lb[f]['id'] == user_id:
-                        if 'Nineteen Eighty-Four' not in lb[f]['inventory']:
-                            lb[f]['inventory']['Nineteen Eighty-Four'] = 1
+                    elif destination == 'Amazon Warehouse':
+                        if 'Nineteen Eighty-Four' not in lb[e]['inventory']:
+                            lb[e]['inventory']['Nineteen Eighty-Four'] = 1  # Add 1 1984
                         else:
-                            lb[f]['inventory']['Nineteen Eighty-Four'] += 1
-                        
-                        break
-            
-            elif scenarios[scenario_check]['name'] == 'Mine':
-                # Add 5 amethyst shards
-                for g in range(len(lb)):
-                    if lb[g]['id'] == user_id:
-                        if 'Amethyst Shard' not in lb[g]['inventory']:
-                            lb[g]['inventory']['Amethyst Shard'] = 5
+                            lb[e]['inventory']['Nineteen Eighty-Four'] += 1
+                    
+                    elif destination == 'Mine':
+                        if 'Amethyst Shard' not in lb[e]['inventory']:
+                            lb[e]['inventory']['Amethyst Shard'] = 5  # Add 5 Amethyst Shards
                         else:
-                            lb[g]['inventory']['Amethyst Shard'] += 5
-                        
-                        break
-            
-            # Remove item from user's inventory if count is 0
-            for h in range(len(lb)):
-                if lb[h]['id'] == user_id:
-                    for key, value in list(lb[h]['inventory'].items()):
-                        if (key != 'Gold Ingot') and (key != 'Amethyst') and (value == 0):
-                            del lb[h]['inventory'][key]
-            
+                            lb[e]['inventory']['Amethyst Shard'] += 5
+                    
+                    elif destination == '125th Street':
+                        if 'Dollar Coin' not in lb[e]['inventory']:
+                            lb[e]['inventory']['Dollar Coin'] = 7  # Add 7 Dollar Coins
+                        else:
+                            lb[e]['inventory']['Dollar Coin'] += 7
+                    
+                    break
+                            
             # Send confirmation message
             await ctx.send('You used the ticket and got on the train.\nIt went to:')
-
-            destination = scenarios[scenario_check]['name']
 
             scenario_num = scenario_check + 1
             scenario_desc = f'Destination #{scenario_num}'

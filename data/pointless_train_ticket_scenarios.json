@@ -16,5 +16,11 @@
         "description": "The train rushed through winding tunnels and steep inclines, and dropped you off in a dimly lit cave. Miners stared at you like you're a polar bear in a shopping mall.",
         "result": "You saw something shiny in the corner. 5 <:Amethyst_Shard:1003994151307714601> Amethyst Shards are added to your inventory. The miners are now digging frantically in the same spot.",
         "image": "https://cdn.discordapp.com/attachments/958651015064854551/1006107901741510676/unknown.png"
+    },
+    {
+        "name": "125th Street",
+        "description": "You fell asleep on the train. When you woke up, you found yourself in New York City. You slowly limp out the train, unable to feel your legs because you've been sitting for too long.",
+        "result": "Other passengers in the station mistook you as one of the beggars, and started handing you money. 7 <:Dollar_Coin:1004764584852324442> Dollar Coins are added to your inventory.",
+        "image": "https://cdn.discordapp.com/attachments/958651015064854551/1006123653332729866/unknown.png"
     }
 ]
