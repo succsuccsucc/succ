@@ -17,5 +17,15 @@
             "Normal Pill": 1,
             "Cum Chalice": 1
         }
+    },
+    {
+        "name": "Conduit",
+        "emoji": "<:Conduit:1006049995914481664>",
+        "description": "Description",
+        "detail": "When applied, the Conduit activates and blocks the effect of Lean. 30% chance of failure and destruction every time it is activated.",
+        "ingredients": {
+            "Lollipop": 1,
+            "Sea Shell": 8
+        }
     }
 ]

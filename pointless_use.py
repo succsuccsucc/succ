@@ -22,6 +22,9 @@ from discord.ext.commands import CommandNotFound
 
 from bot import high_list, pl_items, recipe, catalog, shh
 
+# List of users protected by Conduit
+conduit_list = []
+
 # Change working directory to wherever this is in
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
@@ -204,6 +207,20 @@ class PointlessCog(commands.Cog):
 
                 break
         
+        # Check if target id is integer
+        target_is_int = 0
+        if (target != None) and (len(target) >= 3):
+            target_num = target[2 : -1]
+            if target_num.isdigit():
+                target_is_int += 1
+        
+        if not target:
+            target_is_int += 1
+
+        if target_is_int == 0:
+            await ctx.send('Invalid target!')
+            return
+        
         # Apply corresponding effect of item used
         used = 0  # Do not spend item if item is unusable
         
@@ -236,23 +253,52 @@ class PointlessCog(commands.Cog):
                     if lb[b]['id'] == target_id:
                         target_exist += 1
                         break
-                
+
                 if target_exist == 0:
                     await ctx.send('Invalid user!')
                     return
-
-                # Add target user to the high list
-                high_list.append(target_id)
-
-                # Send confirmation message
-                user_name = await self.client.fetch_user(ctx.author.id)
-                user_name = user_name.name
                 
-                lean_used_title = f'{user_name} used Lean!'
-                lean_used_description = f'{target} is now high! They cannot press the pointless button when it is next summoned.'
-            
-                embed_lean_used = discord.Embed(title=lean_used_title, description=lean_used_description, color=0xabcdef)
-                await ctx.send(embed=embed_lean_used)
+                # Make a check if user is protected by Conduit
+                lean_blocked = 0
+                if target_id in conduit_list:
+                    conduit_check = random.randint(1, 10)
+                    if conduit_check <= 3:  # Check failed
+                        conduit_list.remove(target_id)
+
+                        target_name = await self.client.fetch_user(target_id)
+                        target_name = target_name.name
+
+                        conduit_failed_title = f'{target_name}\'s Conduit failed!'
+                        conduit_failed_desc = f'{target} no longer has Conduit Power.'
+
+                        embed_conduit_failed = discord.Embed(title=conduit_failed_title, description=conduit_failed_desc, color=0xff0000)
+                        await ctx.send(embed=embed_conduit_failed)
+
+                    else:
+                        target_name = await self.client.fetch_user(target_id)
+                        target_name = target_name.name
+
+                        conduit_success_title = f'{target_name} is protected by Conduit!'
+                        conduit_success_desc = f'{target} is not affected by the Lean.'
+
+                        embed_conduit_success = discord.Embed(title=conduit_success_title, description=conduit_success_desc, color=0xabcdef)
+                        await ctx.send(embed=embed_conduit_success)
+
+                        lean_blocked += 1
+
+                if lean_blocked == 0:
+                    # Add target user to the high list
+                    high_list.append(target_id)
+
+                    # Send confirmation message
+                    user_name = await self.client.fetch_user(ctx.author.id)
+                    user_name = user_name.name
+
+                    lean_used_title = f'{user_name} used Lean!'
+                    lean_used_description = f'{target} is now high! They cannot press the pointless button when it is next summoned.'
+                
+                    embed_lean_used = discord.Embed(title=lean_used_title, description=lean_used_description, color=0xabcdef)
+                    await ctx.send(embed=embed_lean_used)
 
                 used += 1
 
@@ -317,6 +363,42 @@ class PointlessCog(commands.Cog):
                 embed_cum_failed = discord.Embed(title=cum_failed_title, description='', color=0xff0000)
                 embed_cum_failed.add_field(name='50% Check', value=cum_failed_description, inline=False)
                 await ctx.send(embed=embed_cum_failed)
+
+            used += 1
+        
+        elif item.upper() == 'CONDUIT':
+            if not target:
+                target_id = ctx.author.id
+                target = f'<@{ctx.author.id}>'
+            else:
+                target_id = int(target[2 : -1])  # Slice target user ID from ping
+
+            target_exist = 0
+            for i in range(len(lb)):
+                if lb[i]['id'] == target_id:
+                    target_exist += 1
+                    break
+            
+            if target_exist == 0:
+                await ctx.send('Invalid target!')
+            
+            # Check if target is protected already
+            if target_id in conduit_list:
+                await ctx.send('Target already has Conduit applied!')
+                return
+            
+            # Add target to conduit list
+            conduit_list.append(target_id)
+
+            # Send confirmation message
+            user_name = await self.client.fetch_user(ctx.author.id)
+            user_name = user_name.name
+
+            conduit_used_title = f'{user_name} used Conduit!'
+            conduit_used_desc = f'{target} now has Conduit Power!'
+
+            embed_conduit_used = discord.Embed(title=conduit_used_title, description=conduit_used_desc, color=0xabcdef)
+            await ctx.send(embed=embed_conduit_used)
 
             used += 1
 

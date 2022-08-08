@@ -98,9 +98,6 @@ class BuyButton(discord.ui.View):
                 del lb[a]['inventory'][key_r]
 
         # Send confirmation message
-        if len(embed_buy_confirm) > 1024:
-            await interaction.channel.send('Bot response too long! Check your command.')
-            return
         embed_buy_confirm = discord.Embed(title='Deal!', description='', color=0xabcdef)
 
         buy_confirm_bought = f'{thing_emoji} {thing_name} x{buy_amount}'
