@@ -1,10 +1,10 @@
 [
     {
         "id": 392542209393819648,
-        "score": 151,
+        "score": 152,
         "inventory": {
             "Normal Pill": 4,
-            "Gold Ingot": 18,
+            "Gold Ingot": 0,
             "Cum Chalice": 4,
             "Lollipop": 7,
             "Smoked Salmon": 2,
@@ -14,17 +14,18 @@
             "Train Ticket": 3,
             "Sea Shell": 3,
             "Amethyst": 1,
-            "Bath Towel": 1
+            "Bath Towel": 1,
+            "Retractable Umbrella": 1
         }
     },
     {
         "id": 632181910646423553,
-        "score": 128,
+        "score": 134,
         "inventory": {
             "Gold Ingot": 4,
             "Lollipop": 11,
             "Gushing Granny": 1,
-            "Sea Shell": 2,
+            "Sea Shell": 4,
             "Amethyst": 1,
             "Bath Towel": 1,
             "Nineteen Eighty-Four": 2,
@@ -38,31 +39,30 @@
     },
     {
         "id": 740098404688068641,
-        "score": 105,
+        "score": 104,
         "inventory": {
-            "Lollipop": 1,
-            "Gold Ingot": 913,
-            "Sea Shell": 7,
+            "Lollipop": 2,
+            "Gold Ingot": 942,
+            "Sea Shell": 5,
             "Morbius DVD": 4,
-            "Train Ticket": 2,
-            "Nineteen Eighty-Four": 2,
+            "Train Ticket": 1,
+            "Nineteen Eighty-Four": 3,
             "Smoked Salmon": 1,
-            "Lean": 3,
+            "Lean": 4,
             "Clock": 3,
             "Amethyst Shard": 9,
-            "Amethyst": 994,
+            "Amethyst": 993,
             "Gushing Granny": 9,
-            "Marker": 8,
-            "Bath Towel": 7,
+            "Marker": 9,
+            "Bath Towel": 6,
             "Dollar Coin": 2,
             "Cum Chalice": 4,
-            "Pillow": 1,
-            "Conduit": 4
+            "Pillow": 1
         }
     },
     {
         "id": 679305272195285012,
-        "score": 58,
+        "score": 59,
         "inventory": {
             "Gold Ingot": 9,
             "Cum Chalice": 1,
@@ -72,7 +72,7 @@
             "Smoked Salmon": 2,
             "Sea Shell": 1,
             "Amethyst": 5,
-            "Amethyst Shard": 1,
+            "Amethyst Shard": 2,
             "Nineteen Eighty-Four": 1,
             "Pillow": 1
         }

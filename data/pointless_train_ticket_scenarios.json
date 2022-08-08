@@ -1,0 +1,20 @@
+[
+    {
+        "name": "Cult Ritual",
+        "description": "Hymns blasted from the speakers as the doors closed behind you. Everyone on the train started singing along. Someone in a purple cloak walked up to you and said, \"You are the sacrifice.\"",
+        "result": "You died! 5 <:Gold_Ingot:1003537929525805197> Gold Ingots is deducted from your inventory.",
+        "image": "https://cdn.discordapp.com/attachments/958651015064854551/1006102008362713188/Screenshot_20220803-160805.png"
+    },
+    {
+        "name": "Amazon Warehouse",
+        "description": "You stepped out of the train and saw stacks of books arranged on enormous shelves. You picked up a book out of curiosity. It says \"Nineteen Eighty-Four\" on the cover.",
+        "result": "You forgot the book was still with you when you left. 1 <:Nineteen_EightyFour:1003653365361819648> Nineteen Eighty-Four is added to your inventory.",
+        "image": "https://cdn.discordapp.com/attachments/958651015064854551/1006105290321690674/unknown.png"
+    },
+    {
+        "name": "Mine",
+        "description": "The train rushed through winding tunnels and steep inclines, and dropped you off in a dimly lit cave. Miners stared at you like you're a polar bear in a shopping mall.",
+        "result": "You saw something shiny in the corner. 5 <:Amethyst_Shard:1003994151307714601> Amethyst Shards are added to your inventory. The miners are now digging frantically in the same spot.",
+        "image": "https://cdn.discordapp.com/attachments/958651015064854551/1006107901741510676/unknown.png"
+    }
+]

@@ -25,6 +25,10 @@ from bot import high_list, pl_items, recipe, catalog, shh
 # List of users protected by Conduit
 conduit_list = []
 
+# Load json containing Train Ticket usage scenarios
+scenarios_file = open('data/pointless_train_ticket_scenarios.json', encoding='utf-8')
+scenarios = json.load(scenarios_file)
+
 # Change working directory to wherever this is in
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
@@ -399,6 +403,73 @@ class PointlessCog(commands.Cog):
 
             embed_conduit_used = discord.Embed(title=conduit_used_title, description=conduit_used_desc, color=0xabcdef)
             await ctx.send(embed=embed_conduit_used)
+
+            used += 1
+        
+        elif item.upper() == 'TRAIN TICKET':
+            user_id = ctx.author.id
+
+            scenario_check = random.randint(0, len(scenarios) - 1)
+
+            if scenarios[scenario_check]['name'] =='Cult Ritual':
+                # Deduct 5 Gold Ingots
+                for e in range(len(lb)):
+                    if lb[e]['id'] == user_id:
+                        if lb[e]['inventory']['Gold Ingot'] >= 5:  # Deduct all gold in inventory if user has less than 5 gold
+                            lb[e]['inventory']['Gold Ingot'] -= 5
+                        else:
+                            lb[e]['inventory']['Gold Ingot'] = 0
+
+                        break
+                
+            elif scenarios[scenario_check]['name'] == 'Amazon Warehouse':
+                # Add 1 1984
+                for f in range(len(lb)):
+                    if lb[f]['id'] == user_id:
+                        if 'Nineteen Eighty-Four' not in lb[f]['inventory']:
+                            lb[f]['inventory']['Nineteen Eighty-Four'] = 1
+                        else:
+                            lb[f]['inventory']['Nineteen Eighty-Four'] += 1
+                        
+                        break
+            
+            elif scenarios[scenario_check]['name'] == 'Mine':
+                # Add 5 amethyst shards
+                for g in range(len(lb)):
+                    if lb[g]['id'] == user_id:
+                        if 'Amethyst Shard' not in lb[g]['inventory']:
+                            lb[g]['inventory']['Amethyst Shard'] = 5
+                        else:
+                            lb[g]['inventory']['Amethyst Shard'] += 5
+                        
+                        break
+            
+            # Remove item from user's inventory if count is 0
+            for h in range(len(lb)):
+                if lb[h]['id'] == user_id:
+                    for key, value in list(lb[h]['inventory'].items()):
+                        if (key != 'Gold Ingot') and (key != 'Amethyst') and (value == 0):
+                            del lb[h]['inventory'][key]
+            
+            # Send confirmation message
+            await ctx.send('You used the ticket and got on the train.\nIt went to:')
+
+            destination = scenarios[scenario_check]['name']
+
+            scenario_num = scenario_check + 1
+            scenario_desc = f'Destination #{scenario_num}'
+
+            scenario_field = scenarios[scenario_check]['description']
+            scenario_image = scenarios[scenario_check]['image']
+            scenario_result = scenarios[scenario_check]['result']
+
+            embed_ticket = discord.Embed(title=destination, description=scenario_desc, color=0xabcdef)
+
+            embed_ticket.add_field(name='\u200b', value=scenario_field, inline=False)
+            embed_ticket.set_image(url=scenario_image)
+            embed_ticket.add_field(name='Result', value=scenario_result, inline=False)
+
+            await ctx.send(embed=embed_ticket)
 
             used += 1
 
