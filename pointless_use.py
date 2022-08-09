@@ -531,13 +531,13 @@ class PointlessCog(commands.Cog):
                         highest_price = price
                 
                 for k in range(len(catalog)):
-                    if key == catalog[j]['name']:
-                        if catalog[j]['currency'] == 'A':
-                            steal_prob = highest_price - (catalog[j]['price'] * 10)
+                    if key == catalog[k]['name']:
+                        if catalog[k]['currency'] == 'A':
+                            steal_prob = highest_price - (catalog[k]['price'] * 10)
                         else:
-                            steal_prob = highest_price - catalog[j]['price']
+                            steal_prob = highest_price - catalog[k]['price']
                         
-                        steal_emoji = catalog[j]['emoji']
+                        steal_emoji = catalog[k]['emoji']
 
                         item_type = 'shop'
                         break
@@ -551,8 +551,8 @@ class PointlessCog(commands.Cog):
                     steal_success += 1
                 
             elif item_type == 'shop':
-                steal_check = random.randint(1, highest_price)
-                steal_percent = float(steal_prob / highest_price * 100)
+                steal_check = random.uniform(1, highest_price / 0.3)
+                steal_percent = float(steal_prob / (highest_price / 0.3) * 100)
                 if steal_check <= steal_prob:
                     steal_success += 1
             
