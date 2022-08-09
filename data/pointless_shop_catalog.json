@@ -1,5 +1,13 @@
 [
     {
+        "name": "White Glove",
+        "emoji": "<:White_Glove:1006492036863627314>",
+        "description": "You gotta buy something to steal something.",
+        "detail": "Steal one item from any user. Chance of success depend on rarity/ingredients/price of the item.",
+        "currency": "G",
+        "price": 7
+    },
+    {
         "name": "Bath Towel",
         "emoji": "<:Bath_Towel:1004352988074233886>",
         "description": "Preferably 3 feet in length. Good for muffling. (Bath not included)",

@@ -153,7 +153,7 @@ class PointlessCog(commands.Cog):
     # Use an item
     @commands.command()
     @commands.guild_only()
-    async def use(self, ctx, item, target=None):
+    async def use(self, ctx, item, target=None, steal=None):
         # Check if item exists
         # Check in normal items list
         exist = 0
@@ -440,6 +440,10 @@ class PointlessCog(commands.Cog):
                             lb[e]['inventory']['Dollar Coin'] += 7
                     
                     break
+            
+            for key, value in list(lb[e]['inventory'].items()):  # Delete item from user inventory if count is 0
+                    if (key != 'Gold Ingot') and (key != 'Amethyst') and (value == 0):
+                        del lb[e]['inventory'][key]
                             
             # Send confirmation message
             await ctx.send('You used the ticket and got on the train.\nIt went to:')
@@ -459,6 +463,141 @@ class PointlessCog(commands.Cog):
 
             await ctx.send(embed=embed_ticket)
 
+            used += 1
+        
+        elif item.upper() == 'WHITE GLOVE':
+            if not target:
+                await ctx.send('You must specify who to steal from!')
+                return
+            else:
+                target_id = int(target[2 : -1])  # Slice target ID from ping
+            
+            if not steal:
+                await ctx.send('You must specify what to steal!')
+            
+            user_id = ctx.author.id  # Get user ID
+
+            # Check if item is in target inventory
+            valid_steal = 0
+            for f in range(len(lb)):
+                if lb[f]['id'] == target_id:
+                    for key, value in lb[f]['inventory'].items():
+                        if key.upper() == steal.upper():
+                            if value > 0:
+                                valid_steal += 1
+                                break
+                    
+                    break
+            
+            if valid_steal == 0:
+                await ctx.send('Target/item doesn\'t exist or target doesn\'t have what you want to steal!')
+                return
+            
+            # Make a check to determine if steal is successful
+            # Get success rate for the check
+            item_type = ''
+            for g in range(len(pl_items)):
+                if key == pl_items[g]['name']:
+                    if g == 0:
+                        steal_prob = pl_items[g]['rarity']
+                    else:
+                        steal_prob = pl_items[g]['rarity'] - pl_items[g - 1]['rarity']
+                    
+                    steal_emoji = pl_items[g]['emoji']
+                    
+                    item_type = 'normal'
+                    break
+            
+            if item_type == '':
+                for h in range(len(recipe)):
+                    if key == recipe[h]['name']:
+                        steal_prob = recipe[h]['rarity']
+
+                        steal_emoji = recipe[h]['emoji']
+                    
+                        item_type = 'crafted'
+                        break
+            
+            if item_type == '':
+                highest_price = 0  # Failure rate of stealing a shop item: price of item / price of most expensive item
+
+                for j in range(len(catalog)):  # Get price of most expensive item
+                    if catalog[j]['currency'] == 'A':
+                        price = 10 * catalog[j]['price']
+                    else:
+                        price = catalog[j]['price']
+                    
+                    if price > highest_price:
+                        highest_price = price
+                
+                for k in range(len(catalog)):
+                    if key == catalog[j]['name']:
+                        if catalog[j]['currency'] == 'A':
+                            steal_prob = highest_price - (catalog[j]['price'] * 10)
+                        else:
+                            steal_prob = highest_price - catalog[j]['price']
+                        
+                        steal_emoji = catalog[j]['emoji']
+
+                        item_type = 'shop'
+                        break
+            
+            # Make the check
+            steal_success = 0
+            if item_type == 'normal' or item_type == 'crafted':
+                steal_check = random.randint(1, 1000)
+                steal_percent = float(steal_prob / 1000 * 100)  # Success rate percentage for display in confirmation message
+                if steal_check <= steal_prob:
+                    steal_success += 1
+                
+            elif item_type == 'shop':
+                steal_check = random.randint(1, highest_price)
+                steal_percent = float(steal_prob / highest_price * 100)
+                if steal_check <= steal_prob:
+                    steal_success += 1
+            
+            # Steal the item if check success
+            if steal_success == 1:
+                lb[f]['inventory'][key] -= 1  # Deduct item from target inventory
+
+                for l in range(len(lb)):  # Add item to user inventory
+                    if lb[l]['id'] == user_id:
+                        if key not in lb[l]['inventory']:
+                            lb[l]['inventory'][key] = 1
+                        else:
+                            lb[l]['inventory'][key] += 1
+                
+                for key_del, value_del in list(lb[f]['inventory'].items()):  # Remove item entry from target inventory if count is 0
+                    if (key_del != 'Gold Ingot') and (key_del != 'Amethyst') and (value_del == 0):
+                        del lb[f]['inventory'][key_del]
+                
+                # Send confirmation message
+                user_ping = f'<@{ctx.author.id}>'
+                steal_success_description = f'{user_ping} stole from {target}!'
+
+                steal_item = f'{steal_emoji} {key}'
+                steal_success_rate_footer = f'Success rate: {round(steal_percent, 2)}%'
+
+                embed_steal_success = discord.Embed(title='Steal success!', description=steal_success_description, color=0xabcdef)
+                embed_steal_success.add_field(name='Item', value=steal_item, inline=False)
+                embed_steal_success.set_footer(text=steal_success_rate_footer)
+
+                await ctx.send(embed=embed_steal_success)
+            
+            else:  # Steal failed
+                # Send confirmation message
+                user_ping = f'<@{ctx.author.id}>'
+                steal_failed_desc = f'{user_ping} failed to steal from {target}!'
+
+                steal_item = f'{steal_emoji} {key}'
+                steal_success_rate_footer = f'Success rate: {round(steal_percent, 2)}%'
+
+                embed_steal_failed = discord.Embed(title='Steal failed!', description=steal_failed_desc, color=0xff0000)
+                embed_steal_failed.add_field(name='Item', value=steal_item, inline=False)
+                embed_steal_failed.set_footer(text=steal_success_rate_footer)
+
+                await ctx.send(embed=embed_steal_failed)
+            
             used += 1
 
         else:

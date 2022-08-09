@@ -1,71 +1,73 @@
 [
     {
         "id": 392542209393819648,
-        "score": 152,
+        "score": 167,
         "inventory": {
-            "Normal Pill": 4,
-            "Gold Ingot": 0,
+            "Normal Pill": 5,
+            "Gold Ingot": 1,
             "Cum Chalice": 4,
-            "Lollipop": 7,
+            "Lollipop": 8,
             "Smoked Salmon": 2,
             "Nineteen Eighty-Four": 2,
             "Lean": 2,
             "Gushing Granny": 1,
             "Train Ticket": 3,
-            "Sea Shell": 3,
+            "Sea Shell": 5,
             "Amethyst": 1,
             "Bath Towel": 1,
-            "Retractable Umbrella": 1
+            "Retractable Umbrella": 1,
+            "Morbius DVD": 1
         }
     },
     {
         "id": 632181910646423553,
-        "score": 134,
+        "score": 162,
         "inventory": {
-            "Gold Ingot": 4,
-            "Lollipop": 11,
-            "Gushing Granny": 1,
-            "Sea Shell": 4,
+            "Gold Ingot": 6,
+            "Lollipop": 14,
+            "Gushing Granny": 2,
+            "Sea Shell": 5,
             "Amethyst": 1,
             "Bath Towel": 1,
-            "Nineteen Eighty-Four": 2,
+            "Nineteen Eighty-Four": 3,
             "Clock": 1,
-            "Train Ticket": 1,
             "Normal Pill": 1,
-            "Lean": 1,
-            "Cum Chalice": 1,
-            "Amethyst Shard": 1
+            "Lean": 2,
+            "Amethyst Shard": 1,
+            "Cum Chalice": 1
         }
     },
     {
         "id": 740098404688068641,
-        "score": 104,
+        "score": 109,
         "inventory": {
             "Lollipop": 2,
-            "Gold Ingot": 942,
-            "Sea Shell": 5,
+            "Gold Ingot": 937,
+            "Sea Shell": 6,
             "Morbius DVD": 4,
-            "Nineteen Eighty-Four": 3,
+            "Nineteen Eighty-Four": 2,
             "Smoked Salmon": 1,
             "Lean": 4,
             "Clock": 3,
-            "Amethyst Shard": 9,
-            "Amethyst": 993,
+            "Amethyst Shard": 3,
+            "Amethyst": 995,
             "Gushing Granny": 9,
             "Marker": 9,
             "Bath Towel": 6,
-            "Dollar Coin": 9,
+            "Dollar Coin": 16,
             "Cum Chalice": 4,
-            "Pillow": 1
+            "Pillow": 1,
+            "Small Torch": 1,
+            "Train Ticket": 7
         }
     },
     {
         "id": 679305272195285012,
-        "score": 60,
+        "score": 70,
         "inventory": {
-            "Gold Ingot": 10,
-            "Cum Chalice": 1,
-            "Lollipop": 4,
+            "Gold Ingot": 9,
+            "Cum Chalice": 2,
+            "Lollipop": 8,
             "Lean": 1,
             "Morbius DVD": 4,
             "Smoked Salmon": 2,
@@ -91,37 +93,38 @@
     },
     {
         "id": 586790522157531136,
-        "score": 24,
+        "score": 27,
         "inventory": {
-            "Normal Pill": 1,
+            "Normal Pill": 2,
             "Lollipop": 4,
-            "Train Ticket": 2,
             "Lean": 3,
             "Gold Ingot": 0,
             "Amethyst": 0,
-            "Nineteen Eighty-Four": 1,
-            "Morbius DVD": 2,
+            "Nineteen Eighty-Four": 2,
+            "Morbius DVD": 3,
             "Cum Chalice": 2
         }
     },
     {
         "id": 256997416799043586,
-        "score": 21,
+        "score": 26,
         "inventory": {
-            "Lollipop": 3,
+            "Lollipop": 4,
             "Amethyst Shard": 2,
             "Sea Shell": 1,
             "Lean": 1,
             "Gold Ingot": 0,
             "Amethyst": 0,
-            "Morbius DVD": 1
+            "Morbius DVD": 2,
+            "Normal Pill": 1,
+            "Nineteen Eighty-Four": 1
         }
     },
     {
         "id": 272687862368174080,
-        "score": 10,
+        "score": 12,
         "inventory": {
-            "Gold Ingot": 0,
+            "Gold Ingot": 1,
             "Amethyst": 0,
             "Nineteen Eighty-Four": 1
         }
@@ -133,6 +136,14 @@
             "Gold Ingot": 0,
             "Amethyst": 0,
             "Amethyst Shard": 1
+        }
+    },
+    {
+        "id": 350165855931334657,
+        "score": 1,
+        "inventory": {
+            "Gold Ingot": 0,
+            "Amethyst": 0
         }
     }
 ]

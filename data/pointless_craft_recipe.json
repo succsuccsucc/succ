@@ -4,6 +4,7 @@
         "emoji": "<:Amethyst:1004013520796520457>",
         "description": "Light bounces between the crystals, to make the Amethyst shine even brighter.",
         "detail": "Purple currency. Buy things in the shop with them.",
+        "rarity": 50,
         "ingredients": {
             "Amethyst Shard": 4
         }
@@ -13,6 +14,7 @@
         "emoji": "<a:Gushing_Granny:1004019807294861334>",
         "description": "It's time to sober up!",
         "detail": "Reverses the effect of Lean. Can be used on yourself or others.",
+        "rarity": 50,
         "ingredients": {
             "Normal Pill": 1,
             "Cum Chalice": 1
@@ -23,6 +25,7 @@
         "emoji": "<:Conduit:1006049995914481664>",
         "description": "Description",
         "detail": "When applied, the Conduit activates and blocks the effect of Lean. 30% chance of failure and destruction every time it is activated.",
+        "rarity": 10,
         "ingredients": {
             "Lollipop": 1,
             "Sea Shell": 8
