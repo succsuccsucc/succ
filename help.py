@@ -63,6 +63,8 @@ class HelpCog(commands.Cog):
             embed_help.add_field(name='?shop', value='Lists all items in the shop.', inline=False)
             embed_help.add_field(name='?buy <item> [amount]', value='Buy something from the shop.', inline=False)
             embed_help.add_field(name='?trade <give item> <amount> <take item> <amount> <target>', value='Trade items with someone.', inline=False)
+            embed_help.add_field(name='?bet <bet>', value='Bet Gold Ingots that you can press the pointless button next! Bets go into a pool, which is given to the next person who presses the button.', inline=False)
+            embed_help.add_field(name='?pool', value='View current bets in the bet pool.', inline=False)
 
             command_count=str(len(embed_help.fields))
             footer_string = f'Total {command_count} commands in this page.'
