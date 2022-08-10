@@ -20,7 +20,7 @@ from dotenv import load_dotenv
 from discord.ext import commands
 from discord.ext.commands import CommandNotFound
 
-from bot import high_list, pl_items, recipe, catalog, shh
+from bot import high_list, pl_items, recipe, catalog, shh, gold_emoji
 
 # List of users protected by Conduit
 conduit_list = []
@@ -135,7 +135,38 @@ class Buttons(discord.ui.View):
 
                     await interaction.channel.send(f'{user_ping} got 1 {give_emoji} `{give_name}`!')
 
-                    return
+                    break
+            
+        # Give user gold in the bet pool
+        # Open bet pool file
+        bet_pool = open('data/pointless_bet_pool.json', 'r', encoding='utf-8')
+        bet_pool = json.load(bet_pool)
+
+        total_bet = 0
+        for m in range(len(bet_pool)):
+            total_bet += bet_pool[m]['amount']
+
+        if total_bet == 0:  # Do nothing if pool is empty
+            return
+        
+        # Clear pool after button press
+        bet_pool = []
+
+        outfile = open('data/pointless_bet_pool.json', 'w', encoding='utf-8')
+        json.dump(bet_pool, outfile, indent = 4)
+        
+        # Give total gold to user
+        lb_file = open('data/pointless_leaderboard.json', 'r')
+        lb = json.load(lb_file)
+
+        for n in range(len(leaderboard)):
+            if interaction.user.id == lb[n]['id']:
+                lb[n]['inventory']['Gold Ingot'] += total_bet
+        
+        outfile = open('data/pointless_leaderboard.json', 'w', encoding='utf-8')
+        json.dump(lb, outfile, indent = 4)
+
+        await interaction.channel.send(f'{user_ping} won the pool!\nThey got: {gold_emoji} {total_bet}')
 
 class PointlessCog(commands.Cog):
     def __init__(self, client):

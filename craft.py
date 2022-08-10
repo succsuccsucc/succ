@@ -40,6 +40,11 @@ class CraftCog(commands.Cog):
             await ctx.invoke(self.client.get_command('succ'))
             return
 
+        # Check if amount is integer
+        if not str(amount).isdigit():
+            await ctx.send('Invalid amount!')
+            return
+
         # Check if item exists
         # Check in crafted items recipe
         exist = 0
