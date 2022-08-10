@@ -166,6 +166,8 @@ class Buttons(discord.ui.View):
         outfile = open('data/pointless_leaderboard.json', 'w', encoding='utf-8')
         json.dump(lb, outfile, indent = 4)
 
+        user_ping = f'<@{interaction.user.id}>'
+
         await interaction.channel.send(f'{user_ping} won the pool!\nThey got: {gold_emoji} {total_bet}')
 
 class PointlessCog(commands.Cog):
