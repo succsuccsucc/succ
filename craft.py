@@ -20,7 +20,7 @@ from dotenv import load_dotenv
 from discord.ext import commands
 from discord.ext.commands import CommandNotFound
 
-from bot import recipe, pl_items
+from bot import recipe, pl_items, catalog
 
 # Change working directory to wherever this is in
 abspath = os.path.abspath(__file__)
@@ -108,6 +108,16 @@ class CraftCog(commands.Cog):
             for b in range(len(pl_items)):
                 if key_2 == pl_items[b]['name']:
                     ingredient_field += pl_items[b]['emoji'] + ' '
+                    break
+            
+            for c in range(len(recipe)):
+                if key_2 == recipe[c]['name']:
+                    ingredient_field += recipe[c]['emoji'] + ' '
+                    break
+            
+            for d in range(len(catalog)):
+                if key_2 == catalog[d]['name']:
+                    ingredient_field += catalog[d]['emoji'] + ' '
                     break
 
             ingredient_field += key_2 + ' x' + str(value_2 * amount) + '\n'

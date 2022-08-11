@@ -23,12 +23,31 @@
     {
         "name": "Conduit",
         "emoji": "<:Conduit:1006049995914481664>",
-        "description": "Description",
+        "description": "Not today, Lean.",
         "detail": "When applied, the Conduit activates and blocks the effect of Lean. 30% chance of failure and destruction every time it is activated.",
         "rarity": 10,
         "ingredients": {
             "Lollipop": 1,
             "Sea Shell": 8
+        }
+    },
+    {
+        "name": "Ball Stretcher",
+        "emoji": "<:Ball_Stretcher:1007228194518208563>",
+        "description": "Cock and ball torture from Wikipedia, the free encyclopedia at en.wikipedia.org",
+        "detail": "Plays a random ball game. This is what happens when you craft all 10 items in the Sports Skills collection.",
+        "rarity": 1,
+        "ingredients": {
+            "Bath Towel": 1,
+            "Marker": 2,
+            "Ruler": 1,
+            "Hanger": 1,
+            "Recycled Paper": 1,
+            "Colored Tape": 1,
+            "Small Torch": 2,
+            "Retractable Umbrella": 1,
+            "Pillow": 1,
+            "Dollar Coin": 1
         }
     }
 ]

@@ -110,6 +110,16 @@ class ItemCog(commands.Cog):
                     if key == pl_items[c]['name']:
                         ingredient_field += pl_items[c]['emoji'] + ' ' + pl_items[c]['name'] + ': ' + str(value) + '\n'
                         break
+
+                for d in range(len(recipe)):
+                    if key == recipe[d]['name']:
+                        ingredient_field += recipe[d]['emoji'] + ' ' + recipe[d]['name'] + ': ' + str(value) + '\n'
+                        break
+                
+                for e in range(len(catalog)):
+                    if key == catalog[e]['name']:
+                        ingredient_field += catalog[e]['emoji'] + ' ' + catalog[e]['name'] + ': ' + str(value) + '\n'
+                        break
             
             embed_item.add_field(name='Ingredients', value=ingredient_field, inline=True)
         
