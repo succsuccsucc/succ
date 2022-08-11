@@ -122,10 +122,15 @@ class Buttons(discord.ui.View):
                     give_name = pl_items[give_index]['name']
                     give_emoji = pl_items[give_index]['emoji']
 
-                    if pl_items[give_index]['name'] not in leaderboard[b]['inventory']:
-                        leaderboard[b]['inventory'][give_name] = 1
+                    if give_name == 'Gold Ingot':  # Give 5 Gold Ingots each time
+                        give_count = 5
                     else:
-                        leaderboard[b]['inventory'][give_name] += 1
+                        give_count = 1
+
+                    if pl_items[give_index]['name'] not in leaderboard[b]['inventory']:
+                        leaderboard[b]['inventory'][give_name] = give_count
+                    else:
+                        leaderboard[b]['inventory'][give_name] += give_count
                     
                     user_id = leaderboard[b]['id']
                     user_ping = f'<@{user_id}>'
@@ -133,7 +138,7 @@ class Buttons(discord.ui.View):
                     outfile = open('data/pointless_leaderboard.json', 'w', encoding='utf-8')
                     json.dump(leaderboard, outfile, indent = 4)
 
-                    await interaction.channel.send(f'{user_ping} got 1 {give_emoji} `{give_name}`!')
+                    await interaction.channel.send(f'{user_ping} got {give_count} {give_emoji} `{give_name}`!')
 
                     break
             
@@ -143,10 +148,17 @@ class Buttons(discord.ui.View):
         bet_pool = json.load(bet_pool)
 
         total_bet = 0
+        user_bet_yn = 0
         for m in range(len(bet_pool)):
             total_bet += bet_pool[m]['amount']
+            if interaction.user.id == bet_pool[m]['id']:
+                user_bet_yn += 1
 
         if total_bet == 0:  # Do nothing if pool is empty
+            return
+        
+        if user_bet_yn == 0:  # Do not give pool to user if user did not bet
+            await interaction.channel.send(f'User is not eligible for the pool because they did not bet!')
             return
         
         # Clear pool after button press
@@ -174,7 +186,7 @@ class PointlessCog(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.cooldown(1, 899, commands.BucketType.guild)
+    @commands.cooldown(1, 900, commands.BucketType.guild)
     @commands.guild_only()
     @commands.command()
     async def pointless(self, ctx, pw=None):

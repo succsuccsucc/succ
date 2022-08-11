@@ -143,7 +143,7 @@ class BetCog(commands.Cog):
         embed_pool.add_field(name=bet_title, value=amount_field, inline=True)
         embed_pool.add_field(name='Total bet', value=total_field, inline=False)
 
-        embed_pool.set_footer(text='Next person to press the pointless button gets everything in the pool.\nMay the odds be ever in your favor.')
+        embed_pool.set_footer(text='Next user to press the pointless button gets everything in the pool.\nMay the odds be ever in your favor.\nNote: You must make a bet to be eligible for winning the pool.')
 
         await ctx.send(embed=embed_pool)
 
