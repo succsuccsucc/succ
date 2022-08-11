@@ -22,6 +22,8 @@ from discord.ext.commands import CommandNotFound
 import nest_asyncio  # Fixes runtime error: asyncio.run() cannot be called from a running event loop
 nest_asyncio.apply()
 
+import config
+
 # Change working directory to wherever bot.py is in
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
@@ -38,7 +40,8 @@ client = commands.Bot(intents=intents, activity=discord.Game(name='Kirby and the
 # Load cogs (extensions)
 # ?pointless and ?use are stored in the same cog due to clock item use
 initial_extensions = ['succ', 'kmbtest', 'kmbeta', 'light', 'mtrfare', 'mtrbus', 'help', 
-                        'pointless_use', 'leaderboard', 'inv', 'item', 'craft', 'shop', 'buy', 'trade', 'bet_pool']
+                        'pointless_use', 'leaderboard', 'inv', 'item', 'craft', 'shop', 'buy', 'trade', 'bet_pool',
+                        'ballstretcher']
 
 # Load extensions listed above
 async def load_extensions():
@@ -85,8 +88,9 @@ recipe = json.load(craft)
 shop = open('data/pointless_shop_catalog.json', 'r', encoding='utf-8')
 catalog = json.load(shop)
 
-# initialize password for resetting ?pointless cooldown using clock item
+# initialize password for protected commands
 shh = None
+config.shush = random.randint(1, 9999)
 
 # initialize list of leaned people (can't press the pointless button for a round)
 high_list = []

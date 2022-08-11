@@ -21,6 +21,7 @@ from discord.ext import commands
 from discord.ext.commands import CommandNotFound
 
 from bot import high_list, pl_items, recipe, catalog, shh, gold_emoji
+import config
 
 # List of users protected by Conduit
 conduit_list = []
@@ -272,9 +273,10 @@ class PointlessCog(commands.Cog):
         
         # Apply corresponding effect of item used
         used = 0  # Do not spend item if item is unusable
+
+        global shh  # initialize global password to invoke protected commands
         
         if item.upper() == 'CLOCK':
-            global shh
             shh = random.randint(1, 9999)  # To prevent cooldown reset from being triggered without using a clock
 
             await ctx.invoke(self.client.get_command('pointless'), pw=shh)
@@ -644,6 +646,11 @@ class PointlessCog(commands.Cog):
                 await ctx.send(embed=embed_steal_failed)
             
             used += 1
+        
+        elif item.upper() == 'BALL STRETCHER':
+            config.shush = random.randint(1, 9999)
+
+            await ctx.invoke(self.client.get_command('ballstretcher'), pw=config.shush, user=ctx.author.id)
 
         else:
             await ctx.send('Item is unusable!')

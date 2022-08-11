@@ -1,0 +1,94 @@
+[
+    {
+        "name": "Soccer",
+        "image": "https://cdn.discordapp.com/attachments/958651015064854551/1007273219453091880/unknown.png",
+        "description": "You're the player in red.\n**Where will you aim to get the ball into the goal?**",
+        "choices": {
+            "A": "To the left side of the goal",
+            "B": "To the top right corner of the goal",
+            "C": "The goalkeeper's crotch",
+            "D": "Backwards, at the defender (No. 16)"
+        },
+        "win": {
+            "A": "You scored! The ball went right past the goalkeeper!",
+            "B": "The goalkeeper jumped to the wrong side, and the ball flew in!",
+            "C": "Survival instinct made the goalkeeper dodge the ball, and you scored!",
+            "D": "The ball bounced off the defender and got in the goal!"
+        },
+        "lose": {
+            "A": "The goalkeeper jumped out and caught the ball!",
+            "B": "The goalkeeper kicked the ball away!",
+            "C": "The ball hit the goalkeeper in the groin, bouncing it out the goal. Despite the immense pain in his scrotum, the goalkeeper let out a relieved laugh.",
+            "D": "The defender dodged the ball in time, and beat you up."
+        }
+    },
+    {
+        "name": "Basketball",
+        "image": "https://cdn.discordapp.com/attachments/958651015064854551/1007277741659390022/unknown.png",
+        "description": "You're the guy holding the ball.\n**What will you do next?**",
+        "choices": {
+            "A": "Launch the ball up to the sky.",
+            "B": "Raise your arm while holding the ball, and attempt to dunk.",
+            "C": "Throw the ball to your teammate.",
+            "D": "Pinch the nipple of the player in yellow who's trying to block you."
+        },
+        "win": {
+            "A": "The ball flew up, and went straight down through the hoop!",
+            "B": "You successfully dodged the guy in yellow, and dunked it!",
+            "C": "Your teammate got the ball, and made a three-point shot!",
+            "D": "Your opponent was distracted, and you were able to make the shot uninterrupted!"
+        },
+        "lose": {
+            "A": "The ball went above and over the backboard.",
+            "B": "The player in yellow blocked your arm and you missed.",
+            "C": "The ball went past your short teammate's head and out the court.",
+            "D": "Your opponent let out an audible moan, causing you to bash his head in with the ball in disgust."
+        }
+    },
+    {
+        "name": "Golf",
+        "image": "https://cdn.discordapp.com/attachments/958651015064854551/1007282245167497316/unknown.png",
+        "description": "You're about to strike the first shot.\n**Which direction?**",
+        "choices": {
+            "A": "\u200b",
+            "B": "\u200b",
+            "C": "\u200b",
+            "D": "\u200b"
+        },
+        "win": {
+            "A": "The ball landed precisely in the hole! A hole in one!",
+            "B": "The ball landed on the fairway. Nice shot!",
+            "C": "The ball flew very far and landed on the green!",
+            "D": "The ball landed right next to the hole!"
+        },
+        "lose": {
+            "A": "The ball went out of bounds and landed on a nearby highway. It got squashed by a truck.",
+            "B": "The ball landed in the water.",
+            "C": "The ball landed on the sand!",
+            "D": "The ball got stuck in a tree!"
+        }
+    },
+    {
+        "name": "Tennis",
+        "image": "https://cdn.discordapp.com/attachments/958651015064854551/1007286204552716288/unknown.png",
+        "description": "You're Michael De Santa.\n**Which side of the court to aim and how hard to hit?**",
+        "choices": {
+            "A": "Left, hard",
+            "B": "Right, soft",
+            "C": "Left, soft",
+            "D": "Right, hard"
+        },
+        "win": {
+            "A": "Your opponent missed the ball! You scored!",
+            "B": "The ball went barely past the net, and your opponent could not hit it on time!",
+            "C": "The ball went between your opponent's legs, and you scored!",
+            "D": "Your opponent was busy staring at birds, so you scored easily!"
+        },
+        "lose": {
+            "A": "Your opponent striked back harder than you've ever seen! The ball made a hole in your racket and landed behind you!",
+            "B": "Your ball couldn't get past the net!",
+            "C": "Your ball flew out the sidelines!",
+            "D": "You couldn't even hit the ball with the racket!"
+        }
+    }
+]
