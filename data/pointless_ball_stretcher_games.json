@@ -90,5 +90,97 @@
             "C": "Your ball flew out the sidelines!",
             "D": "You couldn't even hit the ball with the racket!"
         }
+    },
+    {
+        "name": "Snooker",
+        "image": "https://cdn.discordapp.com/attachments/958651015064854551/1007593854167425075/unknown.png",
+        "description": "You just potted a red ball.\n**Which ball to aim at next?**",
+        "choices": {
+            "A": "Yellow",
+            "B": "Brown",
+            "C": "Blue",
+            "D": "Pink"
+        },
+        "win": {
+            "A": "You potted the yellow ball and won 2 points!",
+            "B": "You potted the brown ball and won 4 points!",
+            "C": "You potted the blue ball and won 5 points!",
+            "D": "You potted the pink ball and won 6 points!"
+        },
+        "lose": {
+            "A": "You missed! 4 points penalty.",
+            "B": "The cue ball went into the pocket! 4 points penalty.",
+            "C": "You hit a red ball! 4 points penalty.",
+            "D": "You suddenly started having color blindness and struck the black ball instead! 7 points penalty."
+        }
+    },
+    {
+        "name": "Bowling",
+        "image": "https://cdn.discordapp.com/attachments/958651015064854551/1007597269215887380/unknown.png",
+        "description": "You're about to throw the ball.\n**How will you throw it?**",
+        "choices": {
+            "A": "In the middle, no spin",
+            "B": "On the left, spin right",
+            "C": "On the right, spin left",
+            "D": "In the middle, spin upwards"
+        },
+        "win": {
+            "A": "The ball went straight through and you got a strike!",
+            "B": "The ball hit the pins on the side and you got 9 points!",
+            "C": "The ball spinned back to the center and you got a strike!",
+            "D": "The ball hit the ground with the force of a meteor, and shook all the pins into collapsing! You got a strike."
+        },
+        "lose": {
+            "A": "The ball slid off the lane into the gutter!",
+            "B": "The ball hit the gutter, then launched itself onto the next lane!",
+            "C": "The wrist strap on your Wiimote came off and you broke your TV!",
+            "D": "https://www.youtube.com/watch?v=veaZVkgThx0"
+        }
+    },
+    {
+        "name": "Volleyball",
+        "image": "https://cdn.discordapp.com/attachments/958651015064854551/1007608056928018512/unknown.png",
+        "description": "You are the player in red.\n**What will you do next?**",
+        "choices": {
+            "A": "Slap the ball as hard as you can.",
+            "B": "Try to headbutt the ball.",
+            "C": "Hit the ball with your upper arm.",
+            "D": "Duck and dodge the ball."
+        },
+        "win": {
+            "A": "The ball landed in the opponent's court! You scored.",
+            "B": "You launched the ball into the stratosphere. 3 hours later, the ball crash landed on the opponent's court and you scored.",
+            "C": "The ball landed between the opponent player and the net. You scored!",
+            "D": "The ball flew out the boundaries of your court!"
+        },
+        "lose": {
+            "A": "You hit the ball a little too hard and it went out of the court.",
+            "B": "Your head missed the ball and it landed in your court.",
+            "C": "You sent the ball into the net.",
+            "D": "You're a moron and the ball landed in your court."
+        }
+    },
+    {
+        "name": "Baseball",
+        "image": "https://cdn.discordapp.com/attachments/958651015064854551/1007610472587079680/unknown.png",
+        "description": "You're the pitcher.\n**How will you throw the ball?**",
+        "choices": {
+            "A": "Four-Seam Fastball",
+            "B": "Curveball",
+            "C": "Forkball",
+            "D": "Changeup"
+        },
+        "win": {
+            "A": "The batter missed the ball!",
+            "B": "The batter got knocked out by the ball!",
+            "C": "The batter swung the bat, but instead of hitting the ball, he hit himself!",
+            "D": "The batter suffered from heat stroke and passed out when he tried to swing!"
+        },
+        "lose": {
+            "A": "The batter hit the ball successfully!",
+            "B": "The batter got a home run!",
+            "C": "The batter hit the ball, and it flew right down, hitting your crotch!",
+            "D": "The batter missed the ball, but he smashed your head with the bat in a fit of rage!"
+        }
     }
 ]
