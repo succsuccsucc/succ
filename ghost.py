@@ -30,6 +30,7 @@ os.chdir(dname)
 class GhostCog(commands.Cog):
     def __init__(self, client):
         self.client = client
+        self.cursed_day.start()
 
     @commands.guild_only()
     @commands.command()
@@ -46,6 +47,10 @@ class GhostCog(commands.Cog):
         if curse[0]['times'] >= 2:
             # await ctx.send(f'{cursed_user.name} has already been banned twice today!')
             print(f'{cursed_user.name} has already been banned twice today!')
+            return
+        
+        if cursed_user.id == ctx.author.id:
+            print(f'{cursed_user.name} just said it themselves!')
             return
 
         await ctx.send(f'{ctx.author} said it!\n{cursed_user.name} has been banned temporarily!')
@@ -68,9 +73,9 @@ class GhostCog(commands.Cog):
     
     @tasks.loop(seconds=10.0)
     async def cursed_day(self):
-        today = datetime.date.today()
+        today = str(datetime.date.today())
 
-        curse = open('data/ghost_ping_curse_user.json', 'r', encoding='utf-8')
+        curse = open('data/cursed_user.json', 'r', encoding='utf-8')
         curse = json.load(curse)
 
         if today != curse[0]['date']:  # Reset ban count after each day
