@@ -22,6 +22,8 @@ from discord.ext.commands import CommandNotFound
 
 import config
 
+import pytz
+
 # Change working directory to wherever this is in
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
@@ -114,7 +116,8 @@ class GhostCog(commands.Cog):
     
     @tasks.loop(seconds=10.0)
     async def cursed_day(self):
-        today = str(datetime.date.today())
+        today = datetime.datetime.now(pytz.timezone('Asia/Hong_Kong'))
+        today = today.strftime('%Y-%m-%d')
 
         curse = open('data/cursed_user.json', 'r', encoding='utf-8')
         curse = json.load(curse)
