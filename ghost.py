@@ -1,5 +1,5 @@
 # ghost.py
-# Cog for ?ghost command
+# Cog for ?ghost and ?curse command
 from http.client import HTTPException
 import os
 import ssl
@@ -65,6 +65,47 @@ class GhostCog(commands.Cog):
         outfile = open('data/cursed_user.json', 'w', encoding='utf-8')
         json.dump(curse, outfile, indent = 4)
     
+    # Pass the curse to another user
+    @commands.guild_only()
+    @commands.command()
+    async def curse(self, ctx, user=''):
+        curse = open('data/cursed_user.json', 'r', encoding='utf-8')
+        curse = json.load(curse)
+
+        if ctx.author.id != curse[0]['id']:  # Only allow cursed user to curse others
+            await ctx.send('Impostor! You are not the one who knocked.')
+            return
+
+        if len(curse) >= 4:
+            await ctx.send('You already cursed someone!')
+            return
+        
+        user_id = user[2 : -1]
+        if not user_id.isdigit():
+            await ctx.send('Invalid target!')
+            return
+        
+        for i in range(len(curse)):
+            if int(user_id) == curse[i]['id']:
+                await ctx.send('Target already cursed in the last 2 days!')
+                return
+
+        # Add target to next entry in cursed_user.json
+        new_curse = {"id": int(user_id),
+                    "times": 0,
+                    "date": str(datetime.date.today())
+                    }
+        
+        curse.append(new_curse)
+        
+        # Send confirmation message
+        author_ping = f'<@{ctx.author.id}>'
+        await ctx.send(f'{author_ping} successfully cursed {user}!')
+
+        # Write changes
+        outfile = open('data/cursed_user.json', 'w', encoding='utf-8')
+        json.dump(curse, outfile, indent = 4)
+    
     @tasks.loop(seconds=5, count=2)
     async def unban_loop(self, guild, channel, cursed_user):
         if self.unban_loop.current_loop != 0:
@@ -78,13 +119,18 @@ class GhostCog(commands.Cog):
         curse = open('data/cursed_user.json', 'r', encoding='utf-8')
         curse = json.load(curse)
 
-        if today != curse[0]['date']:  # Reset ban count after each day
-            curse[0]['times'] = 0
-            curse[0]['date'] = today
-        
-            # Write changes
-            outfile = open('data/cursed_user.json', 'w', encoding='utf-8')
-            json.dump(curse, outfile, indent = 4)
+        if today != curse[0]['date']:  # Pass curse to next user after each day
+            if len(curse) == 4:
+                curse[2] = curse[1]
+                curse[1] = curse[0]
+                curse[0] = curse[3]
+                curse[0]['date'] = today
+
+                del curse[3]
+
+                # Write changes
+                outfile = open('data/cursed_user.json', 'w', encoding='utf-8')
+                json.dump(curse, outfile, indent = 4)
 
 # Setup function
 async def setup(client):
