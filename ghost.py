@@ -131,6 +131,14 @@ class GhostCog(commands.Cog):
 
                 del curse[3]
 
+                old_curse_id = curse[1]['id']
+                old_curse_ping = f'<@{old_curse_id}>'
+                new_curse_id = curse[0]['id']
+                new_curse_ping = f'<@{new_curse_id}>'
+
+                general = await self.client.fetch_channel(981207955200426037)
+                await general.send(f'A new day begins!\nThe curse has passed from {old_curse_ping} to {new_curse_ping}.')
+
                 # Write changes
                 outfile = open('data/cursed_user.json', 'w', encoding='utf-8')
                 json.dump(curse, outfile, indent = 4)
