@@ -60,6 +60,10 @@ class MorbCog(commands.Cog):
             await ctx.send('Impostor! You are not the one who knocked.')
             return
         
+        # Reset morb count for new morb
+        global morb_count
+        morb_count = 0
+        
         global morb_user_id
         morb_user_id = user  # carry the item user
 
