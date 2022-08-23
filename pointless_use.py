@@ -651,6 +651,13 @@ class PointlessCog(commands.Cog):
             config.shush = random.randint(1, 9999)
 
             await ctx.invoke(self.client.get_command('ballstretcher'), pw=config.shush, user=ctx.author.id)
+        
+        elif item.upper() == 'MORBIUS DVD':
+            config.shush = random.randint(1, 9999)
+
+            await ctx.invoke(self.client.get_command('morb'), pw=config.shush, user=ctx.author.id)
+            
+            used += 1
 
         else:
             await ctx.send('Item is unusable!')

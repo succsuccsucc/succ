@@ -42,9 +42,8 @@
         "score": 119,
         "inventory": {
             "Lollipop": 2,
-            "Gold Ingot": 799,
+            "Gold Ingot": 624,
             "Sea Shell": 6,
-            "Morbius DVD": 4,
             "Nineteen Eighty-Four": 2,
             "Smoked Salmon": 1,
             "Lean": 4,
@@ -58,18 +57,19 @@
             "Cum Chalice": 5,
             "Train Ticket": 7,
             "White Glove": 3,
-            "Ball Stretcher": 1
+            "Ball Stretcher": 1,
+            "Morbius DVD": 98
         }
     },
     {
         "id": 679305272195285012,
         "score": 96,
         "inventory": {
-            "Gold Ingot": 13,
+            "Gold Ingot": 20,
             "Cum Chalice": 3,
             "Lollipop": 11,
             "Lean": 1,
-            "Morbius DVD": 4,
+            "Morbius DVD": 3,
             "Smoked Salmon": 2,
             "Sea Shell": 2,
             "Amethyst": 5,

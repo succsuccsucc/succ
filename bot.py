@@ -40,10 +40,10 @@ client = commands.Bot(intents=intents, activity=discord.Game(name='Kirby and the
 
 # Load cogs (extensions)
 # ?pointless and ?use are stored in the same cog due to clock item use
-initial_extensions = ['succ', 'kmbtest', 'kmbeta', 'light', 'mtrfare', 'mtrbus', 'help', 
-                        'pointless_use', 'leaderboard', 'inv', 'item', 'craft', 'shop', 'buy', 'trade', 'bet_pool',
-                        'ballstretcher',
-                        'ghost']
+initial_extensions = ['succ', 'kmbtest', 'kmbeta', 'light', 'mtrfare', 'mtrbus', 'help',  # non-pointless commands
+                        'pointless_use', 'leaderboard', 'inv', 'item', 'craft', 'shop', 'buy', 'trade', 'bet_pool',  # pointless commands
+                        'ballstretcher', 'morb',  # pointless item usages
+                        'ghost']  # ghost ping handler
 
 # Load extensions listed above
 async def load_extensions():
