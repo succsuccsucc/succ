@@ -46,6 +46,15 @@ class GhostCog(commands.Cog):
         
         cursed_user = await self.client.fetch_user(curse[0]['id'])
 
+        member_in_guild = 0  # do not ban if cursed user is not in server
+        for member in ctx.guild.members:
+            if curse[0]['id'] == member.id:
+                member_in_guild += 1
+                break
+        if member_in_guild == 0:
+            await ctx.send(f'{cursed_user.name} is not in the server now!')
+            return
+
         if curse[0]['times'] >= 2:
             # await ctx.send(f'{cursed_user.name} has already been banned twice today!')
             print(f'{cursed_user.name} has already been banned twice today!')
