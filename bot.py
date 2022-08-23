@@ -42,8 +42,8 @@ client = commands.Bot(intents=intents, activity=discord.Game(name='Kirby and the
 # ?pointless and ?use are stored in the same cog due to clock item use
 initial_extensions = ['succ', 'kmbtest', 'kmbeta', 'light', 'mtrfare', 'mtrbus', 'help',  # non-pointless commands
                         'pointless_use', 'leaderboard', 'inv', 'item', 'craft', 'shop', 'buy', 'trade', 'bet_pool',  # pointless commands
-                        'ballstretcher', 'morb',  # pointless item usages
-                        'ghost']  # ghost ping handler
+                        'ballstretcher', 'morb']  # pointless item usages
+                        # 'ghost']  # ghost ping handler
 
 # Load extensions listed above
 async def load_extensions():
@@ -119,11 +119,11 @@ async def on_message(message):
         await message.channel.send('Yep, it\'s working.')
         return
     
-    elif 'GHOST PING' in message.content.upper():  # 'ghost ping' banning mechanism
-        ctx = await client.get_context(message)
+    # elif 'GHOST PING' in message.content.upper():  # 'ghost ping' banning mechanism
+    #     ctx = await client.get_context(message)
 
-        config.shush = random.randint(1, 9999)
-        await ctx.invoke(client.get_command('ghost'), pw=config.shush)
+    #     config.shush = random.randint(1, 9999)
+    #     await ctx.invoke(client.get_command('ghost'), pw=config.shush)
 
     await client.process_commands(message) 
 
