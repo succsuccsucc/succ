@@ -30,12 +30,12 @@ os.chdir(dname)
 # Variables to carry over from command function to button function
 user_id = 0
 target_id = 0
-give_thing = ''
-take_thing = ''
-give_item_name = ''
-take_item_name = ''
-give_count = 0
-take_count = 0
+give_thing = []
+take_thing = []
+give_item_name = []
+take_item_name = []
+give_count = []
+take_count = []
 embed_trade_offer = discord.Embed(title='\u200b', description='', color=0xabcdef)
 
 # Button function
@@ -61,47 +61,51 @@ class TradeButtons(discord.ui.View):
 
         for i in range(len(lb)):
             if target_id == lb[i]['id']:
-                for key, value in lb[i]['inventory'].items():
-                    if take_thing.upper() == key.upper():
-                        if value >= take_count:
-                            lb[i]['inventory'][key] -= take_count  # Deduct take item from target inventory
-                            accept_valid += 1
-                            break
+                for l in range(len(take_item_name)):
+                    for key, value in lb[i]['inventory'].items():
+                        if take_item_name[l].upper() == key.upper():
+                            if value >= take_count[l]:
+                                lb[i]['inventory'][key] -= take_count[l]  # Deduct take item from target inventory
+                                accept_valid += 1
+                                break
                 
                 break
         
-        if accept_valid == 0:
+        if accept_valid != len(take_item_name):
             await interaction.channel.send('You do not have the item(s) you are trying to give!')
             return
         
-        # Give take item to user
-        for a in range(len(lb)):
-            if user_id == lb[a]['id']:
-                if take_item_name not in lb[a]['inventory']:
-                    lb[a]['inventory'][take_item_name] = take_count
-                else:
-                    lb[a]['inventory'][take_item_name] += take_count
-                break
+        # Give take item(s) to user
+        for n in range(len(take_count)):
+            for a in range(len(lb)):
+                if user_id == lb[a]['id']:
+                    if take_item_name[n] not in lb[a]['inventory']:
+                        lb[a]['inventory'][take_item_name[n]] = take_count[n]
+                    else:
+                        lb[a]['inventory'][take_item_name[n]] += take_count[n]
+                    break
         
         # Deduct give item from user inventory
-        for b in range(len(lb)):
-            if user_id == lb[b]['id']:
-                for key_b, value_b in lb[b]['inventory'].items():
-                    if give_thing.upper() == key_b.upper():
-                        if value_b >= give_count:
-                            lb[b]['inventory'][key_b] -= give_count
-                            break
-                
-                break
+        for o in range(len(give_count)):
+            for b in range(len(lb)):
+                if user_id == lb[b]['id']:
+                    for key_b, value_b in lb[b]['inventory'].items():
+                        if give_thing[o].upper() == key_b.upper():
+                            if value_b >= give_count[o]:
+                                lb[b]['inventory'][key_b] -= give_count[o]
+                                break
+                    
+                    break
         
         # Give give item to target
-        for c in range(len(lb)):
-            if target_id == lb[c]['id']:
-                if give_item_name not in lb[c]['inventory']:
-                    lb[c]['inventory'][give_item_name] = give_count
-                else:
-                    lb[c]['inventory'][give_item_name] += give_count
-                break
+        for p in range(len(give_count)):
+            for c in range(len(lb)):
+                if target_id == lb[c]['id']:
+                    if give_item_name[p] not in lb[c]['inventory']:
+                        lb[c]['inventory'][give_item_name[p]] = give_count[p]
+                    else:
+                        lb[c]['inventory'][give_item_name[p]] += give_count[p]
+                    break
         
         # Compose trade result embed
         user_ping = f'<@{user_id}>'
@@ -145,7 +149,7 @@ class TradeCog(commands.Cog):
     
     @commands.guild_only()
     @commands.command()
-    async def trade(self, ctx, give_item='', give_amount=0, take_item='', take_amount=0, target=''):
+    async def trade(self, ctx, give_item='', give_amount='', take_item='', take_amount='', target=''):
         if target == '':  # empty string can't be sliced and turned into int
             await ctx.send('You must specify who to trade with!')
             return
@@ -155,10 +159,10 @@ class TradeCog(commands.Cog):
         global give_count
         global take_count
 
-        give_thing = give_item
-        take_thing = take_item
-        give_count = give_amount
-        take_count = take_amount
+        give_thing = give_item.split(', ')
+        take_thing = take_item.split(', ')
+        give_count = give_amount.split(', ')
+        take_count = take_amount.split(', ')
         
         global user_id  # Carry the user and target IDs to the button function
         global target_id
@@ -176,8 +180,15 @@ class TradeCog(commands.Cog):
             return
         
         # Check if amounts are valid
-        if (give_amount <= 0) or (take_amount <= 0):
-            await ctx.invoke(self.client.get_command('succ'))
+        if (all(item.isdigit() for item in give_count) == False) or (all(item.isdigit() for item in take_count) == False):
+            await ctx.send('Invalid item amount!')
+            return
+        else:  # Convert numbers in give and take amount arguments into integers
+            give_count = [int(x) for x in give_count]
+            take_count = [int(x) for x in take_count]
+
+        if (sum(n < 0 for n in give_count) != 0) or (sum(n < 0 for n in take_count) != 0):
+            await ctx.send('Invalid item amount!')
             return
 
         # Check if target exists
@@ -195,75 +206,82 @@ class TradeCog(commands.Cog):
             return
 
         global give_item_name
+        give_item_name = []
         global take_item_name
+        take_item_name = []
+
+        give_item_emoji = []
+        take_item_emoji = []
         
-        # Check if item to give exists
-        exist = 0
-        if exist == 0:
-            for i in range(len(pl_items)):  # Check in normal items list
-                if give_item.upper() == pl_items[i]['name'].upper():
-                    give_item_type = 'Normal'
-                    give_item_name = pl_items[i]['name']
-                    give_item_emoji = pl_items[i]['emoji']
-                    exist += 1
-                    break
+        # Check if item(s) to give exists
+        for gthing in give_thing:
+            exist = 0
+            if exist == 0:
+                for i in range(len(pl_items)):  # Check in normal items list
+                    if gthing.upper() == pl_items[i]['name'].upper():
+                        give_item_type = 'Normal'
+                        give_item_name.append(pl_items[i]['name'])
+                        give_item_emoji.append(pl_items[i]['emoji'])
+                        exist += 1
+                        break
+            
+            if exist == 0:
+                for a in range(len(recipe)):  # Check in crafted items recipe
+                    if gthing.upper() == recipe[a]['name'].upper():
+                        give_item_type = 'Crafted'
+                        give_item_name.append(recipe[a]['name'])
+                        give_item_emoji.append(recipe[a]['emoji'])
+                        exist += 1
+                        break
+            
+            if exist == 0:
+                for b in range(len(catalog)):  # Check in shop items catalog
+                    if gthing.upper() == catalog[b]['name'].upper():
+                        give_item_type = 'Shop'
+                        give_item_name.append(catalog[b]['name'])
+                        give_item_emoji.append(catalog[b]['emoji'])
+                        exist += 1
+                        break
+            
+            if exist == 0:
+                nonexist_item_string = f'Item to give does not exist!'
+                await ctx.send(nonexist_item_string)
+                return
         
-        if exist == 0:
-            for a in range(len(recipe)):  # Check in crafted items recipe
-                if give_item.upper() == recipe[a]['name'].upper():
-                    give_item_type = 'Crafted'
-                    give_item_name = recipe[a]['name']
-                    give_item_emoji = recipe[a]['emoji']
-                    exist += 1
-                    break
-        
-        if exist == 0:
-            for b in range(len(catalog)):  # Check in shop items catalog
-                if give_item.upper() == catalog[b]['name'].upper():
-                    give_item_type = 'Shop'
-                    give_item_name = catalog[b]['name']
-                    give_item_emoji = catalog[b]['emoji']
-                    exist += 1
-                    break
-        
-        if exist == 0:
-            nonexist_item_string = f'Item `{give_item}` does not exist!'
-            await ctx.send(nonexist_item_string)
-            return
-        
-        # Check if item to take exists
-        exist = 0
-        if exist == 0:
-            for c in range(len(pl_items)):  # Check in normal items list
-                if take_item.upper() == pl_items[c]['name'].upper():
-                    take_item_type = 'Normal'
-                    take_item_name = pl_items[c]['name']
-                    take_item_emoji = pl_items[c]['emoji']
-                    exist += 1
-                    break
-        
-        if exist == 0:
-            for d in range(len(recipe)):  # Check in crafted items recipe
-                if take_item.upper() == recipe[d]['name'].upper():
-                    take_item_type = 'Crafted'
-                    take_item_name = recipe[d]['name']
-                    take_item_emoji = recipe[d]['emoji']
-                    exist += 1
-                    break
-        
-        if exist == 0:
-            for e in range(len(catalog)):  # Check in shop items catalog
-                if take_item.upper() == catalog[e]['name'].upper():
-                    take_item_type = 'Shop'
-                    take_item_name = catalog[e]['name']
-                    take_item_emoji = catalog[e]['emoji']
-                    exist += 1
-                    break
-        
-        if exist == 0:
-            nonexist_item_string = f'Item `{take_item}` does not exist!'
-            await ctx.send(nonexist_item_string)
-            return
+        # Check if item(s) to take exists
+        for tthing in take_thing:
+            exist = 0
+            if exist == 0:
+                for c in range(len(pl_items)):  # Check in normal items list
+                    if tthing.upper() == pl_items[c]['name'].upper():
+                        take_item_type = 'Normal'
+                        take_item_name.append(pl_items[c]['name'])
+                        take_item_emoji.append(pl_items[c]['emoji'])
+                        exist += 1
+                        break
+            
+            if exist == 0:
+                for d in range(len(recipe)):  # Check in crafted items recipe
+                    if tthing.upper() == recipe[d]['name'].upper():
+                        take_item_type = 'Crafted'
+                        take_item_name.append(recipe[d]['name'])
+                        take_item_emoji.append(recipe[d]['emoji'])
+                        exist += 1
+                        break
+            
+            if exist == 0:
+                for e in range(len(catalog)):  # Check in shop items catalog
+                    if tthing.upper() == catalog[e]['name'].upper():
+                        take_item_type = 'Shop'
+                        take_item_name.append(catalog[e]['name'])
+                        take_item_emoji.append(catalog[e]['emoji'])
+                        exist += 1
+                        break
+            
+            if exist == 0:
+                nonexist_item_string = f'Item to take does not exist!'
+                await ctx.send(nonexist_item_string)
+                return
         
         # Check if user has enough items to trade
 
@@ -271,15 +289,16 @@ class TradeCog(commands.Cog):
         
         for f in range(len(lb)):
             if user_id == lb[f]['id']:
-                for key, value in lb[f]['inventory'].items():
-                    if key == give_item_name:
-                        if value >= give_amount:
-                            valid_offer += 1
-                            break
+                for h in range(len(give_item_name)):
+                    for key, value in lb[f]['inventory'].items():
+                        if key == give_item_name[h]:
+                            if value >= give_count[h]:
+                                valid_offer += 1
+                                break
                 
                 break
         
-        if valid_offer == 0:
+        if valid_offer != len(give_item_name):
             await ctx.send('You do not have the item(s) you\'re offering!')
             return
         
@@ -293,11 +312,17 @@ class TradeCog(commands.Cog):
         embed_trade_offer.title = f'{user_name} sent a trade offer!'
 
         embed_trade_offer.add_field(name='With', value=target, inline=False)
-
-        offer_field = f'{give_item_emoji} {give_item_name}: {give_amount}'
+        
+        # offer_field = f'{give_item_emoji} {give_item_name}: {give_amount}'
+        offer_field = ''
+        for j in range(len(give_item_name)):
+            offer_field += give_item_emoji[j] + ' ' + give_item_name[j] + ': ' + str(give_count[j]) + '\n'
         embed_trade_offer.add_field(name='Their offer', value=offer_field, inline=True)
 
-        take_field = f'{take_item_emoji} {take_item_name}: {take_amount}'
+        # take_field = f'{take_item_emoji} {take_item_name}: {take_amount}'
+        take_field = ''
+        for k in range(len(take_item_name)):
+            take_field += take_item_emoji[k] + ' ' + take_item_name[k] + ': ' + str(take_count[k]) + '\n'
         embed_trade_offer.add_field(name='They will take', value=take_field, inline=True)
 
         await ctx.send(embed=embed_trade_offer, view=TradeButtons())
