@@ -25,15 +25,16 @@ abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
 os.chdir(dname)
 
-class HelpCog(commands.Cog):
-    def __init__(self, client):
-        self.client = client
+class Select(discord.ui.Select):
+    def __init__(self):
+        options=[
+            discord.SelectOption(label='Main', emoji='🚈', description='The main set of commands'),
+            discord.SelectOption(label='Pointless', emoji='🛎️', description='Commands about the pointless button')
+            ]
+        super().__init__(placeholder='Select page', max_values=1, min_values=1, options=options)
     
-    @commands.cooldown(1, 5, commands.BucketType.guild)
-    @commands.guild_only()
-    @commands.command()
-    async def help(self, ctx, page=None):
-        if not page:
+    async def callback(self, interaction: discord.Interaction):
+        if self.values[0] == 'Main':
             embed_help = discord.Embed(title='Help!', description='', color=0xcca6fd)
 
             embed_help.add_field(name='?succ', value='Consumes the last message in the channel.', inline=False)
@@ -46,12 +47,10 @@ class HelpCog(commands.Cog):
             embed_help.add_field(name='?mtrbus <route>', value='Gets ETA at all bus stops of an MTR Bus route.', inline=False)
 
             command_count = str(len(embed_help.fields))
-            footer_string = f'Total {command_count} commands in this page.\nUse "?help pointless" for commands about the pointless button.'
+            footer_string = f'Total {command_count} commands in this page.'
             embed_help.set_footer(text=footer_string)
-
-            await ctx.send(embed=embed_help)
-
-        if page == 'pointless':
+        
+        elif self.values[0] == 'Pointless':
             embed_help = discord.Embed(title='Help!', description='Commands about the pointless button', color=0xcca6fd)
             
             embed_help.add_field(name='?pointless', value='https://www.youtube.com/watch?v=EcSzq_6W1QQ', inline=False)
@@ -69,8 +68,23 @@ class HelpCog(commands.Cog):
             command_count=str(len(embed_help.fields))
             footer_string = f'Total {command_count} commands in this page.'
             embed_help.set_footer(text=footer_string)
+        
+        await interaction.response.edit_message(content=None, embed=embed_help, view=None)
 
-            await ctx.send(embed=embed_help)
+class SelectView(discord.ui.View):
+    def __init__(self, *, timeout=180):
+        super().__init__(timeout=timeout)
+        self.add_item(Select())
+
+class HelpCog(commands.Cog):
+    def __init__(self, client):
+        self.client = client
+    
+    @commands.cooldown(1, 5, commands.BucketType.guild)
+    @commands.guild_only()
+    @commands.command()
+    async def help(self, ctx):
+        await ctx.send('Help!', view=SelectView())
 
 # Setup function
 async def setup(client):
