@@ -33,8 +33,7 @@
             "Sea Shell": 6,
             "Amethyst": 1,
             "Bath Towel": 1,
-            "Retractable Umbrella": 1,
-            "Morbius DVD": 1
+            "Retractable Umbrella": 1
         }
     },
     {
@@ -42,23 +41,24 @@
         "score": 119,
         "inventory": {
             "Lollipop": 2,
-            "Gold Ingot": 624,
-            "Sea Shell": 6,
-            "Nineteen Eighty-Four": 2,
+            "Gold Ingot": 881,
+            "Sea Shell": 8,
+            "Morbius DVD": 2,
+            "Nineteen Eighty-Four": 3,
             "Smoked Salmon": 1,
             "Lean": 4,
             "Clock": 3,
-            "Amethyst Shard": 1,
-            "Amethyst": 996,
+            "Amethyst Shard": 3,
+            "Amethyst": 993,
             "Gushing Granny": 9,
             "Marker": 7,
-            "Bath Towel": 6,
+            "Bath Towel": 5,
             "Dollar Coin": 15,
             "Cum Chalice": 5,
-            "Train Ticket": 7,
-            "White Glove": 3,
+            "Train Ticket": 6,
+            "White Glove": 2,
             "Ball Stretcher": 1,
-            "Morbius DVD": 98
+            "Normal Pill": 2
         }
     },
     {

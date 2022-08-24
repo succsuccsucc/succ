@@ -27,6 +27,45 @@ abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
 os.chdir(dname)
 
+# carry inventory embeds to the select menu function
+embed_inv = None
+embed_crafted_inv = None
+embed_shop_inv = None
+inv_description = None
+
+class InvSelect(discord.ui.Select):
+    def __init__(self):
+        options=[
+            discord.SelectOption(label='All', emoji='🐈‍⬛'),
+            discord.SelectOption(label='Normal', emoji='<:Lollipop:1003537715989598279>'),
+            discord.SelectOption(label='Crafted', emoji='<:Amethyst:1004013520796520457>'),
+            discord.SelectOption(label='Shop', emoji='<:Bath_Towel:1004352988074233886>')
+            ]
+        super().__init__(placeholder='Select type', max_values=1, min_values=1, options=options)
+    
+    async def callback(self, interaction: discord.Interaction):
+        if self.values[0] == 'All':
+            embed_inv.description = inv_description
+            embeds = [embed_inv, embed_crafted_inv, embed_shop_inv]
+            await interaction.response.edit_message(content=None, embeds=embeds, view=None)
+        elif self.values[0] == 'Normal':
+            embed_inv.description = inv_description
+            await interaction.response.edit_message(content=None, embed=embed_inv, view=None)
+        elif self.values[0] == 'Crafted':
+            embed_crafted_inv.description = inv_description
+            await interaction.response.edit_message(content=None, embed=embed_crafted_inv, view=None)
+        elif self.values[0] == 'Shop':
+            embed_shop_inv.description = inv_description
+            if len(embed_shop_inv) != (len(embed_shop_inv.title) + len(embed_shop_inv.description)):  # Only send if there are shop items in inventory
+                await interaction.response.edit_message(content=None, embed=embed_shop_inv, view=None)
+            else:
+                await interaction.response.edit_message(content='User does not have any shop items!', embed=None, view=None)
+
+class InvSelectView(discord.ui.View):
+    def __init__(self, *, timeout=180):
+        super().__init__(timeout=timeout)
+        self.add_item(InvSelect())
+
 class InvCog(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -34,7 +73,7 @@ class InvCog(commands.Cog):
     @commands.cooldown(1, 5, commands.BucketType.guild)
     @commands.guild_only()
     @commands.command()
-    async def inv(self, ctx, page=None, user=None):
+    async def inv(self, ctx, user=None):
         if not user:
             user_id = ctx.author.id
         else:
@@ -42,6 +81,11 @@ class InvCog(commands.Cog):
 
         user_name = await self.client.fetch_user(user_id)
         user_name = user_name.name
+
+        global embed_inv
+        global embed_crafted_inv
+        global embed_shop_inv
+        global inv_description
         
         inv_title = f'Inventory of {user_name}'
         
@@ -117,29 +161,8 @@ class InvCog(commands.Cog):
                             embed_shop_inv.add_field(name=stuff_field_title, value=stuff_desc, inline=False)
 
                             break
-                    
-                # Send inventory
-                if (not page) or (page == 'main'):
-                    embed_inv.description = inv_description
-                    await ctx.send(embed=embed_inv)
-                
-                elif page == 'crafted':
-                    embed_crafted_inv.description = inv_description
-                
-                elif page == 'shop':
-                    embed_shop_inv.description = inv_description
 
-                if (not page) or (page == 'crafted'):
-                    if len(embed_crafted_inv) != (len(embed_crafted_inv.title) + len(embed_crafted_inv.description)):  # Only send if there are crafted items in inventory
-                        await ctx.send(embed=embed_crafted_inv)
-                    else:
-                        await ctx.send('User does not have any crafted items!')
-                
-                if (not page) or (page == 'shop'):
-                    if len(embed_shop_inv) != (len(embed_shop_inv.title) + len(embed_shop_inv.description)):  # Only send if there are shop items in inventory
-                        await ctx.send(embed=embed_shop_inv)
-                    else:
-                        await ctx.send('User does not have any shop items!')
+                await ctx.send('Please select inventory type:', view=InvSelectView())
 
                 return
             
