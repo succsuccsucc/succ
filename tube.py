@@ -65,11 +65,12 @@ class TubeCog(commands.Cog):
             await ctx.send('No trains found!\nIs your station nonexistent, or not served by the line?')
             return
         
-        trains = sorted(trains, key=lambda k: (k['towards'].lower(), k['timeToStation']))  # Sort trains by destination, then by time
+        trains = sorted(trains, key=lambda k: (k['platformName'].lower(), k['timeToStation']))  # Sort trains by destination, then by time
 
         # Display results
         line_name_display = trains[0]['lineName'] + ' line'
-        embed_tube = discord.Embed(title=trains[0]['stationName'][0: -20], description=line_name_display, color=0xe42414)
+
+        embed_tube = discord.Embed(title=trains[0]['stationName'][0: -20], description=line_name_display, color=0xde2110)
 
         dest_field = ''
         plat_field = ''
@@ -87,8 +88,8 @@ class TubeCog(commands.Cog):
                 time_sec = trains[a]['timeToStation']
                 time_field += f'{time_sec}s' + '\n'
         
-        embed_tube.add_field(name='To', value=dest_field, inline=True)
         embed_tube.add_field(name='Platform', value=plat_field, inline=True)
+        embed_tube.add_field(name='To', value=dest_field, inline=True)
         embed_tube.add_field(name='Time', value=time_field, inline=True)
 
         train_count = len(trains)
