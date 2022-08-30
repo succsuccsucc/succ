@@ -45,6 +45,7 @@ class Select(discord.ui.Select):
             embed_help.add_field(name='?light <stop_name>', value='Gets train arrival times at a Light Rail stop.', inline=False)
             embed_help.add_field(name='?mtrfare <start> <end>', value='Gets the MTR fare between two stations.', inline=False)
             embed_help.add_field(name='?mtrbus <route>', value='Gets ETA at all bus stops of an MTR Bus route.', inline=False)
+            embed_help.add_field(name='?tube <station> <line>', value='that\'s rather bit cringe innit bruv', inline=False)
 
             command_count = str(len(embed_help.fields))
             footer_string = f'Total {command_count} commands in this page.'
