@@ -1,0 +1,294 @@
+{
+    "stations": [
+        {
+            "name_en": "Hong Kong",
+            "sta_id": "HOK",
+            "lines": ["AEL", "TCL"]
+        },
+        {
+            "name_en": "Kowloon",
+            "sta_id": "KOW",
+            "lines": ["AEL", "TCL"]
+        },
+        {
+            "name_en": "Olympic",
+            "sta_id": "OLY",
+            "lines": ["TCL"]
+        },
+        {
+            "name_en": "Nam Cheong",
+            "sta_id": "NAC",
+            "lines": ["TCL", "TML"]
+        },
+        {
+            "name_en": "Lai King",
+            "sta_id": "LAK",
+            "lines": ["TCL"]
+        },
+        {
+            "name_en": "Tsing Yi",
+            "sta_id": "TSY",
+            "lines": ["AEL", "TCL"]
+        },
+        {
+            "name_en": "Sunny Bay",
+            "sta_id": "SUN",
+            "lines": ["TCL"]
+        },
+        {
+            "name_en": "Tung Chung",
+            "sta_id": "TUC",
+            "lines": ["TCL"]
+        },
+        {
+            "name_en": "Wu Kai Sha",
+            "sta_id": "WKS",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "Ma On Shan",
+            "sta_id": "MOS",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "Heng On",
+            "sta_id": "HEO",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "Tai Shui Hang",
+            "sta_id": "TSH",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "Shek Mun",
+            "sta_id": "SHM",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "City One",
+            "sta_id": "CIO",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "Sha Tin Wai",
+            "sta_id": "STW",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "Che Kung Temple",
+            "sta_id": "CKT",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "Tai Wai",
+            "sta_id": "TAW",
+            "lines": ["TML", "EAL"]
+        },
+        {
+            "name_en": "Hin Keng",
+            "sta_id": "HIK",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "Diamond Hill",
+            "sta_id": "DIH",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "Kai Tak",
+            "sta_id": "KAT",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "Sung Wong Toi",
+            "sta_id": "SUW",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "To Kwa Wan",
+            "sta_id": "TKW",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "Ho Man Tin",
+            "sta_id": "HOM",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "Hung Hom",
+            "sta_id": "HUH",
+            "lines": ["TML", "EAL"]
+        },
+        {
+            "name_en": "East Tsim Sha Tsui",
+            "sta_id": "ETS",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "Austin",
+            "sta_id": "AUS",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "Mei Foo",
+            "sta_id": "MEF",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "Tsuen Wan West",
+            "sta_id": "TWW",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "Kam Sheung Road",
+            "sta_id": "KSR",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "Yuen Long",
+            "sta_id": "YUL",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "Long Ping",
+            "sta_id": "LOP",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "Tin Shui Wai",
+            "sta_id": "TIS",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "Siu Hong",
+            "sta_id": "SIH",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "Tuen Mun",
+            "sta_id": "TUM",
+            "lines": ["TML"]
+        },
+        {
+            "name_en": "North Point",
+            "sta_id": "NOP",
+            "lines": ["TKL"]
+        },
+        {
+            "name_en": "Quarry bay",
+            "sta_id": "QUB",
+            "lines": ["TKL"]
+        },
+        {
+            "name_en": "Yau Tong",
+            "sta_id": "YAT",
+            "lines": ["TKL"]
+        },
+        {
+            "name_en": "Tiu Keng Leng",
+            "sta_id": "TIK",
+            "lines": ["TKL"]
+        },
+        {
+            "name_en": "Tseung Kwan O",
+            "sta_id": "TKO",
+            "lines": ["TKL"]
+        },
+        {
+            "name_en": "LOHAS Park",
+            "sta_id": "LHP",
+            "lines": ["TKL"]
+        },
+        {
+            "name_en": "Hang Hau",
+            "sta_id": "HAH",
+            "lines": ["TKL"]
+        },
+        {
+            "name_en": "Po Lam",
+            "sta_id": "POA",
+            "lines": ["TKL"]
+        },
+        {
+            "name_en": "Admiralty",
+            "sta_id": "ADM",
+            "lines": ["EAL"]
+        },
+        {
+            "name_en": "Exhibition Centre",
+            "sta_id": "EXC",
+            "lines": ["EAL"]
+        },
+        {
+            "name_en": "Mong Kok East",
+            "sta_id": "MKK",
+            "lines": ["EAL"]
+        },
+        {
+            "name_en": "Kowloon Tong",
+            "sta_id": "KOT",
+            "lines": ["EAL"]
+        },
+        {
+            "name_en": "Sha Tin",
+            "sta_id": "SHT",
+            "lines": ["EAL"]
+        },
+        {
+            "name_en": "Fo Tan",
+            "sta_id": "FOT",
+            "lines": ["EAL"]
+        },
+        {
+            "name_en": "Racecourse",
+            "sta_id": "RAC",
+            "lines": ["EAL"]
+        },
+        {
+            "name_en": "University",
+            "sta_id": "UNI",
+            "lines": ["EAL"]
+        },
+        {
+            "name_en": "Tai Po Market",
+            "sta_id": "TAP",
+            "lines": ["EAL"]
+        },
+        {
+            "name_en": "Tai Wo",
+            "sta_id": "TWO",
+            "lines": ["EAL"]
+        },
+        {
+            "name_en": "Fanling",
+            "sta_id": "FAN",
+            "lines": ["EAL"]
+        },
+        {
+            "name_en": "Sheung Shui",
+            "sta_id": "SHS",
+            "lines": ["EAL"]
+        },
+        {
+            "name_en": "Lo Wu",
+            "sta_id": "LOW",
+            "lines": ["EAL"]
+        },
+        {
+            "name_en": "Lok Ma Chau",
+            "sta_id": "LMC",
+            "lines": ["EAL"]
+        },
+        {
+            "name_en": "Airport",
+            "sta_id": "AIR",
+            "lines": ["AEL"]
+        },
+        {
+            "name_en": "AsiaWorld Expo",
+            "sta_id": "AWE",
+            "lines": ["AEL"]
+        }
+    ]
+}
