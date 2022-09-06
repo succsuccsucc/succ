@@ -23,6 +23,20 @@ from discord.ext.commands import CommandNotFound
 
 from operator import itemgetter
 
+line_colors = {
+    "bakerloo": 0xb36305,
+    "central": 0xe32017,
+    "circle": 0xffd300,
+    "district": 0x00782a,
+    "hammersmith-city": 0xf3a9bb,
+    "jubilee": 0xa0a5a9,
+    "metropolitan": 0x9b0056,
+    "northern": 0x000000,
+    "piccadilly": 0x003688,
+    "victoria": 0x0098d4,
+    "waterloo-city": 0x95cdba
+}
+
 # Change working directory to wherever this is in
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
@@ -70,7 +84,7 @@ class TubeCog(commands.Cog):
         # Display results
         line_name_display = trains[0]['lineName'] + ' line'
 
-        embed_tube = discord.Embed(title=trains[0]['stationName'][0: -20], description=line_name_display, color=0xde2110)
+        embed_tube = discord.Embed(title=trains[0]['stationName'][0: -20], description=line_name_display, color=line_colors[line_id])
 
         dest_field = ''
         plat_field = ''
