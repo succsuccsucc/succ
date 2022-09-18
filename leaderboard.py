@@ -31,7 +31,7 @@ class LeaderboardCog(commands.Cog):
     
     @commands.cooldown(1, 5, commands.BucketType.guild)
     @commands.guild_only()
-    @commands.command()
+    @commands.command(aliases=['lb'])
     async def leaderboard(self, ctx):
         lb_file = open('data/pointless_leaderboard.json', 'r')
         lb = json.load(lb_file)

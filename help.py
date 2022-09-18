@@ -56,7 +56,7 @@ class Select(discord.ui.Select):
             embed_help = discord.Embed(title='Help!', description='Commands about the pointless button', color=0xcca6fd)
             
             embed_help.add_field(name='?pointless', value='https://www.youtube.com/watch?v=EcSzq_6W1QQ', inline=False)
-            embed_help.add_field(name='?leaderboard', value='Dick measuring contest.', inline=False)
+            embed_help.add_field(name='?leaderboard/?lb', value='Dick measuring contest.', inline=False)
             embed_help.add_field(name='?inv [page] [username]', value='Check a user\'s inventory.', inline=False)
             embed_help.add_field(name='?item <item>', value='Get info on an item.', inline=False)
             embed_help.add_field(name='?use <item> [target]', value='Use an item in your inventory.', inline=False)
