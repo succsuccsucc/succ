@@ -1,5 +1,5 @@
 # lenny.py
-# Cog for ?lenny command
+# Cog for ?lenny, ?misty, ?sunny, ?stairs commands
 from http.client import HTTPException
 import os
 import ssl
@@ -33,9 +33,25 @@ class LennyCog(commands.Cog):
     @commands.guild_only()
     @commands.command()
     async def lenny(self, ctx):
-        lenny_list = ['(∩ ͡° ͜ʖ ͡°)⊃━☆ﾟ. * ･ ｡ﾟ,', '( ͡° ͜ʖ ͡°)╭∩╮']
-        lenny_send = random.choice(lenny_list)
-        await ctx.send(lenny_send)
+        await ctx.send('https://tenor.com/view/dance-finn-adventure-time-lenny-face-gif-5268707')
+
+    @commands.cooldown(1, 1440, commands.BucketType.user)
+    @commands.guild_only()
+    @commands.command()
+    async def misty(self, ctx):
+        await ctx.send('https://tenor.com/view/phineas-and-ferb-dance-sing-moves-rap-gif-16504760')
+    
+    @commands.cooldown(1, 2220, commands.BucketType.user)
+    @commands.guild_only()
+    @commands.command()
+    async def sunny(self, ctx):
+        await ctx.send('https://tenor.com/view/mao-gif-25413392')
+    
+    @commands.cooldown(1, 1800, commands.BucketType.user)
+    @commands.guild_only()
+    @commands.command()
+    async def stairs(self, ctx):
+        await ctx.send('https://tenor.com/view/fall-falling-pain-comedy-peter-griffin-gif-4624632')
     
 async def setup(client):
     await client.add_cog(LennyCog(client))
