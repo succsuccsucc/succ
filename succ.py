@@ -49,13 +49,17 @@ class SuccCog(commands.Cog):
             return
 
         # Copy the 2nd last message
-        content = ''
+        content = ''  # Copy message content
         if succ_msg.content == '':
             content = 'Message content is empty!'
         else:
             content = succ_msg.content
+        
+        sender_id = succ_msg.author.id  # Copy message sender
+        sender_ping = f'<@{sender_id}>'
 
         embed_succ = discord.Embed(title='Slurp!', description='Your message got succ\'d', color=0xabcdef)
+        embed_succ.add_field(name='Sender', value=sender_ping, inline=False)
         embed_succ.add_field(name='Message', value=content, inline=False)  
         await ctx.channel.send(embed=embed_succ)
         await succ_msg.delete()  # Delete the 2nd last message
