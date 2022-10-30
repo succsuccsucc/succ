@@ -36,7 +36,7 @@ GUILD = os.getenv('DISCORD_GUILD')
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
-client = commands.Bot(intents=intents, activity=discord.Game(name='Kirby and the Forgotten Land'), command_prefix='?', help_command=None)
+client = commands.Bot(intents=intents, activity=discord.Game(name='Kirby and the Forgotten Land'), command_prefix='!', help_command=None)
 
 # Load cogs (extensions)
 # ?pointless and ?use are stored in the same cog due to clock item use
@@ -115,7 +115,7 @@ async def on_message(message):
     if message.author.bot:  # Ignore message if author is bot
         return
 
-    elif message.content == '?test':
+    elif message.content == '!test':
         await message.channel.send('Yep, it\'s working.')
         return
     
