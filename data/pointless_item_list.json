@@ -70,10 +70,10 @@
         "detail": "Try it. Try using it."
     },
     {
-        "name": "Smoked Salmon",
-        "emoji": "<:Smoked_Salmon:1003667265721479359>",
+        "name": "Mushroom Stew",
+        "emoji": "<:Mushroom_Stew:1037427709451718756>",
         "rarity": 995,
-        "description": "Glub glub glub",
+        "description": "Get souped",
         "detail": "Collectible item."
     },
     {
@@ -82,5 +82,12 @@
         "rarity": 1000,
         "description": "You have unlocked the secret weapon.",
         "detail": "Skips time to the end of the cooldown."
+    },
+    {
+        "name": "Smoked Salmon", 
+        "emoji": "<:Smoked_Salmon:1003667265721479359>",
+        "rarity": 0,
+        "description": "Glub glub glub",
+        "detail": "Collectible item. **This item is discontinued!**"
     }
 ]
